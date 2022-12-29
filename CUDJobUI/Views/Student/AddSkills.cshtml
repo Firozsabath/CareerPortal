@@ -1,0 +1,105 @@
+﻿@model CudJobUI.ViewModels.SkillSetVM
+@{
+    ViewData["Title"] = "AddSkills";
+    Layout = "";
+}
+
+<link href="~/css/virtual-select.min.css" rel="stylesheet" />
+<div class="container">
+    <form asp-action="AddSkills" asp-route-id="@Model.StudentID" onsubmit="return jQueryAjaxPost(this,'MyprofileEducation');">
+        <div class="card mb-3">
+            <div class="card-header" style="color: #d5202a;font-weight:bold;">
+                Add Skills
+                <span class="d-inline-block" tabindex="0" data-toggle="tooltip"
+                      title="Read the jobs that you are interested in and make a list of all of the skills listed in the descriptions.Identify the skills that you possess.
+                                                Add those skills to the Skills section of your resume and illustrate them in the Work experience section of your resume by attaching them to certain accomplishments or responsibilities.">
+                    <i class="fa fa-question-circle" aria-hidden="true"></i>
+                </span>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    @if (ViewBag.IncomeType == "SoftSkill")
+                    {
+                        <div class="col-12">
+                            <div class="form-group">
+                                <label class="control-label">Soft Skills </label>
+                                <span class="d-inline-block" tabindex="0" data-toggle="tooltip"
+                                      title="Soft skills are qualities that enable a person to interact effectively and amicably with other people.">
+                                    <i class="fa fa-question-circle" aria-hidden="true"></i>
+                                </span>
+                                <select asp-for="SkillID" class="multi_select w-100" asp-items="@(new SelectList(ViewBag.Sskills, "SskillID", "SoftSkills"))" multiple></select>
+                                <input type="hidden" asp-for="StudentID" value="@Model.StudentID" />
+                                <input type="hidden" asp-for="SkillType" value="@ViewBag.IncomeType" />
+                                @*<textarea asp-for="StudentPersonal.Skillset" class="form-control rssInstitution mytextarea" required></textarea>*@
+                                <div class="invalid-feedback">Skillsets is Required.</div>
+                            </div>
+                        </div>
+                    }
+                    else if (ViewBag.IncomeType == "HardSkill")
+                    {
+                        <div class="col-12">
+                            <div class="form-group">
+                                <label class="control-label"> Hards Skills</label>
+                                <span class="d-inline-block" tabindex="0" data-toggle="tooltip"
+                                      title="Your skills can be broken up into two categories: hard skills and soft skills. Hard skills are teachable capabilities that can be learned in a classroom (or similar environment).">
+                                    <i class="fa fa-question-circle" aria-hidden="true"></i>
+                                </span>
+                                <div class="multi_select_box">
+                                    <select asp-for="SkillID" class="multi_select w-100" asp-items="@(new SelectList(ViewBag.Hskills, "HskillID", "HardSkills"))" multiple></select>
+                                    <input type="hidden" asp-for="StudentID" value="@Model.StudentID" />
+                                    <input type="hidden" asp-for="SkillType" value="@ViewBag.IncomeType" />
+                                </div>
+                                @*<textarea asp-for="StudentPersonal.Skillset" class="form-control rssInstitution mytextarea" required></textarea>*@
+                                <div class="invalid-feedback">Skillsets is Required.</div>
+                            </div>
+                        </div>
+                    }
+
+                    else if (ViewBag.IncomeType == "ComputerSkill")
+                    {
+                        <div class="col-12">
+                            <div class="form-group">
+                                <label class="control-label"> Hards Skills</label>
+                                <span class="d-inline-block" tabindex="0" data-toggle="tooltip"
+                                      title="Your skills can be broken up into two categories: hard skills and soft skills. Hard skills are teachable capabilities that can be learned in a classroom (or similar environment).">
+                                    <i class="fa fa-question-circle" aria-hidden="true"></i>
+                                </span>
+                                <div class="multi_select_box">
+                                    <select asp-for="SkillID" class="multi_select w-100" asp-items="@(new SelectList(ViewBag.Cskills, "CskillID", "SoftSkills"))" multiple></select>
+                                    <input type="hidden" asp-for="StudentID" value="@Model.StudentID" />
+                                    <input type="hidden" asp-for="SkillType" value="@ViewBag.IncomeType" />
+                                </div>
+                                @*<textarea asp-for="StudentPersonal.Skillset" class="form-control rssInstitution mytextarea" required></textarea>*@
+                                <div class="invalid-feedback">Skillsets is Required.</div>
+                            </div>
+                        </div>
+                    }
+
+                    <button type="submit" class="btn btn-danger float-right mt-3"> Save Skills </button>
+                    <!--<div class="col-md-12">
+    <div class="form-group">
+        <label asp-for="StudentPersonal.ComputerSkills" class="control-label"></label>-->
+                    @*<select asp-for="StudentPersonal.CskillID" required class="form-control" asp-items="@(new SelectList(ViewBag.Cskills, "CskillID", "SoftSkills"))"></select>*@
+                    <!--<textarea asp-for="Cskills" class="form-control rssInstitution mytextarea"></textarea>
+            <div class="invalid-feedback">Skillsets is Required.</div>
+        </div>
+    </div>-->
+                </div>
+            </div>
+        </div>
+    </form>
+
+</div>
+
+    <script src="~/js/virtual-select.min.js"></script>
+
+    <script type="text/javascript">
+
+        VirtualSelect.init({
+            ele: '.multi_select'
+        });
+
+        $(document).ready(function () { $("footer").remove(); });
+
+
+    </script>

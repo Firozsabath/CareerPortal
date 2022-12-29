@@ -1,0 +1,130 @@
+﻿@model CudJobUI.ViewModels.StudentProfile
+
+<div class="card mb-3">
+    <div class="profileheader">
+        <div class="row py-3">
+            <div class="col-lg-5">
+                <h4 class="shortheading">Educational Info</h4>
+            </div>
+            <div class="col-lg-7">
+                <a onclick="Showpopup('@Url.Action("EduandExperience","Student",new { id = Model.StudentPersonal.StudentID,Typeof = "Add"},Context.Request.Scheme)', 'Edit Educational Info')" class="Section-links float-right"><span class="fa fa-plus" aria-hidden="true"></span> Add New</a>
+                <a onclick="Showpopup('@Url.Action("EduandExperience","Student",new { id = Model.StudentPersonal.StudentID,Typeof = "Edit"},Context.Request.Scheme)', 'Edit Educational Info')" class="Section-links mr-3 float-right"><span class="fa fa-pen" aria-hidden="true"></span> Edit</a>
+            </div>
+        </div>
+    </div>
+    <div class="card-body pt-0">
+        @foreach (var item in Model.StudentEducation)
+        {
+            <div class="outer_div mb-2">
+                <i class="fas fa-trash-alt float-right" onclick="DeleteStudentModules('Education','@item.EducationId');"></i>
+                <dl class="row">
+                    <dt class="col-md-4">
+                        @Html.DisplayNameFor(model => model.StudentEducation[0].Institution)
+                    </dt>
+                    <dd class="col-md-8">
+                        @Html.DisplayFor(model => item.Institution)
+                    </dd>
+                    <dt class="col-md-4">
+                        @Html.DisplayNameFor(model => model.StudentEducation[0].Degree)
+                    </dt>
+                    <dd class="col-md-8">
+                        @Html.DisplayFor(model => item.Degree)
+                    </dd>
+                    <dt class="col-md-4">
+                        @Html.DisplayNameFor(model => model.StudentEducation[0].Major)
+                    </dt>
+                    <dd class="col-md-8">
+                        @Html.DisplayFor(model => item.Major)
+                    </dd>
+                    <dt class="col-md-4">
+                        @Html.DisplayNameFor(model => model.StudentEducation[0].StartDate)
+                    </dt>
+                    <dd class="col-md-8">
+                        @Html.DisplayFor(model => item.StartDate)
+                    </dd>
+                    <dt class="col-md-4">
+                        @Html.DisplayNameFor(model => model.StudentEducation[0].CompletionDate)
+                    </dt>
+                    <dd class="col-md-8">
+                        @Html.DisplayFor(model => item.CompletionDate)
+                    </dd>
+                    @*<dt class="col-sm-3">
+                            @Html.DisplayNameFor(model => model.StudentEducation[0].CompletionPercent)
+                        </dt>
+                        <dd class="col-sm-9">
+                            @Html.DisplayFor(model => item.CompletionPercent)
+                        </dd>
+                        <dt class="col-sm-3">
+                            @Html.DisplayNameFor(model => model.StudentEducation[0].CurrrentSalary)
+                        </dt>
+                        <dd class="col-sm-9">
+                            @Html.DisplayFor(model => item.CurrrentSalary)
+                        </dd>*@
+                </dl>
+            </div>
+        }
+    </div>
+
+
+    <div class="profileheader">
+        <div class="row py-3">
+            <div class="col-lg-5">
+                <h4 class="shortheading">Hard Skills</h4>
+            </div>
+            <div class="col-lg-7">
+                <a onclick="Showpopup('@Url.Action("AddSkills","Student",new { id = Model.StudentPersonal.StudentID,Typeof = "HardSkill"},Context.Request.Scheme)', 'Add More HardSkills')" class="Section-links float-right"><span class="fa fa-plus" aria-hidden="true"></span> Add New</a>
+            </div>
+        </div>
+    </div>
+    @foreach (var Hskill in Model.StudentHardSkills)
+    {
+        <div class="card-body py-0">
+            <div class="outer_div mb-2">
+                <i class="fas fa-trash-alt float-right" onclick="DeleteStudentModules('HardSkill', '@Hskill.StudentHsID');"></i>
+                @Hskill.Hardskills.HardSkills
+            </div>
+        </div>
+
+    }
+
+    <div class="profileheader">
+        <div class="row py-3">
+            <div class="col-lg-5">
+                <h4 class="shortheading">Soft Skills</h4>
+            </div>
+            <div class="col-lg-7">
+                <a onclick="Showpopup('@Url.Action("AddSkills","Student",new { id = Model.StudentPersonal.StudentID,Typeof = "SoftSkill"},Context.Request.Scheme)', 'Add More SoftSkills')" class="Section-links float-right"><span class="fa fa-plus" aria-hidden="true"></span> Add New</a>
+            </div>
+        </div>
+    </div>
+    @foreach (var Sskill in Model.StudentSoftSkills)
+    {
+        <div class="card-body py-0">
+            <div class="outer_div mb-2" style="padding:10px !important;">
+                <i class="fas fa-trash-alt float-right" onclick="DeleteStudentModules('SoftSkill', '@Sskill.StudentSsID');"></i>
+                @Sskill.Softskills.SoftSkills
+            </div>
+        </div>
+    }
+
+    <div class="profileheader">
+        <div class="row py-3">
+            <div class="col-lg-5">
+                <h4 class="shortheading">Computer Skills</h4>
+            </div>
+            <div class="col-lg-7">
+                <a onclick="Showpopup('@Url.Action("EditCompSkill","Student",new { id = Model.StudentPersonal.StudentID },Context.Request.Scheme)', 'Add More ComputerSkills')" class="Section-links float-right"><span class="fa fa-pen" aria-hidden="true"></span> Edit Skill</a>
+            </div>
+        </div>
+    </div>
+    @foreach (var Cskill in Model.StudentComputerSkills)
+    {
+        <div class="card-body py-0">
+            <div class="outer_div mb-2" style="padding:10px !important;">
+                <i class="fas fa-trash-alt float-right" onclick="DeleteStudentModules('ComputerSkill', '@Cskill.StudentCsID');"></i>
+                @Html.Raw(Cskill.ComputerSkill)
+            </div>
+        </div>
+    }
+
+</div>

@@ -1,0 +1,39 @@
+﻿@model IList<CudJobUI.ViewModels.StudentPortfolio>
+@{
+    ViewData["Title"] = "Student portfolio";
+    Layout = "";
+}
+<div class="container">
+    <div class="container-fluid bg-transparent blue">
+        <h3>Student portfolio</h3>
+    </div>
+
+    <form asp-action="EditPortfolio" asp-route-id="@Model[0].StudentID" class="needs-validation" id="MyprofileExperience" onsubmit="return jQueryAjaxPost(this,'MyProfilePersonal');" novalidate>
+        <div class="card mb-3">
+            <div class="card-header" style="color: #d5202a;font-weight:bold;">
+                Experience Details
+            </div>
+            <div class="card-body">
+                @for (int i = 0; i < Model.Count; i++)
+                {
+                    <div class="outer_div mb-3">
+                        <div class="row">
+                            <div class="col-12 col">
+                                <label asp-for="@Model[i].portfolio" class="form-label"></label>
+                                <div class="input-group mb-3">
+                                    <span class="input-group-text" id="basic-addon3">https://example.com/users/</span>
+                                    <input asp-for="@Model[i].portfolio" type="text" class="form-control rssportfolio" id="basic-url" aria-describedby="basic-addon3">
+                                </div>
+                            </div>
+                            <div class="d-none">
+                                <input asp-for="@Model[i].StudentID" type="hidden" />
+                                <input asp-for="@Model[i].PortfolioID" type="hidden" />
+                            </div>
+                        </div>
+                    </div>
+                }
+                <button type="submit" class="btn btn-danger float-right mt-3"> Save Portfolio </button>
+            </div>
+        </div>
+    </form>
+</div>

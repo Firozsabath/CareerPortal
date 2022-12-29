@@ -1,0 +1,57 @@
+﻿@model CudJobUI.ViewModels.StudentProfile
+
+<div class="card mb-3">
+    <div class="profileheader">
+        <div class="row py-3">
+            <div class="col-lg-5">
+                <h4 class="shortheading">Projects Worked On</h4>
+            </div>
+            <div class="col-lg-7">
+                <a onclick="Showpopup('@Url.Action("EditProject","Student",new { id = Model.StudentPersonal.StudentID,Typeof = "Add"},Context.Request.Scheme)', 'Add Project')" class="Section-links float-right"><span class="fa fa-plus" aria-hidden="true"></span> Add new</a>
+                <a onclick="Showpopup('@Url.Action("EditProject","Student",new { id = Model.StudentPersonal.StudentID,Typeof = "Edit"},Context.Request.Scheme)', 'Edit Project')" class="Section-links float-right mr-3"><span class="fa fa-pen" aria-hidden="true"></span> Edit</a>
+            </div>
+        </div>
+    </div>
+    <div class="card-body pt-0">
+        @foreach (var item in Model.projects)
+        {
+            <div class="outer_div mb-2">
+                <i class="fas fa-trash-alt float-right" onclick="DeleteStudentModules('Projects','@item.PorjectID');"></i>
+                <dl class="row">
+                    <dt class="col-md-3">
+                        @Html.DisplayNameFor(model => model.projects[0].Organisation)
+                    </dt>
+                    <dd class="col-md-9">
+                        @Html.DisplayFor(model => item.Organisation)
+                    </dd>
+                    <dt class="col-md-3">
+                        @Html.DisplayNameFor(model => model.projects[0].Role)
+                    </dt>
+                    <dd class="col-md-9">
+                        @Html.DisplayFor(model => item.Role)
+                    </dd>
+                    <dt class="col-md-3">
+                        @Html.DisplayNameFor(model => model.projects[0].Startdate)
+                    </dt>
+                    <dd class="col-md-9">
+                        @Html.DisplayFor(model => item.Startdate)
+                    </dd>
+                    <dt class="col-md-3">
+                        @Html.DisplayNameFor(model => model.projects[0].Enddate)
+                    </dt>
+                    <dd class="col-md-9">
+                        @Html.DisplayFor(model => item.Enddate)
+                    </dd>
+                    <dt class="col-md-3">
+                        @Html.DisplayNameFor(model => model.projects[0].Description)
+                    </dt>
+                    <dd class="col-md-9">
+                        @*@Html.DisplayFor(@Html.Raw(model => item.Description))*@
+                        @Html.Raw(item.Description)
+                    </dd>
+                </dl>
+            </div>
+        }
+        @*@Html.ActionLink("Edit", "Edit", new { id = Model.StudentPersonal.StudentID, @class = "btn btn-primary" })*@
+    </div>
+</div>

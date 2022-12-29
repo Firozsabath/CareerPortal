@@ -1,0 +1,71 @@
+﻿@using Microsoft.AspNetCore.Http
+@{
+    ViewData["Title"] = "RegistrationSuccess";
+    Layout = "~/Views/Shared/_LayoutLogin.cshtml";
+}
+<style>
+    .Successcircle {
+        padding: 23px 10px 10px 15px;
+        font-size: 75px;
+        color: white;
+        border-radius: 50%;
+        height: 115px;
+        width: 115px;
+        background-color: #28a745 !important;
+    }
+</style>
+<div class="container mt-5">
+    <br /><br />
+
+    
+        <!--<div class="row text-center">-->
+            @*<div class="col-md-5"></div>*@
+            <!--<div class="col-md-12">
+                <div class="m-4">
+                    <i class="fa fa-check Successcircle" aria-hidden="true"></i>
+                </div>
+            </div>
+            <div class="col-md-12 font-weight-bold" style="font-size:25px;">
+                <p>REGISTRATION SUCCESS</p>
+            </div>
+        </div>
+        <div class="row text-center m-4">
+            <div class="col-md-3"></div>
+            <div class="col-md-6 alert alert-success">
+                <p class="font-weight-bold"><i class="fa fa-check" aria-hidden="true"></i> Thank you! A profile is already created for you.</p>
+                <p class="font-weight-bold">Please Login with your student credentials access your profile.</p>
+            </div>
+        </div>-->
+    
+        <div class="row text-center">
+            @*<div class="col-md-5"></div>*@
+            <div class="col-md-12">
+                <div class="m-4">
+                    <i class="fa fa-check Successcircle" aria-hidden="true"></i>
+                </div>
+            </div>
+            <div class="col-md-12 font-weight-bold" style="font-size:25px;">
+                <p>REGISTRATION SUCCESS</p>
+            </div>
+        </div>
+        <div class="row text-center m-4">
+            <div class="col-md-3"></div>
+            <div class="col-md-6 alert alert-success">
+                <p class="font-weight-bold"><i class="fa fa-check" aria-hidden="true"></i> Thank you! We have send an Email to @Context.Session.GetString("EmailID")</p>
+                <p class="font-weight-bold">Please click the below links to acces your profile or job search.</p>
+            </div>
+        </div>
+        <div class="row text-center">
+            <div class="col-md-12">
+                <p>
+                    <a href="@Url.Action("Index","Job")" class="btn btn-danger p-3">Job Search</a>
+
+                    <a class="btn btn-danger rounded p-3" href="@Url.Action("Profile", "Student", new { id = @Context.Session.GetInt32("ProfileID") })">Access Profile</a>
+                </p>
+            </div>
+        </div>
+   
+
+
+</div>
+

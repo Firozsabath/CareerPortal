@@ -1,0 +1,249 @@
+﻿@model IEnumerable<CudJobUI.ViewModels.JobViewModel>
+@{
+    ViewData["Title"] = "Index";
+    var pagedList = (IPagedList)ViewBag.PageList;
+    Layout = "~/Views/Shared/_LayoutStudent.cshtml";
+}
+@using X.PagedList.Mvc.Core; @*import this so we get our HTML Helper*@
+@using X.PagedList; @*import this so we can cast our list to IPagedList (only necessary because ViewBag is dynamic)*@
+@using X.PagedList.Mvc.Core.Fluent
+<br />
+<style type="text/css">
+    .hide{
+        display:none;
+    }
+    .Successcircle {
+        padding: 23px 10px 10px 15px;
+        font-size: 75px;
+        color: white;
+        border-radius: 50%;
+        height: 115px;
+        width: 115px;
+        background-color: #28a745 !important;
+    }
+</style>
+<link href="~/css/PageList.css" rel="stylesheet" />
+<div class="container-fluid p-4">
+    <form asp-action="SearchJob" method="post">
+        <div class="row">
+            <div class="col-lg-6">
+                <div class="form-group">
+                    <label class="control-label">
+                        Search
+                    </label>
+                    <input type="text" class="form-control" placeholder="Enter job Title or Skill etc..." name="Searchstring" id="Searchstring" required />
+                    <div class="invalid-feedback">
+                        Experience is Required
+                    </div>
+                </div>
+
+            </div>
+            <div class="col-lg-4">
+                <div class="form-group">
+                    <label class="control-label">
+                        Select Experience
+                    </label>
+                    <select id="Experience" name="Experience" required class="form-control" asp-items="@(new SelectList(ViewBag.Experiences, "ExperienceID", "ExperienceType"))"></select>
+                    <div class="invalid-feedback">
+                        Experience is Required
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-2">
+                <div class="form-group">
+                    <label class="control-label">
+                        &nbsp;
+                    </label>
+                    <button type="submit" class="btn btn-danger btn-block button"><span class="srch-icon fa fa-search" aria-hidden="true"></span> <i class="loading-icon fa fa-spinner fa-spin hide"></i> <span class="btn-txt">  Search Job</span></button>
+                    @*<button type="button" id="btnjobsearch" class="btn btn-primary btn-block"><span class="fa fa-search" aria-hidden="true"></span> Search Job</button>*@
+                </div>
+
+
+            </div>
+        </div>
+    </form>
+    <br />
+    <h4 class="m-3">Job Lists</h4>
+    <hr />
+    <div class="row">
+        @Html.PagedListPager((IPagedList)ViewBag.PageList, page => Url.Action("Index", new { page }))
+        <div class="col-md-4 FixedHeightcontainer">
+            @*@foreach (var item in Model)*@
+            @foreach (var item in ViewBag.PageList)
+            {
+                @*<div class="card shortjob mb-3" onclick="location.href='@Url.Action("Details", "Job",new { id=item.JobDetail.Id })';" style="cursor: pointer;">*@
+                <div class="card shortjob jblisting mb-3  d-none d-md-block" onclick="loadJobDetails(@item.JobDetail.Id)" style="cursor: pointer;">
+                    <h5 class="profileheader">@item.JobDetail.Title</h5>
+                    <div class="card-body" style="padding:5px 15px 15px 15px;">
+                        @if (item.Company.profileImgpath != null)
+                        {
+                            string ImgName = System.IO.Path.GetFileName(item.Company.profileImgpath);
+                            <img src="~/Images/Company/Profile/@ImgName" alt="Pineapple" style="width:100px;margin-left:15px;float:right;">
+                        }
+                        else
+                        {
+                            <img src="https://www.cud.ac.ae/sites/default/files/personnel/2021/ms-fanan-al-madi.jpg" alt="Pineapple" style="width:100px;margin-left:15px;float:right">
+                        }
+                        <h5 class="card-title" style="font-size:15px;"><b>@item.Company.CompanyName</b> - @item.CompanyAddress.State</h5>
+                        @if (item.JobExperience.ExperienceType != null)
+                        {
+                            <p style="font-size:12px;color:#5d5656"><span class="fa fa-suitcase" aria-hidden="true"></span> @item.JobExperience.ExperienceType</p>
+                        }
+                        <p style="font-size:14px;">Job Description</p>
+                        <p class="card-text" style="font-size:13px;">@Html.Raw(@item.JobDetail.Shortheading)</p>
+                        @*<p class="card-text">@item.JobDetail.Qualification</p>*@
+                        @*<a href="@Url.Action("Details", "Job",new { id=item.JobDetail.Id })" class="btn btn-danger">Job Details</a>*@
+                    </div>
+                </div>
+                <div class="d-none d-block d-md-none">
+                    <div class="card shortjob mb-3" onclick="location.href='@Url.Action("Details", "Job",new { id=item.JobDetail.Id })';" style="cursor: pointer;">
+                        <h5 class="profileheader">@item.JobDetail.Title</h5>
+                        <div class="card-body" style="padding:5px 15px 15px 15px;">
+                            @if (item.Company.profileImgpath != null)
+                            {
+                                string ImgName = System.IO.Path.GetFileName(item.Company.profileImgpath);
+                                <img src="~/Images/Company/Profile/@ImgName" alt="Pineapple" style="width:100px;margin-left:15px;float:right;">
+                            }
+                            else
+                            {
+                                <img src="https://www.cud.ac.ae/sites/default/files/personnel/2021/ms-fanan-al-madi.jpg" alt="Pineapple" style="width:100px;margin-left:15px;float:right">
+                            }
+                            <h5 class="card-title" style="font-size:15px;"><b>@item.Company.CompanyName</b> - @item.CompanyAddress.State</h5>
+                            @if (item.JobExperience.ExperienceType != null)
+                            {
+                                <p style="font-size:12px;color:#5d5656"><span class="fa fa-suitcase" aria-hidden="true"></span> @item.JobExperience.ExperienceType</p>
+                            }
+                            <p style="font-size:14px;">Job Description</p>
+                            <p class="card-text" style="font-size:13px;">@Html.Raw(@item.JobDetail.Shortheading)</p>
+                            @*<p class="card-text">@item.JobDetail.Qualification</p>*@
+                            @*<a href="@Url.Action("Details", "Job",new { id=item.JobDetail.Id })" class="btn btn-danger">Job Details</a>*@
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+        <div class="col-md-8 FixedHeightcontainer d-none d-md-block">
+            <div id="jobDetailspartial"></div>
+        </div>
+        
+        @Html.PagedListPager((IPagedList)ViewBag.PageList, page => Url.Action("Index", new { page }))
+    </div>
+    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#successjobModal">
+        Launch demo modal
+    </button>
+    <div class="modal fade" id="successjobModal" tabindex="-1" aria-labelledby="successjobModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="successjobModalLabel">Success</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="row text-center">
+                        <div class="col-md-12">
+                            <div class="m-4">
+                                <i class="fa fa-check Successcircle" aria-hidden="true"></i>
+                            </div>
+                        </div>
+                        <div class="col-md-12 font-weight-bold" style="font-size:25px;">
+                            <p>Successfully Applied!</p>
+                        </div>
+                    </div>
+                    <div class="row text-center m-4 p-3" role="alert">                        
+                        <div class="col-md-12 alert alert-success">
+                            <p class="font-weight-bold"><i class="fa fa-check" aria-hidden="true"></i> Thank you! Job has been Applied successfully.</p>                            
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Ok</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+@section Scripts{
+
+    <script type="text/javascript">
+
+        (function () {
+            'use strict';
+            window.addEventListener('load', function () {
+                // Fetch all the forms we want to apply custom Bootstrap validation styles to
+                var forms = document.getElementsByClassName('needs-validation');
+                // Loop over them and prevent submission
+                var validation = Array.prototype.filter.call(forms, function (form) {
+                    form.addEventListener('submit', function (event) {
+                        if (form.checkValidity() === false) {
+                            event.preventDefault();
+                            event.stopPropagation();
+                        }
+                        form.classList.add('was-validated');
+                    }, false);
+                });
+            }, false);
+        })();
+
+        $(document).ready(function () {
+
+            if (@Model.FirstOrDefault().JobDetail.Id != null) {
+                loadJobDetails(@Model.FirstOrDefault().JobDetail.Id);
+            }
+            $('#btnjobsearch').click(function () {
+                var exp = $('#Experience').val();
+                var srch = $('#Searchstring').val();
+
+                $(".loading-icon").removeClass("hide");
+                $(".srch-icon").addClass("hide");
+                $(".button").attr("disabled", true);
+                $(".btn-txt").text("Searching for jobs......");
+
+                var f = document.form;
+                f.method = "post";
+                f.action = '../SearchJob?Searchstring=' + srch + '&Experience=' + exp;
+                f.submit();
+            });
+
+
+            $(".jblisting").click(function () {
+                $(".jblisting").removeClass("Elementfocus");
+                $(this).addClass("Elementfocus");
+            });
+
+        });
+
+        function loadJobDetails(jobid) {
+            $("#jobDetailspartial").load("/Job/jobDetailforstudent", { id: jobid });
+            $('#jbtitle').focus();
+        }
+
+        function ApplyJob(jobid) {
+
+            $(".loading-icon1").removeClass("hide");
+            $(".button1").attr("disabled", true);
+            $(".btn-txt1").text("Applying the job......");
+
+            $.ajax({
+                 type: "POST",
+                 url: '@Url.Action("Applyjobasync", "Job")',
+                data: { id: jobid },
+                success: function (res) {
+                    if (res.isValid) {
+                        $("#successjobModal").modal("show");
+                        $.notify("Applied Successfully", { globalPosition: 'top center', className: 'success' });
+                        $("#jobDetailspartial").load("/Job/jobDetailforstudent", { id: jobid });
+
+                    }
+                    else {
+
+                    }
+                },
+                error: function () {
+                    alert("there was error uploading files!");
+                }
+            });
+        }
+    </script>
+
+}

@@ -1,0 +1,370 @@
+﻿@model IEnumerable<CudJobUI.ViewModels.CompanyViewModel>
+@{
+    ViewData["Title"] = "CompanyforApproval";
+}
+<style type="text/css">
+    .container {
+        max-width: 1490px;
+    }
+</style>
+<div class="container-fluid p-3">
+    <div class="card mt-3">
+        <div class="card-header">
+            <h4 class="Sectiontittle shortheading">Companies List</h4>
+        </div>
+        <div class="card-body">
+            <div class="col col-12 col-md-12">
+                <form id="frm-example">
+                    <div class="col col-12 col-md-12 p-0">
+                        <button type="submit" class="btn btn-danger">Approve selected companies</button>
+                    </div>
+                    <hr class="mb-4" />
+                    <table id="example" class="table table-striped table-bordered text-center tablelist">
+                        <thead>
+                            <tr>
+                                @*<th>
+                                        @Html.DisplayNameFor(model => model.Companies.CompanyID)
+                                    </th>*@
+                                <th></th>
+                                <th style="width:20%">
+                                    @Html.DisplayNameFor(model => model.Companies.CompanyName)
+                                </th>
+                                <th style="width:20%">
+                                    @Html.DisplayNameFor(model => model.Companies.Website)
+                                </th>
+                                <th style="width:25%">
+                                    @Html.DisplayNameFor(model => model.Companies.CategoryID)
+                                </th>
+                                <th style="width:15%">Status</th>
+                                <th style="width:20%">Check License</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Model)
+                            {
+                                <tr>
+                                    @*<td>
+                                            @Html.DisplayFor(modelItem => item.Companies.CompanyID)
+                                        </td>*@
+                                    <td>@item.Companies.CompanyID</td>
+                                    <td>
+                                        @*@Html.DisplayFor(modelItem => item.Compan ies.CompanyName)*@
+                                        @Html.ActionLink(item.Companies.CompanyName, "CompanyDetails", new { id = item.Companies.CompanyID })
+                                    </td>
+                                    <td>
+                                        <a href="@Html.DisplayFor(modelItem => item.Companies.Website)" target="_blank">@Html.DisplayFor(modelItem => item.Companies.Website)</a>
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.Companycategory.Category)
+                                    </td>
+                                    <td>
+
+                                        @if (item.Companies.StatusIDs == 1)
+                                        {
+                                            @*@Html.ActionLink("Approve", "Approve", new { id = item.Companies.CompanyID })*@
+                                            <p>Not Opened</p>
+
+                                        }
+                                        else if (item.Companies.StatusIDs == 2)
+                                        {
+                                            <p>Approved</p>
+                                        }
+                                        else if (item.Companies.StatusIDs == 3)
+                                        {
+                                            <p>Rejected</p>
+                                        }
+                                        else if (item.Companies.StatusIDs == 5)
+                                        {
+                                            <p>Pending</p>
+                                        }
+                                        else
+                                        {
+                                            <p>No Status Updated</p>
+                                        }
+                                    </td>
+                                    <td>
+                                        @if (item.Companies.Certificatepath != null || item.Companies.Certificatepath != "")
+                                        {
+                                            <div>
+                                                <a href="~/Images/Company/Certificate/@System.IO.Path.GetFileName(item.Companies.Certificatepath)" type="application/pdf" target="_blank">License Uploaded</a>
+                                            </div>
+                                        }
+                                    </td>
+                                    <td style="text-align:center;">
+                                        <a href="#" onclick="delete_Company(@item.Companies.CompanyID)" class="text-danger">
+                                            <span><i class="fa fa-trash"></i></span> <span>Delete</span>
+                                        </a> <span class="mx-2">|</span>
+                                        <a href="" data-bs-toggle="modal" data-bs-target="#exampleModal" onclick="updatestatus(@item.Companies.CompanyID,@item.Companies.NotesID)" class="text-danger"><i class="fa fa-pencil-alt" aria-hidden="true"></i> update status</a>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                        <div class="modal-dialog" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="exampleModalLabel">Update Status</h5>
+                                    <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                <div class="modal-body">
+                                    <form id="form" name="form" asp-action="UploadFilesAjax" asp-controller="Student" enctype="multipart/form-data" method="post">
+                                        <div class="row">
+                                            <div class="col-md-12">
+                                                <div class="form-group">
+                                                    <label class="control-label"> Interview Status </label>
+                                                    <select id="status" required class="form-control" asp-items="@(new SelectList(ViewBag.Statuses, "StatusIDs", "MyProperty"))"></select>
+                                                    <input type="text" name="CompanyID" id="CompanyID" value="" style="display:none;" />
+                                                    <input type="text" name="NotesID" id="NotesID" value="" style="display:none;" />
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-12">
+                                                <div class="form-group">
+                                                    <label class="control-label"> Description </label>
+                                                    <textarea id="Desc" class="form-control" rows="4"></textarea>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                    <button type="button" id="uploadProfilepic" class="btn btn-primary">Save changes</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+</div>
+@section Scripts{
+    <script type="text/javascript">
+        $(document).ready(function () {
+           //$('#example').DataTable({
+           //     dom: 'Bfrtip',
+           //     buttons: [
+           //         'copyHtml5',
+           //         'excelHtml5',
+           //         'csvHtml5'
+           //     ],
+           //    columnDefs: [{
+           //        orderable: false,
+           //        className: 'select-checkbox',
+           //        targets: 0
+           //    }],
+           //    select: {
+           //        style: 'os',
+           //        selector: 'td:first-child'
+           //    },
+           //    order: [[1, 'asc']]
+            // })
+            var table = $('#example').DataTable({
+                'columnDefs': [
+                    {
+                        'targets': 0,
+                        'checkboxes': {
+                            'selectRow': true
+                        }
+                    }
+                ],
+                'select': {
+                    'style': 'multi'
+                },
+                'order': [[1, 'asc']],
+
+                'dom': 'Bfrtip',
+                'buttons': [
+                    'copyHtml5',
+                    'excelHtml5',
+                    'csvHtml5',
+                    'pdfHtml5', 'print'
+                ],
+            });
+
+            $('#frm-example').on('submit', function (evt) {
+                evt.preventDefault();
+                var rows_selected = table.column(0).checkboxes.selected();
+                if (rows_selected.length == 0) {
+                    $.alert('Select a Company for approval!');
+                    return false;
+                }
+                @*if (confirm('Are you sure you want to approve the selected companies?')) {
+                    var values = rows_selected.join(",");
+                    var data = new FormData();
+                    data.append("ids", values);
+                    if (rows_selected.length > 0) {
+                        $.post('@Url.Action("MassApprove", "Company")', { id: values },
+                            function (returnedData) {
+                                console.log(returnedData);
+                                if (returnedData.isValid) {
+                                    if (confirm("All the selected companies are approved!")) {
+                                        window.location.reload();
+                                    }
+                                }
+                            }).fail(function () {
+                                console.log("error");
+                            });
+
+                         $.ajax({
+                                type: "post",
+                                url: '@Url.Action("MassApprove", "Company")',
+                                    contentType: false,
+                             processData: false,
+                             data: data,
+                            success: function (res) {
+                                if (res.isValid) {
+                                    $.notify("Updated Successfully", { globalPosition: 'top ceneter', className: 'success' });
+                                    window.location.reload();
+                                    }
+                                    else {
+
+                                        }
+                                },
+                             error: function () {
+                                alert("there was error updating!");
+                                }
+                            });
+
+                    } else {
+                        // Do nothing!
+                        return false;
+                    }
+                }
+                else {
+                    // Do nothing!
+                    return false;
+                }*@
+
+                $.confirm({
+                    title: 'Confirm!',
+                    content: 'Are you sure you want to approve the selected companies?',
+                    buttons: {
+                        confirm: function () {
+                            var values = rows_selected.join(",");
+                            var data = new FormData();
+                            data.append("ids", values);
+                            if (rows_selected.length > 0) {
+                                $.ajax({
+                                    type: "post",
+                                    url: '@Url.Action("MassApprove", "Company")',
+                                    contentType: false,
+                                    processData: false,
+                                    data: data,
+                                        success: function (res) {
+                                            if (res.isValid) {
+                                                $.confirm({
+                                                    title: 'Confirm!',
+                                                    content: 'All the selected jobs are approved!',
+                                                    buttons: {
+                                                        confirm: function () {
+                                                            window.location.reload();
+                                                        }
+                                                    }
+                                                });
+                                            }
+                                            else {
+
+                                            }
+                                        },
+                                        error: function () {
+                                            alert("there was error updating!");
+                                        }
+                                });
+                            }
+                        },
+                        cancel: function () {
+                            $.alert('Canceled!');
+                        },
+                    }
+                });
+
+            });
+
+            $("#uploadProfilepic").click(function (evt) {
+                evt.preventDefault();
+                var data = new FormData();
+                data.append("status", $("#status").val())
+                data.append("Desc", $("#Desc").val())
+                data.append("CompanyID", $("#CompanyID").val())
+                data.append("NotesID", $("#NotesID").val())
+                $.ajax({
+                    type: "post",
+                    url: '@Url.Action("UpdateCompanyStatus", "Company")',
+                    contentType: false,
+                    processData: false,
+                    data: data,
+                    success: function (res) {
+                        if (res.isValid) {
+                            $("#exampleModal").modal("hide");
+                            $.notify("Uploaded Successfully", { globalPosition: 'top ceneter', className: 'success' });
+                            window.location.reload();
+                        }
+                        else {
+
+                        }
+                    },
+                    error: function () {
+                        alert("there was error uploading files!");
+                    }
+                });
+            });
+
+        });
+
+        function delete_Company(Cmpid) {
+
+            $.confirm({
+                title: 'Confirm!',
+                content: 'Are you sure to delete the Company?',
+                buttons: {
+                    confirm: function () {
+
+                        var data = new FormData();
+                        data.append("id", Cmpid);
+                            $.ajax({
+                                type: "post",
+                                url: '@Url.Action("DeleteCmp", "Company")',
+                                contentType: false,
+                                processData: false,
+                                data: data,
+                                success: function (res) {
+                                    if (res.isValid) {
+                                        $.confirm({
+                                            title: 'Alert',
+                                            content: 'Company deleted successfully!',
+                                            buttons: {
+                                                confirm: function () {
+                                                    window.location.reload();
+                                                }
+                                            }
+                                        });
+                                    }
+                                    else {
+
+                                    }
+                                },
+                                error: function () {
+                                    alert("there was error deleting job!");
+                                }
+                            });
+                    }
+                }
+            });
+
+        }
+
+        function updatestatus(CompanyID, NotesID) {
+            //var jbid = Appliedid;
+            $("#CompanyID").val(CompanyID);
+            $("#NotesID").val(NotesID);
+        }
+    </script>
+}

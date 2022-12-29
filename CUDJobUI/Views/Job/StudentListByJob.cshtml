@@ -1,0 +1,179 @@
+﻿@model IEnumerable<CudJobUI.ViewModels.JobApplyDetails>
+
+@{
+    ViewData["Title"] = "StudentListByJob";
+}
+<div class="container-fluid p-4">
+    @*<div class="card-header">
+            <h4 class="Sectiontittle shortheading">Applications List</h4>
+        </div>
+        <div class="card-body mt-3">
+            <table id="example" class="table table-striped table-bordered tablelist text-center">
+                <thead>
+                    <tr>
+                        <th>
+                            Name
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.StudentPersonal.Gender)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.StudentPersonal.MobileNumber)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.StudentPersonal.EmailID)
+                        </th>
+                        <th>
+                            Job Status
+                        </th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody style="text-align:center;">
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td>
+                                @Html.ActionLink(item.StudentPersonal.FirstName + " " + item.StudentPersonal.LastName, "Profileforemployee", "Student", new { id = item.StudentPersonal.StudentID })
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.StudentPersonal.Gender)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.StudentPersonal.MobileNumber)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.StudentPersonal.EmailID)
+                            </td>
+                            <td>
+                                <span class="text-success"> @Html.DisplayFor(modelItem => item.JobStatus.Status) </span>
+                                <span class="d-inline-block" tabindex="0" data-toggle="tooltip" title="@item.AppliedJob.Description">
+                                    <i class="fa fa-question-circle" aria-hidden="true"></i>
+                                </span>
+                            </td>
+                            <td style="text-align:center;">
+                                <a href="" data-bs-toggle="modal" data-bs-target="#exampleModal" onclick="updatestatus(@item.AppliedJob.ID,@item.AppliedJob.jobID)" class="text-danger"><i class="fa fa-pencil-alt" aria-hidden="true"></i> update status</a>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+
+        <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Update Status</h5>
+                        <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <form id="form" name="form" asp-action="UploadFilesAjax" asp-controller="Student" enctype="multipart/form-data" method="post">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <label class="control-label"> Interview Status </label>
+                                        <select id="status" required class="form-control" asp-items="@(new SelectList(ViewBag.Statuses, "StatusID", "Status"))"></select>
+                                        <input type="text" name="JobId" id="JobId" value="" style="display:none;" />
+                                        <input type="text" name="AppliedId" id="AppliedId" value="" style="display:none;" />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <label class="control-label"> Description </label>
+                                        <textarea id="Desc" class="form-control" rows="4"></textarea>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        <button type="button" id="uploadProfilepic" class="btn btn-primary">Save changes</button>
+                    </div>
+                </div>
+            </div>
+        </div>*@
+</div>
+
+<div>
+    <partial name="~/Views/Shared/Partials/_StudentListByJobPartial.cshtml" model="Model" view-data="ViewData" />
+</div>
+
+@section Scripts{
+    <script type="text/javascript">
+        $(document).ready(function () {
+
+            //$('#example thead tr').clone(true).appendTo('#example thead');
+            //$('#example thead tr:eq(1) th').each(function (i) {
+            //    var title = $(this).text();
+            //    $(this).html('<input type="text" placeholder="Search ' + title + '" />');
+
+            //    $('input', this).on('keyup change', function () {
+            //        if (table.column(i).search() !== this.value) {
+            //            table
+            //                .column(i)
+            //                .search(this.value)
+            //                .draw();
+            //        }
+            //    });
+            //});
+
+            //var table = $('#example').DataTable({
+            //    orderCellsTop: true,
+            //    fixedHeader: true
+            //});
+
+            $('#example').DataTable({
+                dom: 'Bfrtip',
+                buttons: [
+                    'copyHtml5',
+                    'excelHtml5',
+                    'csvHtml5',
+                    'pdfHtml5', 'print'
+                ]
+            });
+
+            $('[data-toggle="tooltip"]').tooltip();
+
+            $("#uploadProfilepic").click(function (evt) {
+                evt.preventDefault();
+                var data = new FormData();
+                data.append("status", $("#status").val())
+                data.append("Desc", $("#Desc").val())
+                data.append("JobID", $("#JobId").val())
+                data.append("AppliedID", $("#AppliedId").val())
+                $.ajax({
+                    type: "post",
+                    url: '@Url.Action("UpdateAppliedJobStatus", "Job")',
+                    contentType: false,
+                    processData: false,
+                    data: data,
+                    success: function (res) {
+                        if (res.isValid) {
+                            $("#exampleModal").modal("hide");
+                            $.notify("Uploaded Successfully", { globalPosition: 'top ceneter', className: 'success' });
+                            window.location.reload();
+                        }
+                        else {
+
+                        }
+                    },
+                    error: function () {
+                        alert("there was error uploading files!");
+                    }
+                });
+            });
+
+        });
+        function updatestatus(Appliedid,jobid) {
+            var jbid = Appliedid;
+            $("#JobId").val(jobid);
+            $("#AppliedId").val(Appliedid);
+        }
+    </script>
+}

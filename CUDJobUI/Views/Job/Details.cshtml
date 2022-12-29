@@ -1,0 +1,169 @@
+﻿@model CudJobUI.ViewModels.JobViewModel
+@using Microsoft.AspNetCore.Http
+@{
+    ViewData["Title"] = "Details";
+    //Layout = "~/Views/Shared/_LayoutStudent.cshtml";
+}
+<div class="container-fluid p-4">
+    <div class="card mb-3 mt-3">
+        <div class="row g-0">
+            <div class="col-md-9">
+                <div class="card-body">
+                    <h5 class="card-title Sectiontittle shortheading">@Model.JobDetail.Title</h5>
+                    <p class="card-text">Company : @Model.Company.CompanyName</p>
+                    <p class="card-text"><b>Last Apply Date</b> : @Model.JobDetail.LastApplyDate.ToString("MM/dd/yyyy")</p>
+                    @*<p class="card-text"><b>Recruiter Posted</b> : @Model.CompanyContact.EmailID</p>*@
+                    <p class="card-text"><small class="text-muted">Job Posted Date : @Model.JobDetail.CreatedDate</small></p>
+                    <p class="card-text"> </p>
+                    @if (Context.Session.GetString("LoginType") == "Student")
+                    {
+                        @if(Model.JobDetail.LastApplyDate >= DateTime.Now)
+                        {
+                            @if(ViewBag.AppliedStatus == "false")
+                            {
+                                @if (!String.IsNullOrEmpty(Model.JobDetail.ExternalUrl))
+                                 {
+                                <a target="_blank" href="@Model.JobDetail.ExternalUrl" class="btn btn-danger">Apply job in company site</a>
+                                 }
+                                 else
+                                 {
+                                <a href="@Url.Action("ApplyJob", "Job", new { id = Model.JobDetail.Id })" class="btn btn-danger">Apply for the Job</a>
+                                 }
+                            }
+                            else if (ViewBag.AppliedStatus == "true")
+                            {
+                            <p class="text-success small font-weight-bold"><i class="fa fa-check" aria-hidden="true"></i> Had Already Applied.</p>
+                            }
+                        }
+                        else{
+                            <p class="text-success small font-weight-bold"><i class="fa fa-check" aria-hidden="true"></i> Job Expired.</p>
+                        }
+                    }
+                    else
+                    {
+                    <p class="text-danger small font-weight-bold">Please Login as student to apply for jobs.</p>
+                    }
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="mt-3">                    
+                    @if (Model.Company.profileImgpath == null && Model.Company.profileImgpath != string.Empty)
+                    {
+                        @*<img src="~/Images/download.png" class="img-thumbnail" alt="...">*@
+                        <img src="https://www.cud.ac.ae/sites/default/files/personnel/2021/ms-fanan-al-madi.jpg" style="width:200px;" class="img-thumbnail" alt="...">
+                    }
+                    else
+                    {
+                        <img src="~/Images/Company/Profile/@ViewBag.ProfileImg" class="img-thumbnail" alt="Profile Pic" style="width:200px;">
+                    }                   
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="card">
+        <div class="card-body">
+            <h5 class="card-title shortheading" style="color: #d5202a;">Job Description </h5>
+            <div class="pl-3 pt-2 pb-2">
+                <p class="card-text">@Html.Raw(@Model.JobDetail.Description)</p>
+            </div>
+
+            <h5 class="card-title shortheading" style="color: #d5202a;">Qualification and Responsibilities </h5>
+            <div class="pl-3 pt-2 pb-2">
+                <p class="card-text">@Html.Raw(@Model.JobDetail.Qualification)</p>
+            </div>
+
+            <h5 class="card-title shortheading" style="color: #d5202a;">Experience Required </h5>
+            <div class="pl-3 pt-2 pb-3">
+                <p class="card-text">@Html.Raw(@Model.JobExperience.ExperienceType)</p>
+            </div>
+
+            <h5 class="card-title shortheading" style="color: #d5202a;">Skills Required </h5>
+            <div class="pl-3 pt-2 pb-3">
+                <p class="card-text">@Html.Raw(@Model.JobDetail.ReguiredSkills)</p>
+            </div>
+            @if (@Model.JobsWorkAvail.FirstOrDefault() != null)
+            {
+                <h5 class="card-title shortheading" style="color: #d5202a;">Work Schedules </h5>
+                <div class="pl-3 pt-2 pb-3">
+                    <p class="card-text"><span class="fw-bold">Days Per Week</span> : @Model.JobsWorkAvail.FirstOrDefault().DaysPerWeek.Options</p>
+                    <p class="card-text"><span class="fw-bold">Hours Per Week</span> : @Model.JobsWorkAvail.FirstOrDefault().HoursPerWeek.Options</p>
+                </div>
+            }
+            <h5 class="card-title shortheading" style="color: #d5202a;">Salary Offered </h5>
+            <div class="pl-3 pt-2 pb-3">
+                <p class="card-text">@Model.JobDetail.ExpectedSalary</p>
+            </div>
+
+            <h5 class="card-title shortheading" style="color: #d5202a;">Job Details</h5>
+            <div class="pl-3 pt-2 pb-3">
+                <p>
+                    <span class="fw-bold">Flexible Hours :</span>
+                    <span>
+                        @{string Flexiblehr_fulltime = Enum.GetName(typeof(CudJobUI.ViewModels.Options2), Convert.ToInt32(Model.JobOption.FlexibleHours)); }
+                        @Flexiblehr_fulltime
+                    </span>
+                </p>
+                <p>
+                    <span class="fw-bold">Work From Office :</span>
+                    <span>
+                        @Model.JobOption.Workfromoffice
+                    </span>
+                </p>
+                <p>
+                    <span class="fw-bold">Paid Status :</span>
+                    <span>
+                        @{string Paid_status = Enum.GetName(typeof(CudJobUI.ViewModels.Options2), Convert.ToInt32(Model.JobOption.Paid)); }
+                        @Paid_status
+                    </span>
+                </p>
+                <p>
+                    <span class="fw-bold">Type of Openings : </span>
+                    <span>
+                        @Model.Jobtype.Description
+                    </span>
+                </p>
+                <p>
+                    <span class="fw-bold">Opportuinity Duration : </span>
+                    <span>
+                        @Model.JobDetail.Jobduration
+                    </span>
+                </p>
+            </div>
+
+            @if (Context.Session.GetString("LoginType") == "Student")
+            {
+                @if (ViewBag.AppliedStatus == "false")
+                {
+                    @if (Model.JobDetail.Applytype == "External")
+                    {
+                        <a target="_blank" href="@Model.JobDetail.ExternalUrl" class="btn btn-danger">Apply job in company site</a>
+                    }
+                    else
+                    {
+                        <a href="@Url.Action("ApplyJob", "Job", new { id = Model.JobDetail.Id })" class="btn btn-danger">Apply for the Job</a>
+                    }
+                }
+                else if (ViewBag.AppliedStatus == "true")
+                {
+                    <p class="text-success small font-weight-bold"><i class="fa fa-check Successcircle" aria-hidden="true"></i> Had Already Applied.</p>
+                }
+            }
+            else
+            {
+                <p class="text-danger small font-weight-bold">Please Login as student to apply for jobs.</p>
+            }
+        </div>
+    </div>
+</div>
+
+@section scripts{
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+
+        });
+    </script>
+
+}
+
+

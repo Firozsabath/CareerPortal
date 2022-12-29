@@ -1,0 +1,151 @@
+﻿@model CudJobUI.ViewModels.StudentProfile
+
+<div class="card mb-3" style="background-color: #414c55;color:white;">
+    <div class="row g-0">
+        <div class="col col-2 col-md-3">
+            <a href="" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                @if (Model.StudentPersonal.profileImgpath == null && Model.StudentPersonal.profileImgpath != string.Empty)
+                {
+                @*<img src="~/Images/download.png" class="img-thumbnail" alt="...">*@
+                <img src="https://www.cud.ac.ae/sites/default/files/personnel/2021/ms-fanan-al-madi.jpg" style="width:75%;" class="img-thumbnail" alt="...">
+                }
+                else
+                {
+                <img src="~/Images/Student/profile/@ViewBag.ProfileImg" class="rounded float-left" alt="Profile Pic" style="width:190px;">
+                }
+            </a>
+        </div>
+        <div class="col col-10 col-md-9">
+            <div class="card-body">
+                <h5 class="card-title">@Model.StudentPersonal.FirstName  @Model.StudentPersonal.LastName</h5>
+                <p class="card-text">
+                    @Html.Raw(@Model.StudentPersonal.Objective)
+                </p>
+                <p>
+                    <a href="~/Images/Student/Resume/@ViewBag.ResumeName" type="application/pdf" target="_blank" class="btn btn-dark position-relative me-4">
+                        <i class="fas fa-file-alt me-2"></i>  View Your CV
+                        <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+                            Latest
+                        </span>
+                    </a>
+                    <a href="" data-bs-toggle="modal" data-bs-target="#exampleModal2"><span class="badge bg-dark">Edit</span></a>
+                </p>
+                <p>
+                    <span><i class="fas fa-map-marker-alt"></i> </span> <span> @Model.StudentAddress.CountryCode.Description, @Model.StudentAddress.State</span>
+                </p>
+                @if(ViewBag.Lastupdated != null)
+                {
+                <p class="card-text"><small class="text-muted">Last updated @ViewBag.Lastupdated ago</small></p>
+                }
+                else
+                {
+                <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
+                }
+            </div>
+        </div>
+    </div>
+</div>
+<div class="card mb-3">
+    <div class="profileheader">
+        <div class="row py-3">
+            <div class="col-lg-5">
+                <h4 class="shortheading">Personal Information</h4>
+            </div>
+            <div class="col-lg-7">
+                <a onclick="Showpopup('@Url.Action("StudentPersonal","Student",new { id = Model.StudentPersonal.StudentID,Typeof = "Edit"},Context.Request.Scheme)', 'Edit Personal Details')" class="Section-links float-right"><span class="fa fa-pen" aria-hidden="true"></span> Edit</a>
+            </div>
+        </div>
+    </div>
+    <div class="card-body pt-0">
+        <div class="outer_div mb-4">
+            <dl class="row">
+                <dt class="col-sm-3">
+                    @Html.DisplayNameFor(model => model.StudentPersonal.FirstName)
+                </dt>
+                <dd class="col-sm-9">
+                    @Html.DisplayFor(model => model.StudentPersonal.FirstName)
+                </dd>
+                <dt class="col-sm-3">
+                    @Html.DisplayNameFor(model => model.StudentPersonal.LastName)
+                </dt>
+                <dd class="col-sm-9">
+                    @Html.DisplayFor(model => model.StudentPersonal.LastName)
+                </dd>
+                <dt class="col-sm-3">
+                    @Html.DisplayNameFor(model => model.StudentPersonal.DateOfBirth)
+                </dt>
+                <dd class="col-sm-9">
+                    @Html.DisplayFor(model => model.StudentPersonal.DateOfBirth)
+                </dd>
+                <dt class="col-sm-3">
+                    @Html.DisplayNameFor(model => model.StudentPersonal.Gender)
+                </dt>
+                <dd class="col-sm-9">
+                    @Html.DisplayFor(model => model.StudentPersonal.Gender)
+                </dd>
+                <dt class="col-sm-3">
+                    @Html.DisplayNameFor(model => model.StudentPersonal.MobileNumber)
+                </dt>
+                <dd class="col-sm-9">
+                    @Html.DisplayFor(model => model.StudentPersonal.MobileNumber)
+                </dd>
+                <dt class="col-sm-3">
+                    @Html.DisplayNameFor(model => model.StudentPersonal.EmailID)
+                </dt>
+                <dd class="col-sm-9">
+                    @Html.DisplayFor(model => model.StudentPersonal.EmailID)
+                </dd>
+                @*<dt class="col-sm-3">
+                        @Html.DisplayNameFor(model => model.StudentHardSkills[0].StudentHsID)
+                    </dt>
+                    <dd class="col-sm-9">
+                        @Html.Raw(@Model.StudentHardSkills[0].StudentHsID)
+                    </dd>
+                    <dt class="col-sm-3">
+                        @Html.DisplayNameFor(model => model.Softskills)
+                    </dt>
+                    <dd class="col-sm-9">
+                        @Html.Raw(@Model.Softskills.SoftSkills)
+                    </dd>
+                    <dt class="col-sm-3">
+                        @Html.DisplayNameFor(model => model.Computerskills)
+                    </dt>
+                    <dd class="col-sm-9">
+                        @Html.Raw(@Model.Computerskills)
+                    </dd>*@
+                <dt class="col-sm-3">
+                    Selected Program
+                </dt>
+                <dd class="col-sm-9">
+                    @Html.Raw(@Model.programs.ProgramName)
+                </dd>
+            </dl>
+        </div>
+        <div class="profileheader">
+            <div class="row">
+                <div class="col-lg-5">
+                    <h4 class="shortheading">Student Portfolios</h4>
+                </div>
+                <div class="col-lg-7">
+                    <a onclick="Showpopup('@Url.Action("EditPortfolio","Student",new { id = Model.StudentPersonal.StudentID,Typeof = "Add"},Context.Request.Scheme)', 'Add portfolios')" class="Section-links float-right"><span class="fa fa-plus" aria-hidden="true"></span> Add New</a>
+                    <a onclick="Showpopup('@Url.Action("EditPortfolio","Student",new { id = Model.StudentPersonal.StudentID,Typeof = "Edit"},Context.Request.Scheme)', 'Edit portfolios')" class="Section-links float-right mr-3"><span class="fa fa-pen" aria-hidden="true"></span> Edit</a>
+                </div>
+            </div>
+        </div>
+        <div class="card mb-3">
+            <div class="card-body">
+                @foreach (var items in Model.Portfolio)
+                {
+                    <div class="outer_div mb-3">
+                        <div class="row">
+                            <div class="col-12">
+                                <a href="@items.portfolio" target="_blank">@items.portfolio</a>
+                            </div>
+                        </div>
+                    </div>
+                 }
+            </div>
+        </div>
+
+    </div>
+</div>

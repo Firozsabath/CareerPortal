@@ -1,0 +1,388 @@
+﻿@model CudJobUI.ViewModels.CompanyViewModel
+@{
+    ViewData["Title"] = "Edit";
+}
+
+<div class="container-fluid p-4">
+    <h4 class="mt-3 Sectiontittle">Edit Your Details</h4>
+    <hr class="pb-1" />
+    <form asp-action="Edit">
+        <div class="col-12">
+            <div class="card mb-3">
+                <div class="card-header" style="color: #d5202a;font-weight:bold;">
+                    Enter the Company Details
+                </div>
+                <div class="card-body">
+                    <div>
+                        <div class="row">
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label asp-for="Companies.CompanyName" class="control-label"></label>
+                                    <input asp-for="Companies.CompanyName" class="form-control" />
+                                    <span asp-validation-for="Companies.CompanyName" class="text-danger"></span>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label asp-for="Companies.Website" class="control-label"></label>
+                                    <input asp-for="Companies.Website" class="form-control" />
+                                    <span asp-validation-for="Companies.Website" class="text-danger"></span>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label asp-for="CompanyAddress.Address1" class="control-label"></label>
+                                    <input asp-for="CompanyAddress.Address1" class="form-control" />
+                                    <span asp-validation-for="CompanyAddress.Address1" class="text-danger"></span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-lg-4">
+                                <div class="form-group">
+                                    <label asp-for="CompanyAddress.City" class="control-label"></label>
+                                    <input asp-for="CompanyAddress.City" class="form-control" />
+                                    <span asp-validation-for="CompanyAddress.City" class="text-danger"></span>
+                                </div>
+                            </div>
+                            <div class="col-lg-4">
+                                <div class="form-group">
+                                    <label asp-for="CompanyAddress.State" class="control-label"></label>
+                                    <input asp-for="CompanyAddress.State" class="form-control" />
+                                    <span asp-validation-for="CompanyAddress.State" class="text-danger"></span>
+                                </div>
+                            </div>
+                            @*<div class="col-lg-4">
+                                <div class="form-group">
+                                    <label asp-for="CompanyAddress.PinCode" class="control-label"></label>
+                                    <input asp-for="CompanyAddress.PinCode" class="form-control" />
+                                    <span asp-validation-for="CompanyAddress.PinCode" class="text-danger"></span>
+                                </div>
+                            </div>*@
+                        </div>
+                        <div class="row">
+                            <div class="col-lg-4">
+                                <div class="form-group">
+                                    <label asp-for="Companies.CategoryID" class="control-label"></label>
+                                    @*<input asp-for="Companies.CategoryID" class="form-control" required />*@
+                                    <select asp-for="Companies.CategoryID" required class="form-control" asp-items="@(new SelectList(ViewBag.CompanyCategory, "CategoryID", "Category"))"></select>
+                                    <div class="invalid-feedback">Category is Required.</div>
+                                </div>
+                            </div>
+                            <div class="col-lg-4">
+                                <div class="form-group">
+                                    <label asp-for="Companies.LicenseExpiryDate" class="control-label"></label>
+                                    <input asp-for="Companies.LicenseExpiryDate" class="form-control" required />
+                                    <div class="invalid-feedback">License Expiry Date is Required.</div>
+                                </div>
+                            </div>
+                            <div class="col-lg-4">
+                                <div class="form-group">
+                                    <label class="control-label"> Company Strength </label>
+                                    <select asp-for="Companies.CompanyStrength" required class="form-control" asp-items="@(new SelectList(ViewBag.CompanyStrength, "Text", "Value"))"></select>
+                                    <div class="invalid-feedback">License Expiry Date is Required.</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-lg-4">
+                                <div class="form-group">
+                                    <label asp-for="CompanyAddress.CountryID" class="control-label"></label>
+                                    @*<input asp-for="CompanyAddress.CountryID" class="form-control" required/>*@
+                                    <select asp-for="CompanyAddress.CountryID" required class="form-control" asp-items="@(new SelectList(ViewBag.message, "CountryID", "Description"))"></select>
+                                    <div class="invalid-feedback">Country is Required.</div>
+                                </div>
+                            </div>
+                            <div class="col-lg-4">
+                                <div class="form-group">
+                                    <label asp-for="Companies.SectorID" class="control-label"></label>
+                                    @*<input asp-for="Companies.CategoryID" class="form-control" required />*@
+                                    <select asp-for="Companies.SectorID" required class="form-control" asp-items="@(new SelectList(ViewBag.CompanySectors, "SectorID", "Category"))"></select>
+                                    <div class="invalid-feedback">Sector is Required.</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group" style="display:none;">
+                            <label asp-for="CompanyAddress.AddressID" class="control-label"></label>
+                            <input asp-for="CompanyAddress.AddressID" class="form-control" />
+                            <span asp-validation-for="CompanyAddress.AddressID" class="text-danger"></span>
+                        </div>
+                        <div class="form-group" style="display:none;">
+                            <label asp-for="Companies.CompanyID" class="control-label"></label>
+                            <input asp-for="Companies.CompanyID" class="form-control" />
+                            <span asp-validation-for="Companies.CompanyID" class="text-danger"></span>
+                        </div>
+                        <div class="form-group" style="display:none;">
+                            <label asp-for="Companies.CategoryID" class="control-label"></label>
+                            <input asp-for="Companies.CategoryID" class="form-control" />
+                            <span asp-validation-for="Companies.CategoryID" class="text-danger"></span>
+                        </div>
+                        <div class="form-group" style="display:none;">
+                            <label asp-for="CompanyOptional.CompanyID" class="control-label"></label>
+                            <input asp-for="CompanyOptional.CompanyID" class="form-control" />
+                            <span asp-validation-for="CompanyOptional.CompanyID" class="text-danger"></span>
+                        </div>
+                        <div class="form-group" style="display:none;">
+                            <label asp-for="Companies.UserEmailID" class="control-label"></label>
+                            <input asp-for="Companies.UserEmailID" class="form-control" />
+                            <span asp-validation-for="Companies.UserEmailID" class="text-danger"></span>
+                        </div>
+                        <div class="form-group" style="display:none;">
+                            <label asp-for="Companies.StatusIDs" class="control-label"></label>
+                            <input asp-for="Companies.StatusIDs" class="form-control" />
+                            <span asp-validation-for="Companies.StatusIDs" class="text-danger"></span>
+                        </div>
+                        <div class="form-group" style="display:none;">
+                            <label asp-for="CompanyOptional.OptionalID" class="control-label"></label>
+                            <input asp-for="CompanyOptional.OptionalID" class="form-control" />
+                            <span asp-validation-for="CompanyOptional.OptionalID" class="text-danger"></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="card mb-3">
+                <div class="card-header" style="color: #d5202a;font-weight:bold;">
+                    Optional Details
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label asp-for="Companies.HealthMeasures" class="control-label"></label>
+                                <textarea class="form-control" asp-for="Companies.HealthMeasures"></textarea>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row" style="display:none;">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label asp-for="CompanyOptional.Fulltimeoffer" class="control-label"></label>
+                                <select asp-for="CompanyOptional.Fulltimeoffer" required class="form-control" id="Fulltime" asp-items="@Html.GetEnumSelectList<CudJobUI.ViewModels.Options>()">
+                                    <option value="">Select an option</option>
+                                </select>
+                                @*<select asp-for="CompanyOptional.Fulltimeoffer" required class="form-control" asp-items="@(new SelectList(ViewBag.Options111, "Text", "Value"))"></select>*@
+                            </div>
+                        </div>
+                    </div>
+                    <div id="fulltimeoption" style="display:none;">
+                        <p class="pt-1 text-danger small font-weight-bold">Select the right answers for full time job opportunities</p>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label asp-for="CompanyOptional.FlexibleHours_forFulltime" class="control-label"></label>
+                                    <select asp-for="CompanyOptional.FlexibleHours_forFulltime" required class="form-control" asp-items="@Html.GetEnumSelectList<CudJobUI.ViewModels.Options2>()"></select>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label asp-for="CompanyOptional.Workingfromoffice_forFulltime" class="control-label"></label>
+                                    <select asp-for="CompanyOptional.Workingfromoffice_forFulltime" required class="form-control" asp-items="@Html.GetEnumSelectList<CudJobUI.ViewModels.Options2>()"></select>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row" style="display:none;">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label asp-for="CompanyOptional.Parttimeoffer" class="control-label"></label>
+                                <select asp-for="CompanyOptional.Parttimeoffer" required class="form-control" id="Parttime" asp-items="@Html.GetEnumSelectList<CudJobUI.ViewModels.Options>()"></select>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="parttimeoption" style="display:none;">
+                        <p class="pt-1 text-danger small font-weight-bold">Select the right answers for Part time job opportunities</p>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label asp-for="CompanyOptional.FlexibleHours_forParttime" class="control-label"></label>
+                                    <select asp-for="CompanyOptional.FlexibleHours_forParttime" required class="form-control" asp-items="@Html.GetEnumSelectList<CudJobUI.ViewModels.Options2>()"></select>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label asp-for="CompanyOptional.Workingfromoffice_forParttime" class="control-label"></label>
+                                    <select asp-for="CompanyOptional.Workingfromoffice_forParttime" required class="form-control" asp-items="@Html.GetEnumSelectList<CudJobUI.ViewModels.Options2>()"></select>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row" style="display:none;">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label asp-for="CompanyOptional.Internshipoffer" class="control-label"></label>
+                                <select asp-for="CompanyOptional.Internshipoffer" required id="Internship" class="form-control" asp-items="@Html.GetEnumSelectList<CudJobUI.ViewModels.Options>()">
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="Internshipoption" style="display:none;">
+                        <p class="pt-1 text-danger small font-weight-bold">Select the right answers for Internship opportunities</p>
+                        <div class="row">
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label asp-for="CompanyOptional.FlexibleHours_forInternship" class="control-label"></label>
+                                    <select asp-for="CompanyOptional.FlexibleHours_forInternship" required class="form-control" asp-items="@Html.GetEnumSelectList<CudJobUI.ViewModels.Options2>()"></select>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label asp-for="CompanyOptional.Morethan_Onemonth_Internship" class="control-label"></label>
+                                    <select asp-for="CompanyOptional.Morethan_Onemonth_Internship" required class="form-control" asp-items="@Html.GetEnumSelectList<CudJobUI.ViewModels.Options2>()"></select>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label asp-for="CompanyOptional.Onemonth_Internship" class="control-label"></label>
+                                    <select asp-for="CompanyOptional.Onemonth_Internship" required class="form-control" asp-items="@Html.GetEnumSelectList<CudJobUI.ViewModels.Options2>()"></select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label asp-for="CompanyOptional.PaidInternship" class="control-label"></label>
+                                    <select asp-for="CompanyOptional.PaidInternship" required class="form-control" asp-items="@Html.GetEnumSelectList<CudJobUI.ViewModels.Options2>()"></select>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label asp-for="CompanyOptional.Workingfromoffice_forInternship" class="control-label"></label>
+                                    <select asp-for="CompanyOptional.Workingfromoffice_forInternship" required class="form-control" asp-items="@Html.GetEnumSelectList<CudJobUI.ViewModels.Options2>()"></select>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label asp-for="CompanyOptional.Partcipate_CUDAnnualcareerfair" class="control-label"></label>
+                                    <select asp-for="CompanyOptional.Partcipate_CUDAnnualcareerfair" required class="form-control" asp-items="@Html.GetEnumSelectList<CudJobUI.ViewModels.Options3>()"></select>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label asp-for="CompanyOptional.Partcipateorsponsor_CUDEvents" class="control-label"></label>
+                                    <select asp-for="CompanyOptional.Partcipateorsponsor_CUDEvents" required class="form-control" asp-items="@Html.GetEnumSelectList<CudJobUI.ViewModels.Options3>()"></select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label asp-for="CompanyOptional.Workshops_tostudent" class="control-label"></label>
+                                    <select asp-for="CompanyOptional.Workshops_tostudent" required class="form-control" asp-items="@Html.GetEnumSelectList<CudJobUI.ViewModels.Options3>()"></select>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label asp-for="CompanyOptional.CUD_Incubator_Project" class="control-label"></label>
+                                    <select asp-for="CompanyOptional.CUD_Incubator_Project" required class="form-control" asp-items="@Html.GetEnumSelectList<CudJobUI.ViewModels.Options3>()"></select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label asp-for="CompanyOptional.Share_ContactDetails" class="control-label"></label>
+                                    <select asp-for="CompanyOptional.Share_ContactDetails" required class="form-control" asp-items="@Html.GetEnumSelectList<CudJobUI.ViewModels.Options3>()"></select>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="card mb-3">
+                <div class="card-header" style="color: #d5202a;font-weight:bold;">
+                    Company Contact Details
+                </div>
+                <div class="card-body">
+                    <div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label asp-for="CompanyContacts.FirstName" class="control-label"></label>
+                                    <input asp-for="CompanyContacts.FirstName" class="form-control" />
+                                    <span asp-validation-for="CompanyContacts.FirstName" class="text-danger"></span>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label asp-for="CompanyContacts.LastName" class="control-label"></label>
+                                    <input asp-for="CompanyContacts.LastName" class="form-control" />
+                                    <span asp-validation-for="CompanyContacts.LastName" class="text-danger"></span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label asp-for="CompanyContacts.EmailID" class="control-label"></label>
+                                    <input asp-for="CompanyContacts.EmailID" class="form-control" />
+                                    <span asp-validation-for="CompanyContacts.EmailID" class="text-danger"></span>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+
+                                <div class="form-group">
+                                    <label asp-for="CompanyContacts.Contact_No" class="control-label"></label>
+                                    <input asp-for="CompanyContacts.Contact_No" class="form-control" />
+                                    <span asp-validation-for="CompanyContacts.Contact_No" class="text-danger"></span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group" style="display:none;">
+                            <label asp-for="CompanyContacts.ID" class="control-label"></label>
+                            <input asp-for="CompanyContacts.ID" class="form-control" />
+                            <span asp-validation-for="CompanyContacts.ID" class="text-danger"></span>
+                        </div>
+                        <div class="form-group" style="display:none;">
+                            <label asp-for="CompanyContacts.CompanyID" class="control-label"></label>
+                            <input asp-for="CompanyContacts.CompanyID" class="form-control" />
+                            <span asp-validation-for="CompanyContacts.CompanyID" class="text-danger"></span>
+                            <input type="hidden" asp-for="Companies.CreatedDate"/>
+                            <input type="hidden" asp-for="Companies.Certificatepath"/>
+                            <input type="hidden" asp-for="Companies.profileImgpath"/>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <button type="submit" class="btn btn-danger">Save Company</button>
+        </div>
+    </form>
+</div>
+@section Scripts{ 
+<script type="text/javascript">
+
+    $(document).ready(function () {
+        populateFields();
+    });
+    function populateFields() {
+        var val = $('#Fulltime option:selected').val();
+        if (val == "1") {
+            $("#fulltimeoption").show();
+        }
+        else {
+            $("#fulltimeoption").hide();
+        }
+
+        var val = $('#Parttime option:selected').val();
+        if (val == "1") {
+            $("#parttimeoption").show();
+        }
+        else {
+            $("#parttimeoption").hide();
+        }
+
+        var val = $('#Internship option:selected').val();
+        if (val == "1") {
+            $("#Internshipoption").show();
+        }
+        else {
+            $("#Internshipoption").hide();
+        }
+    }
+</script>
+}

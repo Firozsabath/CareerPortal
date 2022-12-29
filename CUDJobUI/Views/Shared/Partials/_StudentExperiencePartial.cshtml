@@ -1,0 +1,168 @@
+﻿@model CudJobUI.ViewModels.StudentProfile
+
+<div class="card mb-3">
+    <div class="profileheader">
+        <div class="row py-3">
+            <div class="col-lg-5">
+                <h4 class="shortheading">Experience Info</h4>
+            </div>
+            <div class="col-lg-7">
+                <a onclick="Showpopup('@Url.Action("EditStudentExperience","Student",new { id = Model.StudentPersonal.StudentID,Typeof = "Add"},Context.Request.Scheme)', 'Add Student Experience')" class="Section-links float-right"><span class="fa fa-plus" aria-hidden="true"></span> Add New</a>
+                <a onclick="Showpopup('@Url.Action("EditStudentExperience","Student",new { id = Model.StudentPersonal.StudentID,Typeof = "Edit"},Context.Request.Scheme)', 'Edit Student Experience')" class="Section-links float-right mr-3"><span class="fa fa-pen" aria-hidden="true"></span> Edit</a>
+            </div>
+        </div>
+    </div>
+    <div class="card-body pt-0">
+        @foreach (var item in Model.StudentExperience)
+        {
+            <div class="outer_div mb-2">
+                <i class="fas fa-trash-alt float-right" onclick="DeleteStudentModules('Experience','@item.Id');"></i>
+                <dl class="row">
+                    <dt class="col-md-4">
+                        @Html.DisplayNameFor(model => model.StudentExperience[0].CompanyName)
+                    </dt>
+                    <dd class="col-md-8">
+                        @Html.DisplayFor(model => item.CompanyName)
+                    </dd>
+                    <dt class="col-md-4">
+                        @Html.DisplayNameFor(model => model.StudentExperience[0].JobTitle)
+                    </dt>
+                    <dd class="col-md-8">
+                        @Html.DisplayFor(model => item.JobTitle)
+                    </dd>
+                    <dt class="col-md-4">
+                        @Html.DisplayNameFor(model => model.StudentExperience[0].StartDate)
+                    </dt>
+                    <dd class="col-md-8">
+                        @Html.DisplayFor(model => item.StartDate)
+                    </dd>
+                    <dt class="col-md-4">
+                        @Html.DisplayNameFor(model => model.StudentExperience[0].EndDate)
+                    </dt>
+                    <dd class="col-md-8">
+                        @Html.DisplayFor(model => item.EndDate)
+                    </dd>
+                    <dt class="col-md-4">
+                        @Html.DisplayNameFor(model => model.StudentExperience[0].Companywebsite)
+                    </dt>
+                    <dd class="col-md-8">
+                        <a href="@item.Companywebsite" target="_blank">@item.Companywebsite</a>
+                    </dd>
+                    <dt class="col-md-4">
+                        @Html.DisplayNameFor(model => model.StudentExperience[0].Department)
+                    </dt>
+                    <dd class="col-md-8">
+                        @Html.DisplayFor(model => item.Department)
+                    </dd>
+                    <dt class="col-md-4">
+                        Company Category
+                    </dt>
+                    <dd class="col-md-8">
+                        @Html.DisplayFor(model => item.companycategory.Category)
+                    </dd>
+                    <dt class="col-md-4">
+                        @Html.DisplayNameFor(model => model.StudentExperience[0].JobDescription)
+                    </dt>
+                    <dd class="col-md-8">
+                        @Html.Raw(item.JobDescription)
+                    </dd>
+                    @*<dt class="col-md-3">
+            @Html.DisplayNameFor(model => model.StudentExperience[0].Location)
+        </dt>
+        <dd class="col-md-9">
+            @Html.DisplayFor(model => item.Location)
+        </dd>*@
+                </dl>
+            </div>
+        }
+    </div>
+</div>
+<div class="card mb-3">
+    <div class="profileheader">
+        <div class="row py-3">
+            <div class="col-lg-5">
+                <h4 class="shortheading">Volunteer Experience Info</h4>
+            </div>
+            <div class="col-lg-7">
+                <a onclick="Showpopup('@Url.Action("EditVolunteerExperience","Student",new { id = Model.StudentPersonal.StudentID,Typeof = "Add"},Context.Request.Scheme)', 'Add Volunteer Experience')" class="Section-links float-right"><span class="fa fa-plus" aria-hidden="true"></span> Add New</a>
+                <a onclick="Showpopup('@Url.Action("EditVolunteerExperience","Student",new { id = Model.StudentPersonal.StudentID,Typeof = "Edit"},Context.Request.Scheme)', 'Edit Volunteer Experience')" class="Section-links float-right mr-3"><span class="fa fa-pen" aria-hidden="true"></span> Edit</a>
+            </div>
+        </div>
+    </div>
+    <div class="card-body pt-0">
+        @foreach (var item in Model.VolunteerExperience)
+        {
+            <div class="outer_div mb-2">
+                <i class="fas fa-trash-alt float-right" onclick="DeleteStudentModules('VolunteerExperience','@item.VexpId');"></i>
+                <dl class="row">
+                    <dt class="col-md-4">
+                        @Html.DisplayNameFor(model => model.VolunteerExperience[0].CompanyName)
+                    </dt>
+                    <dd class="col-md-8">
+                        @Html.DisplayFor(model => item.CompanyName)
+                    </dd>
+                    <dt class="col-md-4">
+                        @Html.DisplayNameFor(model => model.VolunteerExperience[0].JobTitle)
+                    </dt>
+                    <dd class="col-md-8">
+                        @Html.DisplayFor(model => item.JobTitle)
+                    </dd>
+                    <dt class="col-md-4">
+                        @Html.DisplayNameFor(model => model.VolunteerExperience[0].StartDate)
+                    </dt>
+                    <dd class="col-md-8">
+                        @Html.DisplayFor(model => item.StartDate)
+                    </dd>
+                    <dt class="col-md-4">
+                        @Html.DisplayNameFor(model => model.VolunteerExperience[0].EndDate)
+                    </dt>
+                    <dd class="col-md-8">
+                        @Html.DisplayFor(model => item.EndDate)
+                    </dd>
+                    <dt class="col-md-4">
+                        @Html.DisplayNameFor(model => model.VolunteerExperience[0].JobDescription)
+                    </dt>
+                    <dd class="col-md-8">
+                        @Html.Raw(item.JobDescription)
+                    </dd>
+                    @*<dt class="col-md-3">
+                            @Html.DisplayNameFor(model => model.StudentExperience[0].Location)
+                        </dt>
+                        <dd class="col-md-9">
+                            @Html.DisplayFor(model => item.Location)
+                        </dd>*@
+                </dl>
+            </div>
+        }
+    </div>
+</div>
+<div class="card mb-3">
+    <div class="profileheader">
+        <div class="row">
+            <div class="col-lg-5">
+                <h4 class="shortheading">Work Availabality</h4>
+            </div>
+            <div class="col-lg-7">                
+                <a onclick="Showpopup('@Url.Action("EditWorkAvailability","Student",new { id = Model.StudentPersonal.StudentID,Typeof = "Edit"},Context.Request.Scheme)', 'Edit Availability')" class="Section-links float-right"><span class="fa fa-pen" aria-hidden="true"></span> Edit</a>
+            </div>
+        </div>
+    </div>
+    <div class="card-body pt-0">
+        <div class="outer_div mb-2">
+            <dl class="row">
+                <dt class="col-sm-3">
+                    @Html.DisplayNameFor(model => model.StudentWorkAvailability[0].DaysPerWeekID)
+                </dt>
+                <dd class="col-sm-9">
+                    @Html.DisplayFor(model => model.StudentWorkAvailability.FirstOrDefault().DaysPerWeekOptions.Options)
+                </dd>
+                <dt class="col-sm-3">
+                    @Html.DisplayNameFor(model => model.StudentWorkAvailability[0].HoursPerWeekID)
+                </dt>
+                <dd class="col-sm-9">
+                    @Html.DisplayFor(model => model.StudentWorkAvailability.FirstOrDefault().HoursPerWeekOptions.Options)
+                </dd>
+            </dl>
+        </div>
+    </div>
+</div>

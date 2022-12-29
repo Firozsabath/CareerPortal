@@ -1,0 +1,85 @@
+﻿@model IEnumerable<CudJobUI.ViewModels.JobApplyDetails>
+@{
+    ViewData["Title"] = "StudentListByJobforcompany";
+    Layout = "~/Views/Shared/_LayoutEmployer.cshtml";
+}
+
+
+<div id="studentlist">
+    <partial name="~/Views/Shared/Partials/_StudentListByJobPartial.cshtml" model="Model" view-data="ViewData" />
+</div>
+
+@section Scripts{
+    <script type="text/javascript">
+        $(document).ready(function () {
+             
+            //$('#example thead tr').clone(true).appendTo('#example thead');
+            //$('#example thead tr:eq(1) th').each(function (i) {
+            //    var title = $(this).text();
+            //    $(this).html('<input type="text" placeholder="Search ' + title + '" />');
+
+            //    $('input', this).on('keyup change', function () {
+            //        if (table.column(i).search() !== this.value) {
+            //            table
+            //                .column(i)
+            //                .search(this.value)
+            //                .draw();
+            //        }
+            //    });
+            //});
+
+            //var table = $('#example').DataTable({
+            //    orderCellsTop: true,
+            //    fixedHeader: true
+            //});
+
+            $('#example').DataTable({
+                dom: 'Bfrtip',
+                buttons: [
+                    'copyHtml5',
+                    'excelHtml5',
+                    'csvHtml5',
+                    'pdfHtml5', 'print'
+                ]
+            });
+
+            $('[data-toggle="tooltip"]').tooltip();
+
+            $("#uploadProfilepic").click(function (evt) {
+                evt.preventDefault();
+                var data = new FormData();
+                data.append("status", $("#status").val())
+                data.append("Desc", $("#Desc").val())
+                data.append("JobID", $("#JobId").val())
+                data.append("AppliedID", $("#AppliedId").val())
+                $.ajax({
+                    type: "post",
+                    url: '@Url.Action("UpdateAppliedJobStatus", "Job")',
+                    contentType: false,
+                    processData: false,
+                    data: data,
+                    success: function (res) {
+                        if (res.isValid) {
+                            $("#studentlist").load("/Job/GetView", { id: $("#JobId").val() });              
+                            $("#exampleModal").modal("hide");
+                            $.notify("Uploaded Successfully", { globalPosition: 'top ceneter', className: 'success' });
+                            //window.location.reload();
+                        }
+                        else {
+
+                        }
+                    },
+                    error: function () {
+                        alert("there was error uploading files!");
+                    }
+                });
+            });
+
+        });
+        function updatestatus(Appliedid,jobid) {
+            var jbid = Appliedid;
+            $("#JobId").val(jobid);
+            $("#AppliedId").val(Appliedid);
+        }
+    </script>
+}

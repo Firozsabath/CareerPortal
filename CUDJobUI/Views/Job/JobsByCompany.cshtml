@@ -1,0 +1,11 @@
+﻿@model IEnumerable<CudJobUI.ViewModels.JobViewModel>
+
+@{
+    ViewData["Title"] = "JobsByCompany";
+    //Layout = "~/Views/Shared/_LayoutEmployer.cshtml";
+    ViewData["ShowSection"] = "Employee";
+}
+
+<div>
+    <partial name="~/Views/Shared/Partials/_postedJobs_by_company.cshtml" model="Model" view-data="ViewData" />
+</div>

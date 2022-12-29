@@ -1,0 +1,361 @@
+﻿@model CudJobUI.ViewModels.CompanyViewModel
+@{
+    ViewData["Title"] = "Company Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container-fluid p-3 my-4">
+
+    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Profile Pic</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form id="form" name="form" asp-action="UploadFilesAjax" asp-controller="Student" enctype="multipart/form-data" method="post">
+                        <div class="buttons">
+                            <div class="upload-button">
+                                <p class="text-muted" style="font-size:11px;">Maximum upload file size: 3MB. File types allowed: jpg, jpeg, gif only.</p>
+                                <div class="label mb-3">Update Your Profile Pic</div>
+                                <input id="files" name="files" type="file" size="1" multiple accept="image/x-png,image/gif,image/jpeg" />
+                            </div>
+                        </div>
+                        <input type="hidden" id="CompanyID" name="CompanyID" value="@Model.Companies.CompanyID" />
+                        @*<button type="button" id="uploadProfilepic" class="btn btn-primary">Save changes</button>*@
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="button" id="uploadProfilepic" class="btn btn-primary">Save changes</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <h4 class="m-3">Company Profile</h4>
+    <section>
+        <div class="row">
+            <div class="col col-12 col-md-12 col-lg-12">
+                <div class="card mb-3 text-white" style="background-color:#414c55;">
+                    <div class="row g-0">
+                        <div class="col-md-3">
+                            <a href="" data-toggle="modal" data-target="#exampleModal">
+                                @if (Model.Companies.profileImgpath == null && Model.Companies.profileImgpath != string.Empty)
+                                {
+                                    <img src="https://www.cud.ac.ae/sites/default/files/personnel/2021/ms-fanan-al-madi.jpg" style="width:75%;" class="img-thumbnail" alt="...">
+                                }
+                                else
+                                {
+                                    <img src="~/Images/Company/Profile/@ViewBag.ProfileImg" class="img-thumbnail" alt="Profile Pic" style="width:75%;">
+                                }
+                            </a>
+                        </div>
+                        <div class="col-md-9">
+                            <div class="card-body">
+                                <h5 class="card-title">@Model.Companies.CompanyName</h5>
+                                <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
+                                <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>          
+        </div><br />
+        @*<div class="card">
+            <div class="card-body">
+                <div class="row">
+                    <div class="col col-12 col-md-12">
+                        @if (Model.Companies.StatusIDs == 2)
+                        {
+                            <h5 class="card-title">Create a New Opportunity</h5>
+                            <p class="card-text">Please post your jobs by clicking the below buuton.</p>
+                            <a href="@Url.Action("Create", "Job")" class="btn btn-danger">Post a Job</a>
+                        }
+                        else
+                        {
+                            <h5 class="card-title text-success">Not Apporved Yet!</h5>
+                            <p class="card-text text-success">Your Company has not been approved by the system.You can Start posting the jobs once you are approved.</p>
+                        }
+                    </div>               
+                </div>
+            </div>
+        </div>*@
+        
+        <br />
+        <div>
+            <div class="card">
+                <div class="profileheader">
+                    <div class="row">
+                        <div class="col-md-4">
+                            <h4>Comapny Information</h4>
+                        </div>
+                        @*<div class="ml-auto mr-3">
+                            @Html.ActionLink("Edit", "Edit", new { id = Model.Companies.CompanyID })
+                        </div>*@
+                    </div>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-lg-6">
+                            <p class="h5 shortheading" style="color: #d5202a;">General Information</p>
+                            <dl class="row" style="padding:15px;">
+                                <dt class="col-sm-5 pb-3">
+                                    @Html.DisplayNameFor(model => model.Companies.CompanyName)
+                                </dt>
+                                <dd class="col-sm-7 pb-3">
+                                    @Html.DisplayFor(model => model.Companies.CompanyName)
+                                </dd>
+                                <dt class="col-sm-5 pb-3">
+                                    @Html.DisplayNameFor(model => model.Companies.Website)
+                                </dt>
+                                <dd class="col-sm-7 pb-3">
+                                    @Html.DisplayFor(model => model.Companies.Website)
+                                </dd>
+                                <dt class="col-sm-5 pb-3">
+                                    @Html.DisplayNameFor(model => model.Companies.CategoryID)
+                                </dt>
+                                <dd class="col-sm-7 pb-3">
+                                    @Html.DisplayFor(model => model.Companycategory.Category)
+                                </dd>
+                                <dt class="col-sm-5 pb-3">
+                                    @Html.DisplayNameFor(model => model.Companies.CompanyStrength)
+                                </dt>
+                                <dd class="col-sm-7 pb-3">
+                                    @Html.DisplayFor(model => model.Companies.CompanyStrength)
+                                </dd>
+                            </dl>
+                        </div>
+                        <div class="col-lg-6">
+                            <h5 class="shortheading" style="color: #d5202a;">Company Address</h5>
+                            <dl class="row" style="padding:15px;">
+                                <dt class="col-sm-5 pb-3">
+                                    @Html.DisplayNameFor(model => model.CompanyAddress.Address1)
+                                </dt>
+                                <dd class="col-sm-7">
+                                    @Html.DisplayFor(model => model.CompanyAddress.Address1)
+                                </dd>
+                                <dt class="col-sm-5 pb-3">
+                                    @Html.DisplayNameFor(model => model.CompanyAddress.City)
+                                </dt>
+                                <dd class="col-sm-7">
+                                    @Html.DisplayFor(model => model.CompanyAddress.City)
+                                </dd>
+                                <dt class="col-sm-5 pb-3">
+                                    @Html.DisplayNameFor(model => model.CompanyAddress.State)
+                                </dt>
+                                <dd class="col-sm-7">
+                                    @Html.DisplayFor(model => model.CompanyAddress.State)
+                                </dd>
+                                <dt class="col-sm-5 pb-3">
+                                    @Html.DisplayNameFor(model => model.CompanyAddress.CountryID)
+                                </dt>
+                                <dd class="col-sm-7">
+                                    @Html.DisplayFor(model => model.Country.Description)
+                                </dd>
+                            </dl>
+                        </div>
+                    </div>
+                    <div>
+                        <h5 class="shortheading" style="color: #d5202a;">Company Contact</h5>
+                        <div class="row">
+                            <div class="col-lg-6">
+                                <dl class="row" style="padding:15px;">
+                                    <dt class="col-sm-5 pb-3">
+                                        @Html.DisplayNameFor(model => model.CompanyContacts.FirstName)
+                                    </dt>
+                                    <dd class="col-sm-7">
+                                        @Html.DisplayFor(model => model.CompanyContacts.FirstName)
+                                    </dd>
+                                    <dt class="col-sm-5 pb-3">
+                                        @Html.DisplayNameFor(model => model.CompanyContacts.LastName)
+                                    </dt>
+                                    <dd class="col-sm-7">
+                                        @Html.DisplayFor(model => model.CompanyContacts.LastName)
+                                    </dd>
+                                </dl>
+                            </div>
+                            <div class="col-lg-6">
+                                <dl class="row" style="padding:15px;">
+                                    <dt class="col-sm-5 pb-3">
+                                        @Html.DisplayNameFor(model => model.CompanyContacts.EmailID)
+                                    </dt>
+                                    <dd class="col-sm-7">
+                                        @Html.DisplayFor(model => model.CompanyContacts.EmailID)
+                                    </dd>
+                                    <dt class="col-sm-5 pb-3">
+                                        @Html.DisplayNameFor(model => model.CompanyContacts.Contact_No)
+                                    </dt>
+                                    <dd class="col-sm-7">
+                                        @Html.DisplayFor(model => model.CompanyContacts.Contact_No)
+                                    </dd>
+                                </dl>
+                            </div>
+                        </div>
+                    </div>
+                    @if (Model.CompanyOptional != null)
+                    {
+                        <div>
+                            <h5 class="shortheading" style="color: #d5202a;">Additional Info</h5>
+                            <div class="row" style="display:none;">
+                                <div class="col-md-6">
+                                    <dl class="row" style="padding:15px;">
+                                        <dt class="col-sm-9 pb-3">
+                                            @Html.DisplayNameFor(model => model.CompanyOptional.Fulltimeoffer)
+                                        </dt>
+                                        <dd class="col-sm-3">
+                                            @{string Fulltimeoffer = Enum.GetName(typeof(CudJobUI.ViewModels.Options), Convert.ToInt32(Model.CompanyOptional.Fulltimeoffer)); }
+                                            @Fulltimeoffer
+                                        </dd>
+                                        <dt class="col-sm-9 pb-3">
+                                            @Html.DisplayNameFor(model => model.CompanyOptional.FlexibleHours_forFulltime)
+                                        </dt>
+                                        <dd class="col-sm-3">
+                                            @{string Flexiblehr_fulltime = Enum.GetName(typeof(CudJobUI.ViewModels.Options2), Convert.ToInt32(Model.CompanyOptional.FlexibleHours_forFulltime)); }
+                                            @Flexiblehr_fulltime
+                                        </dd>
+                                        <dt class="col-sm-9 pb-3">
+                                            @Html.DisplayNameFor(model => model.CompanyOptional.Workingfromoffice_forFulltime)
+                                        </dt>
+                                        <dd class="col-sm-3">
+                                            @{string WFH_fulltime = Enum.GetName(typeof(CudJobUI.ViewModels.Options2), Convert.ToInt32(Model.CompanyOptional.Workingfromoffice_forFulltime)); }
+                                            @WFH_fulltime
+                                        </dd>
+                                    </dl>
+                                </div>
+                                <div class="col-md-6">
+                                    <dl class="row" style="padding:15px;">
+                                        <dt class="col-sm-9 pb-3">
+                                            @Html.DisplayNameFor(model => model.CompanyOptional.Parttimeoffer)
+                                        </dt>
+                                        <dd class="col-sm-3">
+                                            @{string Parttimeoffer = Enum.GetName(typeof(CudJobUI.ViewModels.Options), Convert.ToInt32(Model.CompanyOptional.Parttimeoffer)); }
+                                            @Parttimeoffer
+                                        </dd>
+                                        <dt class="col-sm-9 pb-3">
+                                            @Html.DisplayNameFor(model => model.CompanyOptional.FlexibleHours_forParttime)
+                                        </dt>
+                                        <dd class="col-sm-3">
+                                            @{string Flexiblehr_parttime = Enum.GetName(typeof(CudJobUI.ViewModels.Options2), Convert.ToInt32(Model.CompanyOptional.FlexibleHours_forParttime)); }
+                                            @Flexiblehr_parttime
+                                        </dd>
+                                        <dt class="col-sm-9 pb-3">
+                                            @Html.DisplayNameFor(model => model.CompanyOptional.Workingfromoffice_forParttime)
+                                        </dt>
+                                        <dd class="col-sm-3">
+                                            @{string WFH_Parttime = Enum.GetName(typeof(CudJobUI.ViewModels.Options2), Convert.ToInt32(Model.CompanyOptional.Workingfromoffice_forParttime)); }
+                                            @WFH_Parttime
+                                        </dd>
+                                    </dl>
+                                </div>
+                            </div>
+                            <div class="row" style="display:none;">
+                                <div class="col-md-6">
+                                    <dl class="row" style="padding:15px;">
+                                        <dt class="col-sm-9 pb-3">
+                                            @Html.DisplayNameFor(model => model.CompanyOptional.Internshipoffer)
+                                        </dt>
+                                        <dd class="col-sm-3 pb-3">
+                                            @{string Internshipoffer = Enum.GetName(typeof(CudJobUI.ViewModels.Options), Convert.ToInt32(Model.CompanyOptional.Internshipoffer)); }
+                                            @Internshipoffer
+                                        </dd>
+                                        <dt class="col-sm-9 pb-3">
+                                            @Html.DisplayNameFor(model => model.CompanyOptional.FlexibleHours_forInternship)
+                                        </dt>
+                                        <dd class="col-sm-3">
+                                            @{string Flexiblehr_Internship = Enum.GetName(typeof(CudJobUI.ViewModels.Options2), Convert.ToInt32(Model.CompanyOptional.FlexibleHours_forInternship)); }
+                                            @Flexiblehr_Internship
+                                        </dd>
+                                        <dt class="col-sm-9 pb-3">
+                                            @Html.DisplayNameFor(model => model.CompanyOptional.PaidInternship)
+                                        </dt>
+                                        <dd class="col-sm-3">
+                                            @{string PaidInternship = Enum.GetName(typeof(CudJobUI.ViewModels.Options2), Convert.ToInt32(Model.CompanyOptional.PaidInternship)); }
+                                            @PaidInternship
+                                        </dd>
+                                    </dl>
+                                </div>
+                                <div class="col-md-6">
+                                    <dl class="row" style="padding:15px;">
+                                        <dt class="col-sm-9 pb-3">
+                                            @Html.DisplayNameFor(model => model.CompanyOptional.Morethan_Onemonth_Internship)
+                                        </dt>
+                                        <dd class="col-sm-3">
+                                            @{string Morethan_Onemonth_Internship = Enum.GetName(typeof(CudJobUI.ViewModels.Options2), Convert.ToInt32(Model.CompanyOptional.Morethan_Onemonth_Internship)); }
+                                            @Morethan_Onemonth_Internship
+                                        </dd>
+                                        <dt class="col-sm-9 pb-3">
+                                            @Html.DisplayNameFor(model => model.CompanyOptional.Onemonth_Internship)
+                                        </dt>
+                                        <dd class="col-sm-3">
+                                            @{string Onemonth_Internship = Enum.GetName(typeof(CudJobUI.ViewModels.Options2), Convert.ToInt32(Model.CompanyOptional.Onemonth_Internship)); }
+                                            @Onemonth_Internship
+                                        </dd>
+                                    </dl>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <dl class="row" style="padding:15px;">
+                                        <dt class="col-sm-9 pb-3">
+                                            @Html.DisplayNameFor(model => model.CompanyOptional.CUD_Incubator_Project)
+                                        </dt>
+                                        <dd class="col-sm-3">
+                                            @{string CUD_Incubator_Project = Enum.GetName(typeof(CudJobUI.ViewModels.Options3), Convert.ToInt32(Model.CompanyOptional.CUD_Incubator_Project)); }
+                                            @CUD_Incubator_Project
+                                        </dd>
+                                        <dt class="col-sm-9 pb-3">
+                                            @Html.DisplayNameFor(model => model.CompanyOptional.Partcipateorsponsor_CUDEvents)
+                                        </dt>
+                                        <dd class="col-sm-3">
+                                            @{string Partcipateorsponsor_CUDEvents = Enum.GetName(typeof(CudJobUI.ViewModels.Options3), Convert.ToInt32(Model.CompanyOptional.Partcipateorsponsor_CUDEvents)); }
+                                            @Partcipateorsponsor_CUDEvents
+                                        </dd>
+                                        <dt class="col-sm-9 pb-3">
+                                            @Html.DisplayNameFor(model => model.CompanyOptional.Workshops_tostudent)
+                                        </dt>
+                                        <dd class="col-sm-3">
+                                            @{string Workshops_tostudent = Enum.GetName(typeof(CudJobUI.ViewModels.Options3), Convert.ToInt32(Model.CompanyOptional.Workshops_tostudent)); }
+                                            @Workshops_tostudent
+                                        </dd>
+                                    </dl>
+                                </div>
+                                <div class="col-md-6">
+                                    <dl class="row" style="padding:15px;">
+                                        <dt class="col-sm-9 pb-3">
+                                            @Html.DisplayNameFor(model => model.CompanyOptional.Share_ContactDetails)
+                                        </dt>
+                                        <dd class="col-sm-3">
+                                            @{string Share_ContactDetails = Enum.GetName(typeof(CudJobUI.ViewModels.Options3), Convert.ToInt32(Model.CompanyOptional.Share_ContactDetails)); }
+                                            @Share_ContactDetails
+                                        </dd>
+                                        <dt class="col-sm-9 pb-3">
+                                            @Html.DisplayNameFor(model => model.CompanyOptional.Partcipate_CUDAnnualcareerfair)
+                                        </dt>
+                                        <dd class="col-sm-3">
+                                            @{string Partcipate_CUDAnnualcareerfair = Enum.GetName(typeof(CudJobUI.ViewModels.Options3), Convert.ToInt32(Model.CompanyOptional.Partcipate_CUDAnnualcareerfair)); }
+                                            @Partcipate_CUDAnnualcareerfair
+                                        </dd>
+                                        <dt class="col-sm-9 pb-3">
+                                            @Html.DisplayNameFor(model => model.CompanyOptional.Do_you_cover_incaseof_work_accidents)
+                                        </dt>
+                                        <dd class="col-sm-3">
+                                            @{string Do_you_Cover = Enum.GetName(typeof(CudJobUI.ViewModels.Options3), Convert.ToInt32(Model.CompanyOptional.Do_you_cover_incaseof_work_accidents)); }
+                                            @Do_you_Cover
+                                        </dd>
+                                    </dl>
+                                </div>
+                            </div>
+                        </div>
+
+                    }
+                </div>
+            </div>
+        </div>
+    </section>
+</div>
+

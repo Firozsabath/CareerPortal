@@ -1,0 +1,150 @@
+﻿@model CudJobUI.ViewModels.User
+@{
+    ViewData["Title"] = "Login";
+    Layout = "_LayoutLogin";
+}
+<style>
+    .body {
+        background-color:#f4f4f4;
+    }
+    .hide{
+        display:none;
+    }
+</style>
+
+@*<div id="carouselExampleSlidesOnly" class="carousel slide" data-ride="carousel">
+        <div class="carousel-inner">
+            <div class="carousel-item active">
+                <img src="~/Images/carrer-banner.jpg" class="d-block w-100" alt="...">
+            </div>
+        </div>
+    </div>*@
+<div class="bg-hero-overlay">
+    @*<div style="padding: 100px 30px 75px 30px;background:#414c55;clear:both;">*@
+    @*<img src="~/Images/sampletest.jpg" class="img-fluid" />*@
+    <div class="col-md-12 text-white" style="text-align:center;padding:20px 60px 65px 60px;">
+        <div class="container">
+            <h2 class="featurette-heading fw-bold">Connect, Explore, Select, Apply</span></h2>
+            <p class="lead">CUD career portal creates an opportunity for you to connect with employers, explore internships and jobs opportunities and apply in a click of a button.</p>
+        </div>
+    </div>
+</div>
+<div class="container mb-5">
+    <div class="row" style="margin:-100px 0 0;">
+        <div class="col col-12 col-md-6 p-0">
+            <div  style="padding:40px;background-color:#fff;">
+                @*background-color:#dddbdb;*@                
+                <form asp-action="Login" class="form-signin" id="signinform">
+                    @*<div class="text-center">
+            <img src="~/Images/logo-sticky.png" width="190px" />
+        </div>*@
+                    <h1 class="h4 mb-3 text-center text-danger fw-bold"><span class=""><i class="fas fa-user"></i></span> Sign In</h1>
+                    <div class="text-center">
+                        <div class="btn-group" role="group" aria-label="Basic radio toggle button group">
+                            <input type="radio" class="btn-check" asp-for="LoginType" value="Student" id="btnradio1" autocomplete="off">
+                            <label class="btn btn-outline-danger" for="btnradio1">Student</label>
+
+                            <input type="radio" class="btn-check" asp-for="LoginType" value="Company" id="btnradio2" autocomplete="off">
+                            <label class="btn btn-outline-danger" for="btnradio2">Employer</label>
+
+                            <input type="radio" class="btn-check" asp-for="LoginType" value="Admin" id="btnradio3" autocomplete="off">
+                            <label class="btn btn-outline-danger" for="btnradio3">Admin</label>
+                        </div>
+                        @*<div class="btn-group btn-group-toggle mb-3" data-toggle="buttons">
+                <label class="btn btn-danger">
+                    <input type="radio" asp-for="LoginType" value="Student" autocomplete="off">Student
+                </label>
+                <label class="btn btn-danger">
+                    <input type="radio" asp-for="LoginType" value="Company" autocomplete="off">Employer
+                </label>
+                <label class="btn btn-danger">
+                    <input type="radio" asp-for="LoginType" value="Admin" autocomplete="off">Admin
+                </label>
+            </div>*@
+                        <div class="mb-3">
+                            <span asp-validation-for="LoginType" class="text-danger"></span>
+                        </div>
+                    </div>
+
+                    @if (ViewBag.Unauthorized == "Unauthorized")
+                    {
+                        <ul>
+                            <li class="text-danger">
+                                Username or password is incorrect.
+                            </li>
+                        </ul>
+                    }
+
+                    <div>
+                        <div class="form-group">
+                            <label asp-for="EmailID" class="control-label text-left"></label>
+                            <input asp-for="EmailID" type="email" id="inputEmail" class="form-control" placeholder="Email address" autofocus />
+                            <span asp-validation-for="EmailID" class="text-danger"></span>
+                        </div>
+
+                        <div class="form-group">
+                            <label asp-for="Password" class="control-label text-left"></label>
+                            <input asp-for="Password" type="password" id="inputPassword" class="form-control" placeholder="Password" />
+                            <span asp-validation-for="Password" class="text-danger"></span>
+                        </div>
+                    </div>
+
+
+                    <p class="text-center">
+                        Are you an employer?  <a class="nav-link" asp-area="" asp-controller="Account" asp-action="Register">Register as a company</a>
+                    </p>
+                    <div class="text-center">
+                        <button class="btn btn-lg btn-danger btn-block rounded-pill button" id="btnlogin"><i class="loading-icon fa fa-spinner fa-spin hide"></i> <span class="btn-txt1"> Sign In</span></button>
+                    </div>
+                    <p class="text-center">
+                        <a class="nav-link" asp-area="" asp-controller="Account" asp-action="PasswordReset">Forgot Password (Only Employers)</a>
+                    </p>
+                </form>
+            </div>
+        </div>
+        <div class="col col-12 col-md-6 p-0">
+            <img class="w-100" src="~/Images/banner-citywalk.jpg" />
+        </div>
+    </div>
+</div>
+@*<div class="container">
+        <hr class="featurette-divider" />
+        <div class="row featurette">
+            <div class="col-md-7">
+                <h2 class="featurette-heading">Join CUD's Career Portal <span class="text-muted">It’ll blow your mind.</span></h2>
+                <p class="lead">Donec ullamcorper nulla non metus auctor fringilla. Vestibulum id ligula porta felis euismod semper. Praesent commodo cursus magna, vel scelerisque nisl consectetur. Fusce dapibus, tellus ac cursus commodo.</p>
+            </div>
+            <div class="col-md-5">
+
+            </div>
+        </div>
+</div>*@
+
+@section Scripts{
+
+    <script type="text/javascript">
+
+    $(document).ready(function () {
+        $('#btnlogin').click(function () {
+
+            $(".loading-icon").removeClass("hide");
+            $(".button").attr("disabled", true);
+            $(".btn-txt1").text("Signing In......");
+
+
+            if (!$("#signinform").valid()) {
+                      $(".loading-icon").addClass("hide");
+                    $(".button").attr("disabled", false);
+                    $(".btn-txt1").text("Sign In");                   
+                    return false;
+            }
+            $("#signinform").submit();
+
+        });
+    });
+
+    </script>
+
+ }
+
+

@@ -1,0 +1,19 @@
+﻿@model IEnumerable<CudJobUI.ViewModels.CompanyViewModel>
+@{
+    ViewData["Title"] = "CompanyListforstudents";
+    Layout = "~/Views/Shared/_LayoutStudent.cshtml";
+    ViewData["ShowButtons"] = false;
+}
+
+<div>
+    <partial name="~/Views/Shared/Partials/_CompanyListPartial.cshtml" model="Model" view-data="ViewData" />
+</div>
+
+@section Scripts{
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('#example').DataTable();
+        });
+    </script>
+}
+

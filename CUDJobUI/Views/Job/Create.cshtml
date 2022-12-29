@@ -1,0 +1,304 @@
+﻿@model CudJobUI.ViewModels.JobDetails
+@{
+    ViewData["Title"] = "Create";
+    Layout = "~/Views/Shared/_LayoutEmployer.cshtml";
+}
+
+<div class="container-fluid p-3">
+    <h4 class="m-3 shortheading">Create an Opportunity</h4>
+    <hr />
+    <form asp-action="Create" class="needs-validation" novalidate>
+        <div class="card mb-3">
+            <div class="card-header" style="color: #d5202a;font-weight:bold;">
+                <h5 class="shortheading">Opportunity Details</h5>
+            </div>
+            <div class="card-body">
+                <div class="outer_div">
+                    <fieldset>
+                        <div class="row">
+                            <div class="col-lg-4" style="display:none;">
+                                <div class="form-group">
+                                    <label asp-for="CompanyID" class="control-label"></label>
+                                    <input asp-for="CompanyID" class="form-control" required />
+                                    <input asp-for="Type" class="form-control" value="Employer" hidden />
+                                    <div class="invalid-feedback">
+                                        Company is Required
+                                    </div>
+                                    @*<span asp-validation-for="CompanyID" class="text-danger"></span>*@
+                                </div>
+                            </div>
+                            <div class="col-lg-4">
+                                <div class="form-group">
+                                    <label asp-for="Title" class="control-label">Title</label>
+                                    <input asp-for="Title" class="form-control" required />
+                                    <div class="invalid-feedback">
+                                        Job Title is Required
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-4">
+                                <div class="form-group">
+                                    <label asp-for="ExpectedSalary" class="control-label">Stipend / Salary Per Month</label>
+                                    <input asp-for="ExpectedSalary" class="form-control" />
+                                    <span asp-validation-for="ExpectedSalary" class="text-danger"></span>
+                                </div>
+                            </div>
+                            <div class="col-lg-4">
+                                <div class="form-group">
+                                    <label asp-for="LastApplyDate" class="control-label">Application Deadline</label>
+                                    <input type="date" asp-for="LastApplyDate" class="form-control" value="@DateTime.Now.ToString()" required />                                    
+                                    <div class="invalid-feedback">
+                                        Last Apply Date is Required
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col col-12 col-md-12">
+                                <div class="form-group">
+                                    <label asp-for="Shortheading" class="control-label">Short Heading</label>
+                                    <textarea asp-for="Shortheading" class="form-control" maxlength="300" required></textarea>
+                                    <div class="invalid-feedback">
+                                        Job Description is Required
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <div class="form-group">
+                                    <label asp-for="Description" class="control-label">Main Tasks and Responsibilities</label>
+                                    <textarea asp-for="Description" class="form-control" required></textarea>
+                                    <div class="invalid-feedback">
+                                        Job Description is Required
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-lg-6">
+                                <div class="form-group">
+                                    <label asp-for="JobCategoryId" class="control-label"></label>
+                                    @*<input asp-for="JobCategoryId" class="form-control" required />*@
+                                    <select asp-for="JobCategoryId" required class="form-control" asp-items="@(new SelectList(ViewBag.Categories, "JobCategoryId", "JobCategoryName"))"></select>
+                                    <div class="invalid-feedback">
+                                        Job Category is Required
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-6">
+                                <div class="form-group">
+                                    <label asp-for="ExperienceID" class="control-label"></label>
+                                    <select asp-for="ExperienceID" required class="form-control" asp-items="@(new SelectList(ViewBag.Experiences, "ExperienceID", "ExperienceType"))"></select>
+                                    <div class="invalid-feedback">
+                                        Experience is Required
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col col-12 col-md-6">
+                                <div class="form-group">
+                                    <label asp-for="JobTypeID" class="control-label"></label>
+                                    <select asp-for="JobTypeID" required class="form-control" asp-items="@(new SelectList(ViewBag.Jobtypes, "JobTypeID", "Description"))"></select>
+                                    <div class="invalid-feedback">
+                                        Option is Required
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col col-12 col-md-6">
+                                <div class="form-group">
+                                    <label asp-for="Jobduration" class="control-label"></label>
+                                    @*<select asp-for="durationID" required class="form-control" asp-items="@(new SelectList(ViewBag.Job_durations, "durationID", "Description"))"></select>*@
+                                    <input asp-for="Jobduration" class="form-control" required />
+                                    <div class="invalid-feedback">
+                                        Option is Required
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col col-12 col-md-4">
+                                <div class="form-group">
+                                    <label asp-for="JobOption.FlexibleHours" class="control-label"></label><br />
+                                    <select asp-for="JobOption.FlexibleHours" required class="form-control" asp-items="@Html.GetEnumSelectList<CudJobUI.ViewModels.Options2>()"></select>
+                                </div>
+                            </div>
+
+                            <div class="col col-12 col-md-4">
+                                <div class="form-group">
+                                    <label asp-for="JobOption.Workfromoffice" class="control-label"></label>
+                                    @*<select asp-for="JobOption.Workfromoffice" required class="form-control" asp-items="@Html.GetEnumSelectList<CudJobUI.ViewModels.Options2>()"></select>*@
+                                <select asp-for="JobOption.Workfromoffice" required class="form-control">
+                                    <option value="Physical">Physical</option>
+                                    <option value="Virtual">Virtual</option>
+                                    <option value="Blended">Blended</option>
+                                </select>
+                                </div>
+                            </div>
+
+                            <div class="col col-12 col-md-4">
+                                <div class="form-group">
+                                    <label asp-for="JobOption.Paid" class="control-label"></label>
+                                    <select asp-for="JobOption.Paid" required class="form-control" asp-items="@Html.GetEnumSelectList<CudJobUI.ViewModels.Options2>()"></select>
+                                </div>
+                            </div>
+                            @*<div class="col-lg-4">
+            <div class="form-group">
+                <label asp-for="ExperienceID" class="control-label"></label>
+                <input asp-for="ExperienceID" class="form-control" required />
+                <div class="invalid-feedback">
+                    Job Experience is Required
+                </div>
+            </div>
+        </div>*@
+                        </div>
+                    </fieldset>
+                </div>
+            </div>
+        </div>
+        <div class="card mb-3">
+            <div class="card-header" style="color: #d5202a;font-weight:bold;">
+                <div class="row">
+                    <div class="col-lg-3">
+                        <h5 class="shortheading">Work Schedule</h5>
+                    </div>
+                    <div class="col-lg-9">
+                        <p><button type="button" class="btn btn-info float-right" id="Btn_AddWorkAvail">Add</button></p>
+                    </div>
+                </div>
+            </div>
+            <div class="card-body">
+                <div class="WorkAvail_Wrapper rssRow outer_div mb-3">
+                    <span class="removeWorkAvail float-right" style="display:none;"><i class="fa fa-times" style="color:red;cursor:pointer;"> Remove</i></span>
+                    <div class="row">
+                        <div class="col-lg-6">
+                            <label asp-for="JobsWorkAvail[0].DaysPerWeekID" class="control-label"></label>                           
+                            <select asp-for="JobsWorkAvail[0].DaysPerWeekID" required class="form-control rssDaysPerWeek" asp-items="@(new SelectList(ViewBag.DaysOption, "DaysPerWeekID", "Options"))"></select>
+                        </div>
+                        <div class="col-lg-6">
+                            <label asp-for="JobsWorkAvail[0].HoursPerWeekID" class="control-label"></label>                            
+                            <select asp-for="JobsWorkAvail[0].HoursPerWeekID" required class="form-control rssHoursPerWeek" asp-items="@(new SelectList(ViewBag.HoursOption, "HoursPerWeekID", "Options"))"></select>
+                        </div>
+                    </div>
+                </div>
+                <div class="WorkAvail_WrapperDynamic"></div>
+            </div>
+
+        </div>
+        <div class="card mb-3">
+            <div class="card-header" style="color: #d5202a;font-weight:bold;">
+                <h5 class="shortheading">Requirements </h5>
+            </div>
+            <div class="card-body">
+                <fieldset>
+                    <div class="row">
+                        <div class="col-lg-6">
+                            @*<div class="form-group">
+                        <label asp-for="Experience" class="control-label"></label>
+                        <textarea asp-for="Experience" class="form-control"></textarea>
+                        <span asp-validation-for="Experience" class="text-danger"></span>
+                    </div>*@
+                            <div class="form-group">
+                                <label asp-for="ReguiredSkills" class="control-label">Skills</label>
+                                <textarea asp-for="ReguiredSkills" class="form-control" required></textarea>
+                                <div class="invalid-feedback">
+                                    Skills is Required
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-6">
+                            <div class="form-group">
+                                <label asp-for="Qualification" class="control-label">Qualifications</label>
+                                <textarea asp-for="Qualification" class="form-control"></textarea>
+                                <span asp-validation-for="Qualification" class="text-danger"></span>
+                            </div>
+                        </div>
+                    </div>
+                </fieldset>
+                <h5 class="shortheading" style="color: #d5202a;font-weight:bold;">Application Mode</h5>
+                <div class="row">
+                    @*<div class="col-lg-4">
+                <div class="form-group">
+                    <label asp-for="ReguiredSkills" class="control-label"></label>
+                    <input asp-for="ReguiredSkills" class="form-control" required />
+                    <div class="invalid-feedback">
+                        Skills is Required
+                    </div>
+                </div>
+            </div>*@
+                    <div class="col-lg-6">
+                        <div class="form-group">
+                            <label asp-for="Applytype" class="control-label"></label><br />
+                            @foreach (var ApplyType in Model.Applytypes)
+                            {
+                                <input type="radio" asp-for="Applytype" value="@ApplyType" onclick="TypeChange()" class="ml-3 mr-2" /> @ApplyType
+                            }
+                        </div>
+                    </div>
+                    <div class="col-lg-6" style="display:none;" id="ExternalLink">
+                        <div class="form-group">
+                            <label asp-for="ExternalUrl" class="control-label"></label><br />
+                            <input type="url" asp-for="ExternalUrl" pattern="https://.+"  title="Requires https://" class="form-control" />
+                            <div class="invalid-feedback">
+                                External Link is required and make sure to enter a valid url. Rquires https://
+                            </div>
+                            @*<input asp-for="ExternalUrl" class="form-control" />*@
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div style="padding:15px;">
+            <button type="submit" class="btn btn-danger">Create Job</button>
+        </div>
+    </form>
+</div>
+@section Scripts{
+    <script type="text/javascript">
+        (function () {
+            'use strict';
+            window.addEventListener('load', function () {
+                // Fetch all the forms we want to apply custom Bootstrap validation styles to
+                var forms = document.getElementsByClassName('needs-validation');
+                // Loop over them and prevent submission
+                var validation = Array.prototype.filter.call(forms, function (form) {
+                    form.addEventListener('submit', function (event) {
+                        if (form.checkValidity() === false) {
+                            event.preventDefault();
+                            event.stopPropagation();
+                        }
+                        form.classList.add('was-validated');
+                    }, false);
+                });
+            }, false);
+        })();
+
+        tinymce.init({
+            selector: 'textarea',
+            height: 380,
+            menubar: false,
+            plugins: [
+                'advlist autolink lists link image charmap print preview anchor',
+                'searchreplace visualblocks code fullscreen',
+                'insertdatetime media table paste code help wordcount'
+            ],
+            toolbar: 'undo redo | formatselect | ' +
+                'bold italic backcolor | alignleft aligncenter ' +
+                'alignright alignjustify | bullist numlist outdent indent | ' +
+                'removeformat | help',
+            content_style: 'body { font-family:Helvetica,Arial,sans-serif; font-size:14px }'
+        });
+
+        function TypeChange() {
+            //rate_value = document.getElementById('Applytype').value;
+            Type = $("input[type='radio'][name='Applytype']:checked").val();
+            if (Type == "Through the employer's portal") {
+                $("#ExternalLink").show();
+                $("#ExternalUrl").prop("required", true);
+            }
+            else {
+                $("#ExternalLink").hide();
+                $("#ExternalUrl").prop("required", false);
+            }
+        }
+    </script>
+
+}
+

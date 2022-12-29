@@ -1,0 +1,50 @@
+﻿@model CudJobUI.ViewModels.StudentDetails_Cams
+
+@{
+    ViewData["Title"] = "Refeerence";
+    Layout = "~/Views/Shared/_LayoutLogin.cshtml";
+}
+
+
+<div class="container" style="margin-top:120px;">
+    @if (ViewBag.NoStud)
+    {
+        <div class="card m-3">
+            <div class="card-body">
+                <h4 class="card-title">No Student Record Found</h4>
+                <p class="card-text">
+                    Please contact administrator and notify them of this error at
+                    <span> <a href="mailto:appteam@cud.ac.ae">appteam@cud.ac.ae</a></span>
+                </p>
+            </div>
+        </div>
+    }
+    else
+    {
+        <div class="card m-3">
+            <div class="card-body">
+                <h5 class="card-title">Welcome to career portal of Canadian University Dubai</h5>
+                <p class="card-text">Below are the details of your Information from student Portal.</p>
+                <p class="card-text">Please confirm the below details before you proceed. </p>
+                <dl class="row">
+                    <dt class="col-sm-2">
+                        @Html.DisplayNameFor(model => model.studentdetails.CudStudentID)
+                    </dt>
+                    <dd class="col-sm-10">
+                        @Html.DisplayFor(model => model.studentdetails.CudStudentID)
+                    </dd>
+                    <dt class="col-sm-2">
+                        @Html.DisplayNameFor(model => model.studentdetails.EmailID)
+                    </dt>
+                    <dd class="col-sm-10">
+                        @Html.DisplayFor(model => model.studentdetails.EmailID)
+                    </dd>
+                </dl>
+                @*@Html.ActionLink("Proceed with account", "Create", new { id = Model.studentdetails.CudStudentID, @class = "btn btn-primary" })*@
+                 <a href='@Url.Action("Create","Student", new {id = Model.studentdetails.CudStudentID })' class="btn btn-danger">Proceed with account</a>
+            </div>
+        </div>
+    }
+
+</div>
+

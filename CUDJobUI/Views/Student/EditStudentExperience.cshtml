@@ -1,0 +1,131 @@
+﻿@model IList<CudJobUI.ViewModels.StudentExperienceModel>
+@{
+    ViewData["Title"] = "EditStudentExperience";
+    Layout = null;
+}
+
+<div class="container">
+    <div class="container-fluid bg-transparent blue">
+        <h3>Student Experience</h3>
+    </div>
+    <form asp-action="EditStudentExperience" asp-route-id="@Model[0].StudentID" class="needs-validation" id="MyprofileExperience" onsubmit="return jQueryAjaxPost(this,'MyprofileExperience');" novalidate>
+        <div class="card mb-3">
+            <div class="card-header" style="color: #d5202a;font-weight:bold;">
+                Experience Details
+            </div>
+            <div class="card-body">
+                @for (int i = 0; i < Model.Count; i++)
+                {
+                    <div class="outer_div">  
+                        <div class="row">
+                            <div class="col-lg-6">
+                                <div class="form-group">
+                                    <label asp-for="@Model[i].CompanyName" class="control-label rssCompanyName"></label>
+                                    <input asp-for="@Model[i].CompanyName" class="form-control rssCompanyName" />
+                                </div>
+                            </div>
+
+                            <div class="col-lg-6">
+                                <div class="form-group">
+                                    <label asp-for="@Model[i].JobTitle" class="control-label"></label>
+                                    <input asp-for="@Model[i].JobTitle" class="form-control rssJobTitle" />
+                                    <span asp-validation-for="@Model[i].JobTitle" class="text-danger"></span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-lg-4">
+                                <div class="form-group">
+                                    <label asp-for="@Model[i].StartDate" class="control-label"></label>
+                                    <input type="date" asp-for="@Model[i].StartDate" class="form-control rssExpstartDate" />
+                                    <span asp-validation-for="@Model[i].StartDate" class="text-danger "></span>
+                                </div>
+                            </div>
+                            <div class="col-lg-4">
+                                <div class="form-group">
+                                    <label asp-for="@Model[i].EndDate" class="control-label"></label>
+                                    <input type="date" asp-for="@Model[i].EndDate" class="form-control rssExpEndDate" />
+                                    <span asp-validation-for="@Model[i].EndDate" class="text-danger"></span>
+                                </div>
+                            </div>
+                            <div class="col-lg-4">
+                                <div class="form-group">
+                                    <label asp-for="@Model[i].Companywebsite" class="control-label"></label>
+                                    <input asp-for="@Model[i].Companywebsite" class="form-control rssCompanywebsite" />
+                                    <span asp-validation-for="@Model[i].Companywebsite" class="text-danger"></span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-lg-6">
+                                <div class="form-group">
+                                    <label asp-for="@Model[i].Department" class="control-label rssDepartment"></label>
+                                    <input asp-for="@Model[i].Department" class="form-control rssDepartment" />
+                                </div>
+                            </div>
+                            <div class="col-lg-6">
+                                <div class="form-group">
+                                    <label asp-for="@Model[i].CategoryID" class="control-label"></label>
+                                    <select asp-for="@Model[i].CategoryID" required class="form-control rssCategoryID" asp-items="@(new SelectList(ViewBag.Categories, "CategoryID", "Category"))">
+                                    </select>
+                                    <span asp-validation-for="@Model[i].CategoryID" class="text-danger"></span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <div class="form-group">
+                                    <label asp-for="@Model[i].JobDescription" class="control-label"></label>
+                                    <textarea asp-for="@Model[i].JobDescription" class="form-control rssJobDesc mytextarea"></textarea>
+                                    <span asp-validation-for="@Model[i].JobDescription" class="text-danger"></span>
+                                </div>
+                            </div>
+                        </div>
+                        <div style="display:none;">
+                            <div class="form-group">
+                                <label asp-for="@Model[i].StudentID" class="control-label"></label>
+                                <input asp-for="@Model[i].StudentID" class="form-control" />
+                                <span asp-validation-for="@Model[i].StudentID" class="text-danger"></span>
+                            </div>
+                            <div class="form-group">
+                                <label asp-for="@Model[i].Id" class="control-label"></label>
+                                <input asp-for="@Model[i].Id" class="form-control" />
+                                <span asp-validation-for="@Model[i].Id" class="text-danger"></span>
+                            </div>
+                        </div>
+                    </div>
+                }
+                <button type="submit" class="btn btn-danger float-right mt-3"> Save Experience </button>
+            </div>
+        </div>
+    </form>
+    <hr />
+</div>
+
+@section Scripts{
+    <script type="text/javascript">
+        $(document).ready(function () {
+
+            tinymce.init({
+                selector: 'textarea',
+                height: 380,
+                menubar: false,
+                plugins: [
+                    'advlist autolink lists link image charmap print preview anchor',
+                    'searchreplace visualblocks code fullscreen',
+                    'insertdatetime media table paste code help wordcount'
+                ],
+                toolbar: 'undo redo | formatselect | ' +
+                    'bold italic backcolor | alignleft aligncenter ' +
+                    'alignright alignjustify | bullist numlist outdent indent | ' +
+                    'removeformat | help',
+                content_style: 'body { font-family:Helvetica,Arial,sans-serif; font-size:14px }'
+            });
+
+        });
+        
+
+    </script>
+
+}
+

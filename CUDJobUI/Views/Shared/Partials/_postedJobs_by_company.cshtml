@@ -1,0 +1,105 @@
+﻿@model IEnumerable<CudJobUI.ViewModels.JobViewModel>
+@{
+    string showstatus = (string)ViewData["ShowSection"];
+}
+
+<div class="container-fluid p-5">
+    <div class="card">
+        <div class="card-header">
+            <h4 class="Sectiontittle shortheading">Posted Opportunities</h4>
+        </div>
+        <div class="card-body">
+            <div class="col col-12 col-md-12 mb-4">
+                <div class="table-responsive">
+                    <table id="example" class="table table-striped table-bordered tablelist" style="width:100%">
+                        <thead>
+                            <tr>
+                                <th>
+                                    Opportunity Title
+                                </th>
+                                <th>
+                                    Department
+                                </th>
+                                @*<th>
+                                        @Html.DisplayNameFor(model => model.JobDetail.ReguiredSkills)
+                                    </th>*@
+                            <th>
+                                Type
+                            </th>
+                                <th>Status</th>
+                                <th>
+                                    Received Applications
+                                </th>
+                                <th>
+                                    Hired
+                                </th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Model)
+                            {
+                                <tr>
+                                    <td>
+                                        @if (showstatus == "Employee")
+                                        {
+                                            @Html.ActionLink(item.JobDetail.Title, "Detailsforcompany", "Job", new { id = item.JobDetail.Id })
+                                        }
+                                        else
+                                        {
+                                            @Html.ActionLink(item.JobDetail.Title, "Details", "Job", new { id = item.JobDetail.Id })
+                                        }
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.jobcategory.JobCategoryName)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.Jobtype.Description)
+                                    </td>
+                                    @*<td>
+                                            @Html.DisplayFor(modelItem => item.JobDetail.ReguiredSkills)
+                                        </td>*@
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.jobstatus.MyProperty)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.AppliedNumbers)                                       
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.HiredApplicationNumbers)
+                                    </td>
+                                    <td>
+                                        @Html.ActionLink("Edit", "Edit", "Job", new { id = item.JobDetail.Id }) |
+                                        @if (showstatus == "Employee")
+                                        {
+                                            <a href="@Url.Action("StudentListByJobforcompany", "Job", new { id = item.JobDetail.Id, Type = "Employee" })" class="btn btn-outline-danger">Applied Students</a>
+                                        }
+                                        else
+                                        {
+                                            <a href="@Url.Action("StudentListByJob", "Job", new { id = item.JobDetail.Id, Type = "" })" class="btn btn-outline-danger">Applied Students</a>
+                                        }
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+    @*<div class="col col-12 col-md-12 mb-4">
+            <a href="@Url.Action("Index","Admin")" class="btn btn-danger"><i class=""></i> Back to Home</a>
+            <a asp-action="Create" class="btn btn-danger float-right">Create Opportunity</a>
+        </div>*@
+
+</div>
+@section Scripts{
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('#example').DataTable();
+        });
+    </script>
+}

@@ -1,0 +1,474 @@
+﻿@model CudJobUI.ViewModels.StudentProfile
+@{
+    ViewData["Title"] = "Profileforemployee";
+    //Layout = "~/Views/Shared/_LayoutEmployer.cshtml";
+}
+@*<div class="container-fluid p-3">
+        <h3>Student Profile</h3>
+    </div>*@
+<div class="container-fluid mt-5">
+    <div class="card mb-4" style="background-color: #414c55;color:white;">
+        <div class="row">
+            <div class="col-md-9">
+                <div class="card-body">
+                    <h4 class="card-title">
+                        @Model.StudentPersonal.FirstName  @Model.StudentPersonal.LastName
+                    </h4>
+                    @if (Model.StudentExperience.FirstOrDefault() != null)
+                    {
+                        <p>@Model.StudentExperience.FirstOrDefault().JobTitle</p>
+                    }
+                    <p>
+                        <a href="/Images/Student/Resume/@ViewBag.ResumeName" type="application/pdf" target="_blank" class="btn btn-dark position-relative me-4">
+                            <i class="fas fa-file-alt me-2"></i>  View Your CV
+                            <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+                                Latest
+                            </span>
+                        </a>
+                    </p>
+                    <div class="row p-2">
+                        <div class="col-md-3">
+                            <p>
+                                <dl>
+                                    <dt>
+                                        Phone
+                                    </dt>
+                                    <dd>
+                                        @Model.StudentPersonal.MobileNumber
+                                    </dd>
+                                </dl>
+                            </p>
+                        </div>
+                        <div class="col-md-3">
+                            <p>
+                                <dl>
+                                    <dt>
+                                        Email
+                                    </dt>
+                                    <dd>
+                                        @Model.StudentPersonal.EmailID
+                                    </dd>
+                                </dl>
+                            </p>
+                        </div>
+                        <div class="col-md-3">
+                            <p>
+                                <dl>
+                                    <dt>
+                                        Gender
+                                    </dt>
+                                    <dd>
+                                        @Model.StudentPersonal.Gender
+                                    </dd>
+                                </dl>
+                            </p>
+                        </div>
+                    </div>
+                    <div class="row p-2">
+                        <div class="col-md-3">
+                            <p>
+                                <dl>
+                                    <dt>
+                                        Address
+                                    </dt>
+                                    <dd>
+                                        <span><i class="fas fa-map-marker-alt"></i> </span><span> @Model.StudentAddress.CountryCode.Description, @Model.StudentAddress.State</span>
+                                    </dd>
+                                </dl>
+                            </p>
+                        </div>
+                        @*<div class="col-md-3">
+                                <p>
+                                    <dl>
+                                        <dt>
+                                           Soft Skill
+                                        </dt>
+                                        <dd>
+                                            @Model.Softskills.SoftSkills
+                                        </dd>
+                                    </dl>
+                                </p>
+                            </div>
+                            <div class="col-md-3">
+                                <p>
+                                    <dl>
+                                        <dt>
+                                            Hard Skill
+                                        </dt>
+                                        <dd>
+                                            @Model.Hardskills.HardSkills
+                                        </dd>
+                                    </dl>
+                                </p>
+                            </div>*@
+                    </div>
+                </div>
+
+            </div>
+            <div class="col-md-3">
+                @if (Model.StudentPersonal.profileImgpath == null && Model.StudentPersonal.profileImgpath != string.Empty)
+                {
+                    <img src="~/Images/download.png" class="img-thumbnail" alt="...">
+                }
+                else
+                {
+                    <img src="~/Images/Student/profile/@ViewBag.ProfileImg" class="img-thumbnail" alt="Profile Pic" style="width:180px;">
+                }
+            </div>
+        </div>
+    </div>
+    <div class="card mb-3">
+        <div class="profileheader">
+            <div class="row">
+                <div class="col-lg-5">
+                    <h4>Educational Info</h4>
+                </div>
+            </div>
+        </div>
+        <div class="card-body">
+            @foreach (var item in Model.StudentEducation)
+            {
+                <div class="outer_div mb-2">
+                    <dl class="row">
+                        <dt class="col-sm-3">
+                            @Html.DisplayNameFor(model => model.StudentEducation[0].Institution)
+                        </dt>
+                        <dd class="col-sm-9">
+                            @Html.DisplayFor(model => item.Institution)
+                        </dd>
+                        <dt class="col-sm-3">
+                            @Html.DisplayNameFor(model => model.StudentEducation[0].Degree)
+                        </dt>
+                        <dd class="col-sm-9">
+                            @Html.DisplayFor(model => item.Degree)
+                        </dd>
+                        <dt class="col-sm-3">
+                            @Html.DisplayNameFor(model => model.StudentEducation[0].Major)
+                        </dt>
+                        <dd class="col-sm-9">
+                            @Html.DisplayFor(model => item.Major)
+                        </dd>
+                        <dt class="col-sm-3">
+                            @Html.DisplayNameFor(model => model.StudentEducation[0].StartDate)
+                        </dt>
+                        <dd class="col-sm-9">
+                            @Html.DisplayFor(model => item.StartDate)
+                        </dd>
+                        <dt class="col-sm-3">
+                            @Html.DisplayNameFor(model => model.StudentEducation[0].CompletionDate)
+                        </dt>
+                        <dd class="col-sm-9">
+                            @Html.DisplayFor(model => item.CompletionDate)
+                        </dd>
+                        <dt class="col-sm-3">
+                            @Html.DisplayNameFor(model => model.StudentEducation[0].CompletionPercent)
+                        </dt>
+                        <dd class="col-sm-9">
+                            @Html.DisplayFor(model => item.CompletionPercent)
+                        </dd>
+                        <dt class="col-sm-3">
+                            @Html.DisplayNameFor(model => model.StudentEducation[0].CurrrentSalary)
+                        </dt>
+                        <dd class="col-sm-9">
+                            @Html.DisplayFor(model => item.CurrrentSalary)
+                        </dd>
+                    </dl>
+                </div>
+            }
+        </div>
+    </div>
+
+    @if (Model.StudentExperience.Any())
+    {
+        if (!String.IsNullOrEmpty(Model.StudentExperience[0].CompanyName))
+        {
+            <div id="myprofileExperience" class="card mb-3 mt-3">
+                <div class="profileheader">
+                    <div class="row">
+                        <div class="col-lg-5">
+                            <h4>Experience Info</h4>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-body">
+                    @foreach (var item in Model.StudentExperience)
+                    {
+                        if (!String.IsNullOrEmpty(item.CompanyName))
+                        {
+                            <div class="outer_div mb-2">
+                                <dl class="row">
+                                    <dt class="col-sm-3">
+                                        @Html.DisplayNameFor(model => model.StudentExperience[0].CompanyName)
+                                    </dt>
+                                    <dd class="col-sm-9">
+                                        @Html.DisplayFor(model => item.CompanyName)
+                                    </dd>
+                                    <dt class="col-sm-3">
+                                        @Html.DisplayNameFor(model => model.StudentExperience[0].JobTitle)
+                                    </dt>
+                                    <dd class="col-sm-9">
+                                        @Html.DisplayFor(model => item.JobTitle)
+                                    </dd>
+                                    <dt class="col-sm-3">
+                                        @Html.DisplayNameFor(model => model.StudentExperience[0].JobDescription)
+                                    </dt>
+                                    <dd class="col-sm-9">
+                                        @Html.Raw(item.JobDescription)
+                                    </dd>
+                                    <dt class="col-sm-3">
+                                        @Html.DisplayNameFor(model => model.StudentExperience[0].StartDate)
+                                    </dt>
+                                    <dd class="col-sm-9">
+                                        @Html.DisplayFor(model => item.StartDate)
+                                    </dd>
+                                    <dt class="col-sm-3">
+                                        @Html.DisplayNameFor(model => model.StudentExperience[0].EndDate)
+                                    </dt>
+                                    <dd class="col-sm-9">
+                                        @Html.DisplayFor(model => item.EndDate)
+                                    </dd>
+                                    <dt class="col-sm-3">
+                                        @Html.DisplayNameFor(model => model.StudentExperience[0].Companywebsite)
+                                    </dt>
+                                    <dd class="col-sm-9">
+                                        <a href="@item.Companywebsite" target="_blank">@item.Companywebsite</a>
+                                    </dd>
+                                    <dt class="col-sm-3">
+                                        @Html.DisplayNameFor(model => model.StudentExperience[0].Department)
+                                    </dt>
+                                    <dd class="col-sm-9">
+                                        @Html.DisplayFor(model => item.Department)
+                                    </dd>
+                                    <dt class="col-sm-3">
+                                        Company Category
+                                    </dt>
+                                    <dd class="col-sm-9">
+                                        @*@Model.ExperienceCompanyCategory.Category*@
+                                        @Html.DisplayFor(model => item.companycategory.Category)
+                                    </dd>
+                                    <dt class="col-sm-3">
+                                        @Html.DisplayNameFor(model => model.StudentExperience[0].Location)
+                                    </dt>
+                                    <dd class="col-sm-9">
+                                        @Html.DisplayFor(model => item.Location)
+                                    </dd>
+                                </dl>
+                            </div>
+                        }
+
+                    }   @*@Html.ActionLink("Edit", "Edit", new { id = Model.StudentPersonal.StudentID, @class = "btn btn-primary" })*@
+                </div>
+            </div>
+        }
+    }
+
+    @if (Model.Memberships.FirstOrDefault() != null)
+    {
+        if (!String.IsNullOrEmpty(Model.Memberships[0].Organisation))
+        {
+            <div class="card mb-3" id="MyProfileMembership">
+                <div class="profileheader">
+                    <div class="row">
+                        <div class="col-lg-5">
+                            <h4>Memberships</h4>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-body">
+                    @foreach (var item in Model.Memberships)
+                    {
+                        if (!String.IsNullOrEmpty(item.Organisation))
+                        {
+                            <div class="outer_div mb-2">
+                                <dl class="row">
+                                    <dt class="col-sm-3">
+                                        @Html.DisplayNameFor(model => model.Memberships[0].Organisation)
+                                    </dt>
+                                    <dd class="col-sm-9">
+                                        @Html.DisplayFor(model => item.Organisation)
+                                    </dd>
+                                    <dt class="col-sm-3">
+                                        @Html.DisplayNameFor(model => model.Memberships[0].Role)
+                                    </dt>
+                                    <dd class="col-sm-9">
+                                        @Html.DisplayFor(model => item.Role)
+                                    </dd>
+                                    <dt class="col-sm-3">
+                                        @Html.DisplayNameFor(model => model.Memberships[0].StartDate)
+                                    </dt>
+                                    <dd class="col-sm-9">
+                                        @Html.DisplayFor(model => item.StartDate)
+                                    </dd>
+                                    <dt class="col-sm-3">
+                                        @Html.DisplayNameFor(model => model.Memberships[0].EndDate)
+                                    </dt>
+                                    <dd class="col-sm-9">
+                                        @Html.DisplayFor(model => item.EndDate)
+                                    </dd>
+                                </dl>
+                            </div>
+                        }
+                    }
+                </div>
+            </div>
+        }
+    }
+
+    <div class="card mb-3" id="MyWorkAvailabilities">
+        <div class="profileheader">
+            <div class="row">
+                <div class="col-lg-5">
+                    <h4>Work Availabality</h4>
+                </div>
+            </div>
+        </div>
+        <div class="card-body">
+            <div class="outer_div mb-2">
+                <dl class="row">
+                    <dt class="col-sm-3">
+                        @Html.DisplayNameFor(model => model.StudentWorkAvailability[0].DaysPerWeekID)
+                    </dt>
+                    <dd class="col-sm-9">
+                        @Html.DisplayFor(model => model.StudentWorkAvailability.FirstOrDefault().DaysPerWeekOptions.Options)
+                    </dd>
+                    <dt class="col-sm-3">
+                        @Html.DisplayNameFor(model => model.StudentWorkAvailability[0].HoursPerWeekID)
+                    </dt>
+                    <dd class="col-sm-9">
+                        @Html.DisplayFor(model => model.StudentWorkAvailability.FirstOrDefault().HoursPerWeekOptions.Options)
+                    </dd>
+                </dl>
+            </div>
+        </div>
+    </div>
+
+    @if (Model.projects.FirstOrDefault() != null)
+    {
+        if (!String.IsNullOrEmpty(Model.projects[0].Organisation))
+        {
+            <div class="card mb-3" id="MyprofileProjects">
+                <div class="profileheader">
+                    <div class="row">
+                        <div class="col-lg-5">
+                            <h4>Projects Worked On</h4>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-body">
+                    @foreach (var item in Model.projects)
+                    {
+                        if (!String.IsNullOrEmpty(item.Organisation))
+                        {
+                            <div class="outer_div mb-2">
+                                <dl class="row">
+                                    <dt class="col-sm-3">
+                                        @Html.DisplayNameFor(model => model.projects[0].Organisation)
+                                    </dt>
+                                    <dd class="col-sm-9">
+                                        @Html.DisplayFor(model => item.Organisation)
+                                    </dd>
+                                    <dt class="col-sm-3">
+                                        @Html.DisplayNameFor(model => model.projects[0].Role)
+                                    </dt>
+                                    <dd class="col-sm-9">
+                                        @Html.DisplayFor(model => item.Role)
+                                    </dd>
+                                    <dt class="col-sm-3">
+                                        @Html.DisplayNameFor(model => model.projects[0].Description)
+                                    </dt>
+                                    <dd class="col-sm-9">
+                                        @Html.Raw(item.Description)
+                                    </dd>
+                                    <dt class="col-sm-3">
+                                        @Html.DisplayNameFor(model => model.projects[0].Startdate)
+                                    </dt>
+                                    <dd class="col-sm-9">
+                                        @Html.DisplayFor(model => item.Startdate)
+                                    </dd>
+                                    <dt class="col-sm-3">
+                                        @Html.DisplayNameFor(model => model.projects[0].Enddate)
+                                    </dt>
+                                    <dd class="col-sm-9">
+                                        @Html.DisplayFor(model => item.Enddate)
+                                    </dd>
+                                </dl>
+                            </div>
+                        }
+                    }
+                </div>
+            </div>
+        }
+    }
+    @if (Model.Awards.FirstOrDefault() != null)
+    {
+        if (!String.IsNullOrEmpty(Model.Awards[0].AwardName))
+        {
+        <div class="card mb-3" id="MyprofileAwards">
+            <div class="profileheader">
+                <div class="row">
+                    <div class="col-lg-5">
+                        <h4>Awards</h4>
+                    </div>
+                </div>
+            </div>
+            <div class="card-body">
+                @foreach (var item in Model.Awards)
+                {
+                    if (!String.IsNullOrEmpty(item.AwardName))
+                    {
+                    <div class="outer_div mb-2">
+                        <dl class="row">
+                            <dt class="col-sm-3">
+                                @Html.DisplayNameFor(model => model.Awards[0].AwardName)
+                            </dt>
+                            <dd class="col-sm-9">
+                                @Html.DisplayFor(model => item.AwardName)
+                            </dd>
+                            <dt class="col-sm-3">
+                                @Html.DisplayNameFor(model => model.Awards[0].AwardDate)
+                            </dt>
+                            <dd class="col-sm-9">
+                                @Html.DisplayFor(model => item.AwardDate)
+                            </dd>
+                        </dl>
+                    </div>
+                    }
+                }
+            </div>
+        </div>
+        }
+    }
+    @if (Model.languages.FirstOrDefault() != null)
+    {
+        <div class="card mb-3" id="Myprofilelanguages">
+            <div class="profileheader">
+                <div class="row">
+                    <div class="col-lg-5">
+                        <h4>Languages Known</h4>
+                    </div>
+                </div>
+            </div>
+            <div class="card-body">
+                @foreach (var item in Model.languages)
+                {
+                    <div class="outer_div mb-2">
+                        <dl class="row">
+                            <dt class="col-sm-3">
+                                @Html.DisplayNameFor(model => model.languages[0].LanguageID)
+                            </dt>
+                            <dd class="col-sm-9">
+                                @Html.DisplayFor(model => item.LanguageNames.Language)
+                            </dd>
+                            <dt class="col-sm-3">
+                                @Html.DisplayNameFor(model => model.languages[0].LevelID)
+                            </dt>
+                            <dd class="col-sm-9">
+                                @Html.DisplayFor(model => item.LanguageLevels.Levels)
+                            </dd>
+                        </dl>
+                    </div>
+                }
+            </div>
+        </div>
+    }
+</div>

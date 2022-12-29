@@ -1,0 +1,37 @@
+﻿@model CudJobUI.ViewModels.StudentProfile
+
+<div class="card mb-3">
+    <div class="profileheader">
+        <div class="row py-3">
+            <div class="col-lg-5">
+                <h4 class="shortheading">Languages Known</h4>
+            </div>
+            <div class="col-lg-7">
+                <a onclick="Showpopup('@Url.Action("EditLanguages","Student",new { id = Model.StudentPersonal.StudentID,Typeof = "Add"},Context.Request.Scheme)', 'Add Languages')" class="Section-links float-right"><span class="fa fa-pen" aria-hidden="true"></span> Add New</a>
+                <a onclick="Showpopup('@Url.Action("EditLanguages","Student",new { id = Model.StudentPersonal.StudentID,Typeof = "Edit"},Context.Request.Scheme)', 'Edit Languages')" class="Section-links float-right mr-3"><span class="fa fa-pen" aria-hidden="true"></span> Edit</a>
+            </div>
+        </div>
+    </div>
+    <div class="card-body pt-0">
+        @foreach (var item in Model.languages)
+        {
+            <div class="outer_div mb-2">
+                <i class="fas fa-trash-alt float-right" onclick="DeleteStudentModules('Languages', '@item.ID');"></i>
+                <dl class="row">
+                    <dt class="col-sm-3">
+                        @Html.DisplayNameFor(model => model.languages[0].LanguageID)
+                    </dt>
+                    <dd class="col-sm-9">
+                        @Html.DisplayFor(model => item.LanguageNames.Language)
+                    </dd>
+                    <dt class="col-sm-3">
+                        @Html.DisplayNameFor(model => model.languages[0].LevelID)
+                    </dt>
+                    <dd class="col-sm-9">
+                        @Html.DisplayFor(model => item.LanguageLevels.Levels)
+                    </dd>
+                </dl>
+            </div>
+        }       
+    </div>
+</div>

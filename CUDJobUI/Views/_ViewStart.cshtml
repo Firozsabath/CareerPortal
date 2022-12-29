@@ -1,0 +1,31 @@
+﻿@using Microsoft.AspNetCore.Http
+@{
+    @if (Context.Session.GetString("EmailID") != null && Context.Session.GetString("EmailID") != "")
+    {
+        var LogType = Context.Session.GetString("LoginType");
+
+        @if (LogType == "Company")
+        {
+            Layout = "_LayoutEmployer";
+        }
+        else if (LogType == "Student")
+        {
+            Layout = "_LayoutStudent";
+        }
+        else if (LogType == "Admin")
+        {
+            Layout = "_Layout";
+        }
+        else
+        {
+            Layout = "_LayoutLogin";
+        }
+
+    }
+    else
+    {
+        Layout = "_LayoutLogin";
+        //return RedirectToAction("JobsforApproval", "Job");
+    }
+
+}

@@ -1,0 +1,8 @@
+﻿.FixedHeightcontainer{
+    height:840px;
+    overflow:auto;
+}
+.Elementfocus {
+    border: 1px #036fcbd6 solid;
+}
+

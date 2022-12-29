@@ -1,0 +1,167 @@
+﻿@model CudJobUI.ViewModels.StudentProfile
+@{
+    ViewData["Title"] = "Edit";
+}
+
+<div class="container">
+    <h1>Student Profile</h1>
+    <hr />
+    <div class="col-xl-12">
+        <form asp-action="Edit">
+            <div class="card mb-3">
+                <div class="card-header" style="color: #d5202a;font-weight:bold;">
+                    Student Personal Information
+                </div>
+                <div class="card-body">
+                    <fieldset>
+                        <div class="form-group">
+                            <label asp-for="StudentPersonal.FirstName" class="control-label"></label>
+                            <input asp-for="StudentPersonal.FirstName" class="form-control" />
+                            <span asp-validation-for="StudentPersonal.FirstName" class="text-danger"></span>
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="StudentPersonal.LastName" class="control-label"></label>
+                            <input asp-for="StudentPersonal.LastName" class="form-control" />
+                            <span asp-validation-for="StudentPersonal.LastName" class="text-danger"></span>
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="StudentAddress.Address1" class="control-label"></label>
+                            <input asp-for="StudentAddress.Address1" class="form-control" />
+                            <span asp-validation-for="StudentAddress.Address1" class="text-danger"></span>
+                        </div>
+                        <div class="form-group" style="display:none;">
+                            <label asp-for="StudentAddress.AddressID" class="control-label"></label>
+                            <input asp-for="StudentAddress.AddressID" class="form-control" />
+                            <span asp-validation-for="StudentAddress.AddressID" class="text-danger"></span>
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="StudentAddress.City" class="control-label"></label>
+                            <input asp-for="StudentAddress.City" class="form-control" />
+                            <span asp-validation-for="StudentAddress.City" class="text-danger"></span>
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="StudentAddress.State" class="control-label"></label>
+                            <input asp-for="StudentAddress.State" class="form-control" />
+                            <span asp-validation-for="StudentAddress.State" class="text-danger"></span>
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="StudentAddress.PinCode" class="control-label"></label>
+                            <input type="number" asp-for="StudentAddress.PinCode" class="form-control" />
+                            <span asp-validation-for="StudentAddress.PinCode" class="text-danger"></span>
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="StudentPersonal.DateOfBirth" class="control-label"></label>
+                            <input type="date" asp-for="StudentPersonal.DateOfBirth" class="form-control" />
+                            <span asp-validation-for="StudentPersonal.DateOfBirth" class="text-danger"></span>
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="StudentPersonal.Gender" class="control-label"></label>
+                            <input asp-for="StudentPersonal.Gender" class="form-control" />
+                            <span asp-validation-for="StudentPersonal.Gender" class="text-danger"></span>
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="StudentPersonal.MobileNumber" class="control-label"></label>
+                            <input type="number" asp-for="StudentPersonal.MobileNumber" class="form-control" />
+                            <span asp-validation-for="StudentPersonal.MobileNumber" class="text-danger"></span>
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="StudentPersonal.EmailID" class="control-label"></label>
+                            <input asp-for="StudentPersonal.EmailID" class="form-control" />
+                            <span asp-validation-for="StudentPersonal.EmailID" class="text-danger"></span>
+                        </div>
+                        <div class="form-group" style="display:none;">
+                            <label asp-for="StudentPersonal.StudentID" class="control-label"></label>
+                            <input asp-for="StudentPersonal.StudentID" class="form-control" />
+                            <span asp-validation-for="StudentPersonal.StudentID" class="text-danger"></span>
+                        </div>
+                    </fieldset>
+                </div>
+            </div>
+            <div class="card mb-3">
+                <div class="card-header" style="color: #d5202a;font-weight:bold;">
+                    Educatiobnal Details
+                </div>
+                <div class="card-body">
+                    <fieldset>
+                        <div class="form-group">
+                            <label asp-for="StudentEducation[0].Institution" class="control-label"></label>
+                            <input asp-for="StudentEducation[0].Institution" class="form-control" />
+                            <span asp-validation-for="StudentEducation[0].Institution" class="text-danger"></span>
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="StudentEducation[0].Degree" class="control-label"></label>
+                            <input asp-for="StudentEducation[0].Degree" class="form-control" />
+                            <span asp-validation-for="StudentEducation[0].Degree" class="text-danger"></span>
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="StudentEducation[0].Major" class="control-label"></label>
+                            <input asp-for="StudentEducation[0].Major" class="form-control" />
+                            <span asp-validation-for="StudentEducation[0].Major" class="text-danger"></span>
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="StudentEducation[0].StartDate" class="control-label"></label>
+                            <input type="date" asp-for="StudentEducation[0].StartDate" class="form-control" />
+                            <span asp-validation-for="StudentEducation[0].StartDate" class="text-danger"></span>
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="StudentEducation[0].CompletionDate" class="control-label"></label>
+                            <input type="date" asp-for="StudentEducation[0].CompletionDate" class="form-control" />
+                            <span asp-validation-for="StudentEducation[0].CompletionDate" class="text-danger"></span>
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="StudentEducation[0].CertificateDiploma" class="control-label"></label>
+                            <input type="date" asp-for="StudentEducation[0].CertificateDiploma" class="form-control" />
+                            <span asp-validation-for="StudentEducation[0].CertificateDiploma" class="text-danger"></span>
+                        </div>
+                        @*<div class="form-group" style="display:none;">
+                            <label asp-for="StudentEducation[0].ID" class="control-label"></label>
+                            <input type="date" asp-for="StudentEducation[0].ID" class="form-control" />
+                            <span asp-validation-for="StudentEducation[0].ID" class="text-danger"></span>
+                        </div>*@
+                        <div class="form-group" style="display:none;">
+                            <label asp-for="StudentEducation[0].EducationId" class="control-label"></label>
+                            <input type="date" asp-for="StudentEducation[0].EducationId" class="form-control" />
+                            <span asp-validation-for="StudentEducation[0].EducationId" class="text-danger"></span>
+                        </div>
+                    </fieldset>
+                </div>
+            </div>
+            <div class="card mb-3">
+                <div class="card-header" style="color: #d5202a;font-weight:bold;">
+                    Work Experience
+                </div>
+                <div class="card-body">
+                    <fieldset>                        
+                        <div class="form-group">
+                            <label asp-for="StudentExperience[0].CompanyName" class="control-label"></label>
+                            <input asp-for="StudentExperience[0].CompanyName" class="form-control" />
+                            <span asp-validation-for="StudentExperience[0].CompanyName" class="text-danger"></span>
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="StudentExperience[0].JobTitle" class="control-label"></label>
+                            <input asp-for="StudentExperience[0].JobTitle" class="form-control" />
+                            <span asp-validation-for="StudentExperience[0].JobTitle" class="text-danger"></span>
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="StudentExperience[0].JobDescription" class="control-label"></label>
+                            <input asp-for="StudentExperience[0].JobDescription" class="form-control" />
+                            <span asp-validation-for="StudentExperience[0].JobDescription" class="text-danger"></span>
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="StudentExperience[0].StartDate" class="control-label"></label>
+                            <input type="date" asp-for="StudentExperience[0].StartDate" class="form-control" />
+                            <span asp-validation-for="StudentExperience[0].StartDate" class="text-danger"></span>
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="StudentExperience[0].EndDate" class="control-label"></label>
+                            <input type="date" asp-for="StudentExperience[0].EndDate" class="form-control" />
+                            <span asp-validation-for="StudentExperience[0].EndDate" class="text-danger"></span>
+                        </div>
+                    </fieldset>
+                </div>
+            </div>
+            
+            <button type="submit" class="btn btn-danger"> Save Student </button>
+        </form>
+    </div>
+</div>

@@ -1,0 +1,236 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@model CudJobUI.ViewModels.DashboardViewModel
+@{
+    ViewData["Title"] = "Admin";
+    var XLabels = Newtonsoft.Json.JsonConvert.SerializeObject(Model.CompanyRatio.Select(x => x.DimensionOne).ToList());
+    var YValues = Newtonsoft.Json.JsonConvert.SerializeObject(Model.CompanyRatio.Select(x => x.Quantity).ToList());
+}
+
+<br />
+<div class="container-fluid p-4">
+
+
+    <div class="card mt-3">
+        <div class="card-body">
+            <div class="col col-12 text-center mb-3">
+                <h3 class="card-title mb-4">Welcome to the admin portal of Career Portal</h3>
+                <p class="card-text">You can see all the Student, company and jobs related details here.</p>
+                <p>More Functionality Like Charts and overall dynamics of data will be build in next versions...</p>
+            </div>
+            <div class="row">
+                <div class="col col-12 col-md-4 mb-3 ">
+                    <div class="card bg-light mb-3">
+                        <div class="card-header"><span>Student</span><span class="float-end text-lg-end"><i class="fas fa-user-graduate me-2"></i></span></div>
+                        <div class="card-body">
+                            <div class="mb-2">
+                                <h5 class="card-title text-primary"><span style="font-size:30px;">@Model.DboardKeyDetails.StudentCount</span><span class="float-end">Students Count</span></h5>
+                                <div class="progress">
+                                    <div class="progress-bar bg-warning" role="progressbar" aria-label="Warning example" style="width: 100%" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100"></div>
+                                </div>
+                            </div>
+                            <div>
+                                <p class="card-title"><span>@Model.DboardKeyDetails.HiredStudentCount</span><span class="float-end">Hired Students(@ViewBag.HiredStudentPercent%) </span></p>
+                                <div class="progress">
+                                    <div class="progress-bar bg-success" role="progressbar" aria-label="Warning example" style="width: @ViewBag.HiredStudentPercent%" aria-valuenow="@ViewBag.HiredStudentPercent" aria-valuemin="0" aria-valuemax="100"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col col-12 col-md-4 mb-3">
+                    <div class="card bg-light mb-3">
+                        <div class="card-header"><span>Opportunities</span><span class="float-end"><i class="fas fa-user-md me-2"></i></span></div>
+                        <div class="card-body">
+                            <div class="mb-2">
+                                <h5 class="card-title text-primary"><span style="font-size:30px;">@Model.DboardKeyDetails.JobCount</span><span class="float-end">Opportunities Posted</span></h5>
+                                <div class="progress">
+                                    <div class="progress-bar bg-primary" role="progressbar" aria-label="Warning example" style="width: 100%" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"></div>
+                                </div>
+                            </div>
+                            <div>
+                                <p class="card-title"><span>@Model.DboardKeyDetails.ExpiredjobCount</span><span class="float-end">Expired Opportunities(@ViewBag.ExperiredJobPercent%) </span></p>
+                                <div class="progress">
+                                    <div class="progress-bar bg-danger" role="progressbar" aria-label="Warning example" style="width: @ViewBag.ExperiredJobPercent%" aria-valuenow="@ViewBag.ExperiredJobPercent" aria-valuemin="0" aria-valuemax="100"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col col-12 col-md-4 mb-3">
+                    <div class="card text-dark bg-light mb-3">
+                        <div class="card-header"><span>Companies</span><span class="float-end"><i class="fas fa-building me-2"></i></span></div>
+                        <div class="card-body">
+                            <div class="mb-2">
+                                <h5 class="card-title text-primary"><span style="font-size:30px;">@Model.DboardKeyDetails.CompanyCount</span><span class="float-end">Companies Enrolled</span></h5>
+                                <div class="progress">
+                                    <div class="progress-bar bg-success" role="progressbar" aria-label="Warning example" style="width: 100%" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"></div>
+                                </div>
+                            </div>
+                            <div>
+                                <p class="card-title"><span>@Model.DboardKeyDetails.RejectedCompanyCount</span><span class="float-end">Rejected Companies(@ViewBag.rejectedcompanypercent%) </span></p>
+                                <div class="progress">
+                                    <div class="progress-bar bg-warning" role="progressbar" aria-label="Warning example" style="width: @ViewBag.rejectedcompanypercent%" aria-valuenow="@ViewBag.rejectedcompanypercent" aria-valuemin="0" aria-valuemax="100"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                @*<div class="col col-12 col-md-3 mb-3">
+                        <div class="card text-white bg-dark mb-3">
+                            <div class="card-header">Admin</div>
+                            <div class="card-body">
+                                <h5 class="card-title">Admin Setting</h5>
+                                <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                            </div>
+                        </div>
+                    </div>*@
+            </div>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="card">
+                        <div class="card-header">
+                            Representation of student enrollment over the year
+                        </div>
+                        <div class="card-body">
+                            <canvas class="my-4" style="height:300px;" id="bar"></canvas>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="card">
+                        <div class="card-header">
+                            Representation of student enrollment over the year
+                        </div>
+                        <div class="card-body">
+                            <canvas class="my-4" style="height:300px;" id="pie"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section scripts{
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.0/chart.min.js"></script>
+    <script type="text/javascript">
+
+        $(function () {
+
+            loadChart();
+            loadpieChart();
+
+        });
+
+        function loadChart() {
+            var chart = document.getElementById('bar').getContext('2d');
+
+            var data = {
+                labels: @Html.Raw(XLabels),
+                datasets: [{
+                    label: "Bar Chart",
+                    backgroundColor: [
+                        'rgba(255, 99, 132, 0.2)',
+                    ],
+                    borderColor: [
+                        'rgba(255,99,132,1)',
+                    ],
+                    borderWidth: 1,
+                    data: @Html.Raw(YValues)
+                }]
+            };
+
+            var options = {
+                maintainAspectRatio: false,
+                scales: {
+                    yAxes: [{
+                        ticks: {
+                            min: 0,
+                            beginAtZero: true
+                        },
+                        gridLines: {
+                            display: true,
+                            color: "rgba(255,99,164,0.2)"
+                        }
+                    }],
+                    xAxes: [{
+                        ticks: {
+                            min: 0,
+                            beginAtZero: true
+                        },
+                        gridLines: {
+                            display: false
+                        }
+                    }]
+                }
+            };
+
+            var myChart = new Chart(chart, {
+                options: options,
+                data: data,
+                type: 'bar'
+
+            });
+        }
+
+        function loadpieChart() {
+            var piechart = document.getElementById('pie').getContext('2d');
+
+            var data = {
+                labels: ['Jan', 'Feb', 'March', 'April'],
+                datasets: [{
+                    label: "Bar Chart",
+                    backgroundColor: [
+                        'rgba(255, 99, 132, 0.2)',
+                        'rgba(0, 255, 0)',
+                        'rgba(255, 159, 64, 0.2)',
+                        'rgba(153, 102, 255, 0.2)'
+                    ],
+                    borderColor: [
+                        'rgba(255,99,132,1)',
+                    ],
+                    borderWidth: 1,
+                    data: [100, 200, 300, 100]
+                }]
+            };
+
+            var options = {
+                maintainAspectRatio: false,
+                scales: {
+                    yAxes: [{
+                        ticks: {
+                            min: 0,
+                            beginAtZero: true
+                        },
+                        gridLines: {
+                            display: true,
+                            color: "rgba(255,99,164,0.2)"
+                        }
+                    }],
+                    xAxes: [{
+                        ticks: {
+                            min: 0,
+                            beginAtZero: true
+                        },
+                        gridLines: {
+                            display: false
+                        }
+                    }]
+                }
+            };
+
+            var myChart = new Chart(piechart, {
+                options: options,
+                data: data,
+                type: 'pie'
+
+            });
+        }
+
+
+    </script>
+
+}
+

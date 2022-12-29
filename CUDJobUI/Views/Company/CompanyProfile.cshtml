@@ -1,0 +1,57 @@
+﻿@model CudJobUI.ViewModels.CompanyViewModel
+@{
+    ViewData["Title"] = "CompanyProfile";
+}
+<section>
+    <div class="card mb-3">
+        <div class="row g-0">
+            <div class="col-md-4">
+                <img src="~/Images/download.png" class="img-thumbnail" alt="...">
+            </div>
+            <div class="col-md-8">
+                <div class="card-body">
+                    <h5 class="card-title">Comapny Name Will be added</h5>
+                    <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
+                    <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div>
+        <div class="card">
+
+        </div>
+    </div>
+</section>
+<h1>CompanyProfile</h1>
+<div class="container stcontainer">
+    <div>
+        <dl class="row">
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.Companies.CompanyName)
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.Companies.CompanyName)
+            </dd>
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.Companies.Website)
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.Companies.Website)
+            </dd>
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.Companies.CategoryID)
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.Companies.CategoryID)
+            </dd>
+        </dl>
+    </div>
+    <div>
+        <fieldset>
+            <legend>Posted Jobs</legend>
+            
+        </fieldset>
+    </div>
+</div>
+

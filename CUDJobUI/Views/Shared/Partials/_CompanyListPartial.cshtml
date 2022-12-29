@@ -1,0 +1,115 @@
+﻿@model IEnumerable<CudJobUI.ViewModels.CompanyViewModel>
+@{
+    var showb = (bool)ViewData["ShowButtons"];
+}
+
+<div class="container-fluid p-4">
+    <div class="card">
+        <div class="card-header">
+            <h4 class="Sectiontittle shortheading">Companies List</h4>
+        </div>
+        <div class="card-body">
+            <div class="col col-12">
+                <table id="example" class="table table-striped table-bordered text-center tablelist">
+                    <thead>
+                        <tr>
+                            <th>
+                                @Html.DisplayNameFor(model => model.Companies.CompanyName)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.Companies.Website)
+                            </th>
+                            <th>Sector</th>
+                            <th>Active Vacancies</th>
+                            <th>
+                                Industry
+                            </th>
+                            <th>Status</th>
+                            @if (showb)
+                            {
+                                <th></th>
+                            }
+                            @*else
+                                {
+                                    <th>Posted opportunities</th>
+                                }*@
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model)
+                        {
+                            <tr>
+                                @if (showb)
+                                {
+                                    <td style="width:20%;">
+                                        @Html.ActionLink(item.Companies.CompanyName, "CompanyDetails", new { id = item.Companies.CompanyID })
+                                    </td>
+                                }
+                                else
+                                {
+                                    <td style="width:20%;">
+                                        @*@Html.ActionLink(item.Companies.CompanyName, "Details", new { id = item.Companies.CompanyID })*@
+
+                                        <a href="@Url.Action("JobsforStudentsByCompany", "Job", new { id = item.Companies.CompanyID })" class="text-danger">
+                                            <span><i class="fas fa-user-md me-2"></i></span> <span>@item.Companies.CompanyName</span>
+                                        </a>
+                                    </td>
+                                }
+                                <td style="width:25%;">
+                                    @Html.DisplayFor(modelItem => item.Companies.Website)
+                                </td>
+                                <td> @Html.DisplayFor(modelItem => item.CompanySectors.Category)</td>
+                                <td></td>
+                                <td style="width:30%;">
+                                    @Html.DisplayFor(modelItem => item.Companycategory.Category)
+                                </td>
+                                <td style="width:10%;">
+                                    @if (item.Companies.StatusIDs == 1)
+                                    {
+                                        @*@Html.ActionLink("Approve", "Approve", new { id = item.Companies.CompanyID })*@
+                                        <p>Not Opened</p>
+
+                                    }
+                                    else if (item.Companies.StatusIDs == 2)
+                                    {
+                                        <p>Approved</p>
+                                    }
+                                    else if (item.Companies.StatusIDs == 3)
+                                    {
+                                        <p>Rejected</p>
+                                    }
+                                    else
+                                    {
+                                        <p>No Status Updated</p>
+                                    }
+                                </td>
+                                @if (showb)
+                                {
+                                    <td style="width:15%;">
+                                        <a href="@Url.Action("Edit", "Company", new { id = item.Companies.CompanyID })" class="text-danger">
+                                            <span><i class="fa fa-pen"></i></span> <span>Edit</span>
+                                        </a><span class="mx-2">|</span>
+                                        <a href="@Url.Action("Delete", "Company", new { id = item.Companies.CompanyID })" class="text-danger">
+                                            <span><i class="fa fa-trash"></i></span> <span>Delete</span>
+                                        </a>
+                                    </td>
+                                }
+                                @*else
+                                    {
+                                        <td style="width:15%;">
+                                            <a href="@Url.Action("JobsforStudentsByCompany", "Job", new { id = item.Companies.CompanyID })" class="text-danger">
+                                                <span><i class="fas fa-user-md me-2"></i></span> <span>Opportunities</span>
+                                            </a>
+                                        </td>
+                                    }*@
+
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    
+</div>

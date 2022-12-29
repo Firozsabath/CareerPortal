@@ -1,0 +1,97 @@
+﻿@model IList<CudJobUI.ViewModels.Projects>
+@{
+    ViewData["Title"] = "EditProject";
+    Layout = null;
+}
+<div class="container">
+    <div class="container-fluid bg-transparent blue">
+        <h3>Edit Project</h3>
+    </div>
+    <form asp-action="EditProject" asp-route-id ="@Model[0].StudentID" onsubmit="return jQueryAjaxPost(this,'MyprofileProjects');">
+        <div class="card mb-3">
+            <div class="card-header" style="color: #d5202a;font-weight:bold;">
+                Projects Details
+            </div>
+            <div class="card-body">
+                @for (int i = 0; i < Model.Count; i++)
+                {
+                    <div class="outer_div">
+                        <div class="row">
+                            <div class="col-lg-4">
+                                <div class="form-group">
+                                    <label asp-for="@Model[i].Tittle" class="control-label"></label>
+                                    <input asp-for="@Model[i].Tittle" class="form-control rsstittle" />
+                                </div>
+                            </div>
+                            <div class="col-lg-4">
+                                <div class="form-group">
+                                    <label asp-for="@Model[i].Organisation" class="control-label"></label>
+                                    <input asp-for="@Model[i].Organisation" class="form-control rssorg" />
+                                </div>
+                            </div>
+                            <div class="col-lg-4">
+                                <div class="form-group">
+                                    <label asp-for="@Model[i].Role" class="control-label"></label>
+                                    <input asp-for="@Model[i].Role" class="form-control rssRole" />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-lg-6">
+                                <div class="form-group">
+                                    <label asp-for="@Model[i].Startdate" class="control-label"></label>
+                                    <input type="date" asp-for="@Model[i].Startdate" class="form-control rssstartdate" />
+                                </div>
+                            </div>
+                            <div class="col-lg-6">
+                                <div class="form-group">
+                                    <label asp-for="@Model[i].Enddate" class="control-label"></label>
+                                    <input type="date" asp-for="@Model[i].Enddate" class="form-control rssenddate" />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-lg-6">
+                                <div class="form-group">
+                                    <label asp-for="@Model[i].Outcome" class="control-label"></label>
+                                    <input asp-for="@Model[i].Outcome" class="form-control rssOutcome" />
+                                </div>
+                            </div>
+                            <div class="col-lg-6">
+                                <div class="form-group">
+                                    <label asp-for="@Model[i].Links" class="control-label"></label>
+                                    <input asp-for="@Model[i].Links" class="form-control rssLinks" />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <div class="form-group">
+                                    <label asp-for="@Model[i].Description" class="control-label"></label>
+                                    <textarea asp-for="@Model[i].Description" class="form-control rssDesc mytextarea" rows="8"></textarea>
+                                </div>
+                            </div>
+                        </div>
+                        <div style="display:none;">
+                            <div class="form-group">
+                                <label asp-for="@Model[i].StudentID" class="control-label"></label>
+                                <input asp-for="@Model[i].StudentID" class="form-control" />
+                                <span asp-validation-for="@Model[i].StudentID" class="text-danger"></span>
+                            </div>
+                            <div class="form-group">
+                                <label asp-for="@Model[i].PorjectID" class="control-label"></label>
+                                <input asp-for="@Model[i].PorjectID" class="form-control" />
+                                <span asp-validation-for="@Model[i].PorjectID" class="text-danger"></span>
+                            </div>
+                        </div>
+                    </div>
+                }
+            <div style="padding: 10px;float: right;">
+                <button type="submit" class="btn btn-danger"> Save Projects </button>
+            </div>
+            </div>
+        </div>
+    </form>
+    <hr />
+</div>
+

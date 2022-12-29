@@ -1,0 +1,307 @@
+﻿@model CudJobUI.ViewModels.StudentProfile
+@{
+    ViewData["Title"] = "StudentCreate";
+    Layout = "~/Views/Shared/_LayoutLogin.cshtml";
+}
+
+<style>
+    .container-cust{
+        max-width: 1450px;
+        margin:auto;
+    }
+</style>
+
+<link href="~/css/virtual-select.min.css" rel="stylesheet" />
+
+<div class="container-cust bg-white mt-5 p-3">
+    <div class="pt-5">
+        <h3 class="shortheading profileheader mb-4">Student Profile</h3>
+    </div>
+
+    <div class="col col-12">
+        <form asp-action="Create" asp-controller="Student" method="post" enctype="multipart/form-data" id="StudentDetails" class="needs-validation" novalidate>
+            <div class="card mb-3">
+                <div class="card-header" style="color: #d5202a;font-weight:bold;">
+                    Student Personal Information
+                </div>
+                <div class="card-body">
+                    <div class="outer_div mb-3">
+                        <fieldset>
+                            <div class="row">
+                                <div class="col-lg-4">
+                                    <div class="form-group">
+                                        <label asp-for="StudentPersonal.FirstName" class="control-label"></label>
+                                        <input asp-for="StudentPersonal.FirstName" class="form-control" required readonly />
+                                        <div class="invalid-feedback">Please provide a First Name.</div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-4">
+                                    <div class="form-group">
+                                        <label asp-for="StudentPersonal.LastName" class="control-label"></label>
+                                        <input asp-for="StudentPersonal.LastName" class="form-control" required readonly />
+                                        <div class="invalid-feedback">Please provide a Last Name.</div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-4">
+                                    <div class="form-group">
+                                        <label asp-for="StudentPersonal.EmailID" class="control-label"></label>
+                                        <input asp-for="StudentPersonal.EmailID" class="form-control" required readonly />
+                                        <div class="invalid-feedback">Email ID Number is Required.</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-lg-4">
+                                    <div class="form-group">
+                                        <label asp-for="StudentPersonal.DateOfBirth" class="control-label"></label>
+                                        <input type="date" asp-for="StudentPersonal.DateOfBirth" class="form-control" required readonly />
+                                        <div class="invalid-feedback">Date Of Birth is Required.</div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-4">
+                                    <div class="form-group">
+                                        <label asp-for="StudentPersonal.Gender" class="control-label"></label>
+                                        <select asp-for="StudentPersonal.Gender" required class="form-control">
+                                            <option value="">Select Gender</option>
+                                            <option value="Male">Male</option>
+                                            <option value="Female">Female</option>
+                                        </select>
+                                        <div class="invalid-feedback">Gender is Required.</div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-4">
+                                    <div class="form-group">
+                                        <label asp-for="StudentPersonal.MobileNumber" class="control-label"></label>
+                                        <input type="text" asp-for="StudentPersonal.MobileNumber" class="form-control" required readonly />
+                                        <div class="invalid-feedback">Mobile Number is Required.</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                            </div>
+                            <div class="row">
+                                <div class="col-lg-4">
+                                    <div class="form-group">
+                                        <label asp-for="StudentAddress.State" class="control-label"></label>
+                                        <input asp-for="StudentAddress.State" class="form-control" required />
+                                        <div class="invalid-feedback">State is Required.</div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-4">
+                                    <div class="form-group">
+                                        <label asp-for="StudentAddress.CountryID" class="control-label"></label>
+                                        <select asp-for="StudentAddress.CountryID" required class="form-control" asp-items="@(new SelectList(ViewBag.message, "CountryID", "Description"))"></select>
+                                        <div class="invalid-feedback">Country is Required.</div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-4">
+                                    <div class="form-group">
+                                        <label asp-for="StudentPersonal.MobileNumber2" class="control-label"></label>
+                                        <input asp-for="StudentPersonal.MobileNumber2" class="form-control" />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-lg-4" style="display:none;">
+                                    <div class="form-group">
+                                        <label asp-for="StudentAddress.PinCode" class="control-label"></label>
+                                        <input type="number" asp-for="StudentAddress.PinCode" class="form-control" />
+                                        <span asp-validation-for="StudentAddress.PinCode" class="text-danger"></span>
+                                    </div>
+                                </div>
+                                <div class="col-lg-4">
+                                    <div class="form-group">
+                                        <label asp-for="StudentPersonal.EmailID2" class="control-label"></label>
+                                        <input asp-for="StudentPersonal.EmailID2" class="form-control" />
+                                    </div>
+                                </div>
+                                <div class="col-lg-4">
+                                    <div class="form-group">
+                                        <label asp-for="StudentAddress.City" class="control-label"></label>
+                                        <input asp-for="StudentAddress.City" class="form-control" required />
+                                        <div class="invalid-feedback">City is Required.</div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-4">
+                                    <div class="form-group">
+                                        <label asp-for="StudentPersonal.ProgramID" class="control-label"></label>
+                                        <select asp-for="StudentPersonal.ProgramID" required class="form-control" asp-items="@(new SelectList(ViewBag.Programs, "ProgramID", "ProgramName"))"></select>
+                                        <div class="invalid-feedback">Country is Required.</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </fieldset>
+                    </div>
+                </div>
+            </div>
+            <div class="card mb-3">
+                <div class="card-header" style="color: #d5202a;font-weight:bold;">
+                    Summary
+                </div>
+                <div class="card-body">
+                    <div class="mb-3">
+                        <label for="formFile" class="form-label">
+                            Write your summary
+                            <span class="d-inline-block" tabindex="0" data-toggle="tooltip" title="Write a brief Objective (if no experience) or a Profile statement (if you have experience) - in 1 or 4 lines - at the top of your resume to summarize and highlight relevant  Skills/Professional or Volunteering Experiences/Accomplishments/Knowledge/Education. Show the employer, at a glance, why you’re qualiﬁed for the job and what do you want from them.
+
+                                         Example of Objective: Motivated high school student experienced in serving others. Has proven customer service, organization, and communication skills. Familiar with best practices for serving and willing to learn.
+
+                                         Example of Profile: Honor roll high school student with an aptitude for customer service. Has experience working for retailers, such as Old Navy and Gap. Experienced using a variety of point of sale systems and price checkers. Eager to develop management skills.">
+                                <i class="fa fa-question-circle" aria-hidden="true"></i>
+                            </span>
+                        </label>
+                        @*<textarea asp-for="StudentPersonal.Objective" class="form-control" required></textarea>*@
+                        <textarea asp-for="StudentPersonal.Objective" class="form-control" maxlength="150" rows="4" required></textarea>
+                        <div class="invalid-feedback">Please provide an Objective.</div>
+                    </div>
+                </div>
+            </div>
+            <div class="card mb-3">
+                <div class="card-header" style="color: #d5202a;font-weight:bold;">
+                    <div class="row">
+                        <div class="col-md-3">
+                            Education
+                        </div>
+                        <div class="col-md-9">
+                            <p><button type="button" class="btn btn-info float-right" id="Btn_Eduadd">Add</button></p>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <div class="Education_wrapper rssRow outer_div mb-3">
+                        <span class="removeEducation" style="display:none;"><i class="fa fa-times" style="color:red;cursor:pointer;">x Remove</i></span>
+                        <fieldset>
+                            <div class="row">
+                                <div class="col-lg-12 currentedudv">
+                                    <div class="form-group">
+                                        <div class="form-check form-switch ml-2">
+                                            <input class="form-check-input currentlyedu" type="checkbox" asp-for="StudentEducation[0].current">
+                                            <label class="form-check-label" asp-for="StudentEducation[0].current">Current Education</label>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-4">
+                                    <div class="form-group">
+                                        <label asp-for="StudentEducation[0].Institution" class="control-label"></label>
+                                        <input asp-for="StudentEducation[0].Institution" data-val="true" class="form-control rssInstitution" required />
+                                        <div class="invalid-feedback">Institution is Required.</div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-4">
+                                    <div class="form-group">
+                                        <label asp-for="StudentEducation[0].Degree" class="control-label"></label>
+                                        <input asp-for="StudentEducation[0].Degree" data-val="true" class="form-control rssDegree" required />
+                                        <div class="invalid-feedback">Degree is Required.</div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-4">
+                                    <div class="form-group">
+                                        <label asp-for="StudentEducation[0].Major" class="control-label"></label>
+                                        <input asp-for="StudentEducation[0].Major" data-val="true" class="form-control rssMajor" required />
+                                        <div class="invalid-feedback">Major is Required.</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-lg-4" style="display:none;">
+                                    <div class="form-group">
+                                        <label asp-for="StudentEducation[0].CompletionPercent" class="control-label"></label>
+                                        <input asp-for="StudentEducation[0].CompletionPercent" class="form-control rssMajor" />
+                                        <span asp-validation-for="StudentEducation[0].CompletionPercent" class="text-danger"></span>
+                                    </div>
+                                </div>
+                                <div class="col-lg-4">
+                                    <div class="form-group">
+                                        <label asp-for="StudentEducation[0].StartDate" class="control-label"></label>
+                                        <input type="date" asp-for="StudentEducation[0].StartDate" class="form-control rssEduStartdate" />
+                                        <span asp-validation-for="StudentEducation[0].StartDate" class="text-danger"></span>
+                                    </div>
+                                </div>
+                                <div class="col-lg-4">
+                                    <div class="form-group">
+                                        <label asp-for="StudentEducation[0].CompletionDate" class="control-label"></label>
+                                        <input type="date" asp-for="StudentEducation[0].CompletionDate" class="form-control rssEduEnddate" />
+                                        <span asp-validation-for="StudentEducation[0].CompletionDate" class="text-danger"></span>
+                                    </div>
+                                </div>
+                            </div>
+                        </fieldset>
+                    </div>
+                    <div class="Education_WrapperDynamic"></div>
+                </div>
+            </div>
+
+            <div class="card mb-3">
+                <div class="card-header" style="color: #d5202a;font-weight:bold;">
+                    <div class="row">
+                        <div class="col-lg-3">
+                            <p>Work Availability</p>
+                        </div>
+                        <div class="col-lg-9">
+                        </div>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <div class="WorkAvail_Wrapper rssRow outer_div mb-3">
+                        <span class="removeWorkAvail float-right" style="display:none;"><i class="fa fa-times" style="color:red;cursor:pointer;"> Remove</i></span>
+                        <div class="row">
+                            <div class="col-lg-6">
+                                <label asp-for="StudentWorkAvailability[0].DaysPerWeekID" class="control-label"></label>
+                                <select asp-for="StudentWorkAvailability[0].DaysPerWeekID" required class="form-control rssDaysPerWeek" asp-items="@(new SelectList(ViewBag.DaysOption, "DaysPerWeekID", "Options"))"></select>
+                            </div>
+                            <div class="col-lg-6">
+                                <label asp-for="StudentWorkAvailability[0].HoursPerWeekID" class="control-label"></label>
+                                <select asp-for="StudentWorkAvailability[0].HoursPerWeekID" required class="form-control rssHoursPerWeek" asp-items="@(new SelectList(ViewBag.HoursOption, "HoursPerWeekID", "Options"))"></select>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="card-footer">
+                    <div class="row">
+                        <div class="col-lg-10"></div>
+                        <div class="col-lg-2">
+                            <input asp-for="StudentPersonal.CudStudentID" class="form-control rsslanguageName" hidden />
+                            @*<button type="submit" id="CreateProfile" class="btn btn-danger btn-block"> Create Profile </button>*@
+                            <button id="CreateProfile" class="btn btn-danger btn-block"> Create Profile </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts{
+
+    <script type="text/javascript">
+        (function () {
+            'use strict';
+            window.addEventListener('load', function () {
+                // Fetch all the forms we want to apply custom Bootstrap validation styles to
+                var forms = document.getElementsByClassName('needs-validation');
+                // Loop over them and prevent submission
+                var validation = Array.prototype.filter.call(forms, function (form) {
+                    form.addEventListener('submit', function (event) {
+                        if (form.checkValidity() === false) {
+                            event.preventDefault();
+                            event.stopPropagation();
+                        }
+                        form.classList.add('was-validated');
+                    }, false);
+                });
+            }, false);
+
+        })();
+        $(document).ready(function () {
+             $("#CreateProfile").click(function () {
+                var $myForm = $('#StudentDetails');
+                if (!$myForm[0].checkValidity()) {
+
+                    $myForm.find(':submit').click();
+                }                
+           });
+        });
+    </script>
+
+ }

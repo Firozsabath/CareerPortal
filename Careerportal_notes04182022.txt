@@ -1,0 +1,29 @@
+1.Multiple select option for skills.
+2.add a text in the front screen noticing the student.
+3.protfolio description.
+4.Vounteerig experience:
+	4.1 Remove currently Employed
+	4.2 Job Description -> description.
+	4.3 Remove description text
+
+5.Capabilities to add and update description text
+6.Projects
+	6.1 Remove start and end date and keep one date in common
+	6.2 Keep month and year only from the date.
+
+7. Add sterick to the madatory sections.
+8. Work availability -> remove 6+ years from the 
+
+
+Companies:
+
+1.Remove pin code from company creation page.
+2.Company contact details -> Company Contact person details.
+3.Interview Status -> Company STatus 
+
+4.Company Status: Approved, rejected and pending.
+5. Company Status change in company list as well.
+
+
+
+

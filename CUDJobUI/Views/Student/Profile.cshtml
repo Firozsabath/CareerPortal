@@ -1,0 +1,295 @@
+﻿@model CudJobUI.ViewModels.StudentProfile
+
+@{
+    ViewData["Title"] = "Profile";
+    Layout = "_LayoutStudent";
+}
+<style type="text/css">
+    .Section-links {
+        color: #d5202a;
+        font-weight: bold;
+        cursor: pointer;
+    }
+
+    .nav-tabs .nav-link.active {
+        background-color: #414c55;
+        color: #ffffff;
+        border: 3px solid #414c55;
+    }
+
+    .nav-tabs .nav-link {
+        color: #414c55;
+        border: 3px solid #414c55;
+        margin-right: 0.5rem;
+    }
+</style>
+<br />
+<div class="container-fluid px-5"> 
+    @*<form method="post" enctype="multipart/form-data">*@
+    @*Model Dialogue box for image upload*@
+    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Profile Pic</h5>
+                    <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form id="form" name="form" asp-action="UploadFilesAjax" asp-controller="Student" enctype="multipart/form-data" method="post">
+                        <div class="buttons">
+                            <div class="upload-button">
+                                <p class="text-muted" style="font-size:11px;">Maximum upload file size: 3MB. File types allowed: jpg, jpeg, gif only.</p>
+                                <div class="label mb-3">Update Your Profile Pic</div>
+                                <input id="files" name="files" type="file" size="1" multiple accept="image/x-png,image/gif,image/jpeg" />
+                            </div>
+                        </div>
+                        <input type="hidden" id="Studentid" name="Studentid" value="@Model.StudentPersonal.StudentID" />
+                        <input type="hidden" id="UploadType" name="UploadType" value="Profilepic" />
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="button" id="uploadProfilepic" class="btn btn-primary">Save changes</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" id="exampleModal2" tabindex="-1" role="dialog" aria-labelledby="exampleModal2Label" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModal2Label">Upload Resume</h5>
+                    <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form id="form" name="form" asp-action="UploadFilesAjax" asp-controller="Student" enctype="multipart/form-data" method="post">
+                        <div class="buttons">
+                            <div class="upload-button">
+                                <p class="text-muted" style="font-size:11px;">Maximum upload file size: 3MB. File types allowed: PDF only.</p>
+                                <div class="label mb-3">Update Your Resume</div>
+                                <input id="fileResume" name="fileResume" type="file" size="1" multiple />
+                            </div>
+                        </div>
+                        <input type="hidden" id="Studentid" name="Studentid" value="@Model.StudentPersonal.StudentID" />
+                        <input type="hidden" id="UploadTypeR" name="UploadTypeR" value="Resume" />
+                        @*<button type="button" id="uploadProfilepic" class="btn btn-primary">Save changes</button>*@
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="button" id="uploadResume" class="btn btn-primary">Save changes</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    @*Dialogue box Ends here*@
+    @*</form>*@
+
+    <div class="row">
+        @*<aside class="col-lg-4">
+                <div class="card" style="width: 22rem;">
+                    <div class="card-body">
+                        <h5 class="card-title">Your Profile</h5>
+                        <div class="progressbar">
+                            progress bar
+                            <div id="Onlyhovershow">
+                                <p class="card-text">Contents will be updated shows the completed percentage of profile.</p>
+                                <div class="progress">
+                                    <div class="progress-bar" role="progressbar" style="width: 25%;" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">25%</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <ul class="list-group list-group-flush">
+                        <li class="list-group-item"><a href="#MyProfilePersonal" class="card-link">Personal Info</a></li>
+                        <li class="list-group-item"><a href="#MyprofileEducation" class="card-link">Educational Info</a></li>
+                        <li class="list-group-item"><a href="#MyprofileExperience" class="card-link">Experience Info</a></li>
+                        <li class="list-group-item"><a href="#MyProfileMembership" class="card-link">Memberships</a></li>
+                        <li class="list-group-item"><a href="#MyprofileProjects" class="card-link">Projects</a></li>
+                        <li class="list-group-item"><a href="#MyprofileAwards" class="card-link">Awards</a></li>
+                        <li class="list-group-item"><a href="#Myprofilelanguages" class="card-link">Languages</a></li>
+                    </ul>
+                </div>
+            </aside>*@
+        <section>
+            <ul class="nav nav-tabs mb-3">
+                <li class="nav-item">
+                    <a class="nav-link active mb-3" data-bs-toggle="tab" href="#MyProfilePersonal"><i class="fas fa-user-check me-2"></i> Personal Info</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link mb-3" data-bs-toggle="tab" href="#MyprofileEducation"><i class="fas fa-university me-2"></i> Educational Info</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link mb-3" data-bs-toggle="tab" href="#MyprofileExperience"><i class="fas fa-briefcase me-2"></i> Experience Info</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link mb-3" data-bs-toggle="tab" href="#MyProfileMembership"><i class="far fa-id-card me-2"></i> Memberships</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link mb-3" data-bs-toggle="tab" href="#MyprofileProjects"><i class="fas fa-shield-virus me-2"></i> Projects</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link mb-3" data-bs-toggle="tab" href="#MyprofileAwards"><i class="fas fa-award me-2"></i> Awards</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link mb-3" data-bs-toggle="tab" href="#Myprofilelanguages"><i class="fas fa-language me-2"></i> Languages</a>
+                </li>
+            </ul>
+            <div class="tab-content">
+                <div class="tab-pane active min-vh-100" id="MyProfilePersonal">
+                    <partial name="~/Views/Shared/Partials/_StudentPersonalPartial.cshtml" model="Model" />
+                </div>
+                <div class="tab-pane min-vh-100" id="MyprofileEducation">
+                    <partial name="~/Views/Shared/Partials/_StudentEducationPartial.cshtml" model="Model" />
+                </div>
+                <div class="tab-pane min-vh-100" id="MyprofileExperience">
+                    <partial name="~/Views/Shared/Partials/_StudentExperiencePartial.cshtml" model="Model" />
+                </div>
+                <div class="tab-pane min-vh-100" id="MyProfileMembership">
+                    <partial name="~/Views/Shared/Partials/_StudentMembershipPartial.cshtml" model="Model" />
+                </div>
+                <div class="tab-pane min-vh-100" id="MyprofileProjects">
+                    <partial name="~/Views/Shared/Partials/_StudentProjectsPartial.cshtml" model="Model" />
+                </div>
+                <div class="tab-pane min-vh-100" id="MyprofileAwards">
+                    <partial name="~/Views/Shared/Partials/_StudentAwardsPartial.cshtml" model="Model" />
+                </div>
+                <div class="tab-pane min-vh-100" id="Myprofilelanguages">
+                    <partial name="~/Views/Shared/Partials/_StudentLanguagesPartial.cshtml" model="Model" />
+                </div>
+            </div>
+        </section>
+    </div>
+</div>
+@section Scripts{
+    <script type="text/javascript">
+
+        $(document).ready(function () {
+
+            $('#form-modal').on('shown.bs.modal', function () {
+
+                tinymce.remove('#form-modal textarea');
+
+                tinymce.init({
+                    selector: '.mytextarea',
+                    height: 380,
+                    menubar: false,
+                    plugins: [
+                        'advlist autolink lists link image charmap print preview anchor',
+                        'searchreplace visualblocks code fullscreen',
+                        'insertdatetime media table paste code help wordcount'
+                    ],
+                    toolbar: 'undo redo | formatselect | ' +
+                        'bold italic backcolor | alignleft aligncenter ' +
+                        'alignright alignjustify | bullist numlist outdent indent | ' +
+                        'removeformat | help',
+                    content_style: 'body { font-family:Helvetica,Arial,sans-serif; font-size:14px }'
+                });
+            });
+
+            $('#form-modal').on('hide.bs.modal', function () {                
+                tinymce.remove('#form-modal textarea');
+            });
+
+
+            $("#uploadProfilepic").click(function (evt) {
+                evt.preventDefault();
+                var fileupload = $("#files").get(0);
+                var files = fileupload.files;
+                var data = new FormData();
+                for (var i = 0; i < files.length; i++) {
+                    data.append(files[i].name, files[i]);
+                }
+                data.append("Stdid", $("#Studentid").val())
+                data.append("UploadType", $("#UploadType").val())
+
+                // You can update the jquery selector to use a css class if you want
+                //$("input[type='text'").each(function (x, y) {
+                //    data.append($(y).attr("name"), $(y).val());
+                //});
+                $.ajax({
+                    type: "post",
+                    url: '@Url.Action("UploadFilesAjax", "Student")',
+                    contentType: false,
+                    processData: false,
+                    data: data,
+                    success: function (res) {
+                        if (res.isValid) {                            
+                            $("#MyProfilePersonal").load("/Student/GetView", { id: $("#Studentid").val(), viewName: "MyProfilePersonal"})
+                            $("#exampleModal").modal("hide");
+                            $.notify("Uploaded Successfully", { globalPosition: 'top center', className: 'success' });
+                            //window.location.reload();
+                        }
+                        else {
+
+                        }
+                    },
+                    error: function () {
+                        alert("there was error uploading files!");
+                    }
+                });
+            });
+
+            $("#uploadResume").click(function (evt) {
+                evt.preventDefault();
+                var fileupload = $("#fileResume").get(0);
+                var files = fileupload.files;
+                var data = new FormData();
+                for (var i = 0; i < files.length; i++) {
+                    data.append(files[i].name, files[i]);
+                }
+                data.append("Stdid", $("#Studentid").val())
+                data.append("UploadType", $("#UploadTypeR").val())
+                // You can update the jquery selector to use a css class if you want
+                //$("input[type='text'").each(function (x, y) {
+                //    data.append($(y).attr("name"), $(y).val());
+                //});
+                $.ajax({
+                    type: "post",
+                    url: '@Url.Action("UploadFilesAjax", "Student")',
+                    contentType: false,
+                    processData: false,
+                    data: data,
+                    success: function (res) {
+                        if (res.isValid) {
+                            $("#MyProfilePersonal").load("/Student/GetView", { id: $("#Studentid").val(), viewName: "MyProfilePersonal" })
+                            $("#exampleModal2").modal("hide");
+                            $.notify("Uploaded Successfully", { globalPosition: 'top center', className: 'success' });
+                            //window.location.reload();
+                        }
+                        else {
+
+                        }
+                    },
+                    error: function () {
+                        alert("there was error uploading files!");
+                    }
+                });
+            });
+        });
+        function DeleteStudentModules(Source,id) {
+
+            if (confirm('Are you sure you want to Delete the record from ' + Source + '?')) {
+
+
+                $.post('@Url.Action("DeleteStudentModules", "Student")', { id: id, Modules: Source },
+                    function (returnedData) {
+                        console.log(returnedData);
+                        if (returnedData.isValid) {
+                            window.location.reload();
+                        }
+                    }).fail(function () {
+                        console.log("error");
+                    });
+
+            } else {
+                // Do nothing!
+                return false;
+            }
+        }
+    </script>
+}

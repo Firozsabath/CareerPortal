@@ -1,0 +1,61 @@
+﻿@model IEnumerable<CudJobUI.ViewModels.JobViewModel>
+
+    @{
+        ViewData["Title"] = "Jobs By Company";
+        var pagedList = (IPagedList)ViewBag.PageList;
+        Layout = "~/Views/Shared/_LayoutStudent.cshtml";
+    }
+    @using X.PagedList.Mvc.Core; @*import this so we get our HTML Helper*@
+    @using X.PagedList; @*import this so we can cast our list to IPagedList (only necessary because ViewBag is dynamic)*@
+    @using X.PagedList.Mvc.Core.Fluent
+<div class="container-fluid p-4">
+    <h4 class="m-3">Job Lists</h4>
+    <hr />
+
+    @Html.PagedListPager((IPagedList)ViewBag.PageList, page => Url.Action("Index", new { page }))
+    @if (pagedList.PageCount == 0)
+    {
+<div class="row text-center m-4">
+    <div class="col-md-3"></div>
+    <div class="col-md-6 alert alert-success">
+        <p class="font-weight-bold"> No current vacancy updated from the company</p>
+        <p class="font-weight-bold">Please click the links to search jobs.</p> <a href="@Url.Action("Index","Job")" class="btn btn-danger p-3">Job Search</a>
+    </div>
+</div>
+    }
+    else
+    {
+        <div>
+            @*@foreach (var item in Model)*@
+            @foreach (var item in ViewBag.PageList)
+            {
+                <div class="card shortjob mb-3" onclick="location.href='@Url.Action("Details", "Job",new { id=item.JobDetail.Id })';" style="cursor: pointer;">
+                    <h5 class="profileheader">@item.JobDetail.Title</h5>
+                    <div class="card-body" style="padding:5px 15px 15px 15px;">
+                        @if (item.Company.profileImgpath != null)
+                        {
+                            string ImgName = System.IO.Path.GetFileName(item.Company.profileImgpath);
+                            <img src="~/Images/Company/Profile/@ImgName" alt="Pineapple" style="width:100px;margin-left:15px;float:right;">
+                        }
+                        else
+                        {
+                            <img src="https://www.cud.ac.ae/sites/default/files/personnel/2021/ms-fanan-al-madi.jpg" alt="Pineapple" style="width:100px;margin-left:15px;float:right">
+                        }
+                        <h5 class="card-title" style="font-size:15px;"><b>@item.Company.CompanyName</b> - @item.CompanyAddress.State</h5>
+                        @if (item.JobExperience.ExperienceType != null)
+                        {
+                            <p style="font-size:12px;color:#5d5656"><span class="fa fa-suitcase" aria-hidden="true"></span> @item.JobExperience.ExperienceType</p>
+                        }
+                        <p style="font-size:14px;">Job Description</p>
+                        <p class="card-text" style="font-size:13px;">@Html.Raw(@item.JobDetail.Description)</p>
+                        @*<p class="card-text">@item.JobDetail.Qualification</p>*@
+                        @*<a href="@Url.Action("Details", "Job",new { id=item.JobDetail.Id })" class="btn btn-danger">Job Details</a>*@
+                    </div>
+                </div>
+            }
+        </div>
+        @Html.PagedListPager((IPagedList)ViewBag.PageList, page => Url.Action("Index", new { page }))
+    }
+
+</div>
+

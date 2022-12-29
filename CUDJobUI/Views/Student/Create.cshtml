@@ -1,0 +1,1241 @@
+﻿@model CudJobUI.ViewModels.StudentProfile
+@{
+    ViewData["Title"] = "Profile Creation";
+    Layout = "~/Views/Shared/_LayoutLogin.cshtml";
+}
+<style>
+    .hide{
+        display:none;
+    }
+</style>
+@*<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.18/css/bootstrap-select.min.css" integrity="sha512-ARJR74swou2y0Q2V9k0GbzQ/5vJ2RBSoCWokg4zkfM29Fb3vZEQyv0iWBMW/yvKgyHSR/7D64pFMmU8nYmbRkg==" crossorigin="anonymous" referrerpolicy="no-referrer" />*@
+
+<link href="~/css/virtual-select.min.css" rel="stylesheet" />
+
+<div class="container bg-white mt-5 p-3">
+    <div class="pt-5">
+        <h3 class="shortheading profileheader mb-4">Student Profile</h3>
+    </div>
+    <div>
+        <p class="pl-3" style="color:red;font-size:13px;">*This page is made of multiple tabs and we are not storing any information on each tabs, so please make sure to click on <b>create profile</b> button in the last tab to store the information.</p>
+    </div>
+    <ul class="nav nav-pills mb-3 pl-md-3" id="pills-tab" role="tablist">
+        <li class="nav-item" role="presentation">
+            <a class="nav-link active" id="pills-Personal-tab" data-bs-toggle="pill" href="#pills-Personal" role="tab" aria-controls="pills-Personal" aria-selected="true">Personal</a>
+        </li>
+        <li class="nav-item" role="presentation">
+            <a class="nav-link" id="pills-Education-tab" data-bs-toggle="pill" href="#pills-Education" role="tab" aria-controls="pills-Education" aria-selected="false">Qualifications</a>
+        </li>
+        <li class="nav-item" role="presentation">
+            <a class="nav-link" id="pills-Experience-tab" data-bs-toggle="pill" href="#pills-Experience" role="tab" aria-controls="pills-Experience" aria-selected="false">Experience</a>
+        </li>
+        <li class="nav-item" role="presentation">
+            <a class="nav-link" id="pills-Projects-tab" data-bs-toggle="pill" href="#pills-Projects" role="tab" aria-controls="pills-Projects" aria-selected="false">Projects</a>
+        </li>
+        <li class="nav-item" role="presentation">
+            <a class="nav-link" id="pills-Awards-tab" data-bs-toggle="pill" href="#pills-Awards" role="tab" aria-controls="pills-Awards" aria-selected="false">Memberships & Awards</a>
+        </li>
+        <li class="nav-item" role="presentation">
+            <a class="nav-link" id="pills-Languages-tab" data-bs-toggle="pill" href="#pills-Languages" role="tab" aria-controls="pills-Languages" aria-selected="false">Languages & Portfolio</a>
+        </li>
+    </ul>
+
+    <div class="col-xl-12">
+        <form asp-action="Create" asp-controller="Student" method="post" enctype="multipart/form-data" id="StudentDetails" class="needs-validation" novalidate>
+            @*<form id="StudentDetails">*@
+            <div class="tab-content" id="pills-tabContent">
+                <div class="tab-pane fade show active" id="pills-Personal" role="tabpanel" aria-labelledby="pills-Personal-tab">
+                    <div class="card mb-3">
+                        <div class="card-header" style="color: #d5202a;font-weight:bold;">
+                            Student Personal Information
+                        </div>
+                        <div class="card-body">
+                            <div class="outer_div mb-3">
+                                <fieldset>
+                                    <div class="row">
+                                        <div class="col-lg-4">
+                                            <div class="form-group">
+                                                <label asp-for="StudentPersonal.FirstName" class="control-label"></label>
+                                                <input asp-for="StudentPersonal.FirstName" class="form-control" required readonly />
+                                                <div class="invalid-feedback">Please provide a First Name.</div>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-4">
+                                            <div class="form-group">
+                                                <label asp-for="StudentPersonal.LastName" class="control-label"></label>
+                                                <input asp-for="StudentPersonal.LastName" class="form-control" required readonly />
+                                                <div class="invalid-feedback">Please provide a Last Name.</div>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-4">
+                                            <div class="form-group">
+
+                                                <label asp-for="StudentPersonal.EmailID" class="control-label"></label>
+                                                <input asp-for="StudentPersonal.EmailID" class="form-control" required readonly />
+                                                <div class="invalid-feedback">Email ID Number is Required.</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-lg-4">
+                                            <div class="form-group">
+                                                <label asp-for="StudentPersonal.DateOfBirth" class="control-label"></label>
+                                                <input type="date" asp-for="StudentPersonal.DateOfBirth" class="form-control" required readonly />
+                                                <div class="invalid-feedback">Date Of Birth is Required.</div>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-4">
+                                            <div class="form-group">
+                                                <label asp-for="StudentPersonal.Gender" class="control-label">Gender <span class="text-danger">*</span></label>
+                                                <select asp-for="StudentPersonal.Gender" required class="form-control">
+                                                    <option value="">Select Gender</option>
+                                                    <option value="Male">Male</option>
+                                                    <option value="Female">Female</option>
+                                                </select>
+                                                <div class="invalid-feedback">Gender is Required.</div>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-4">
+                                            <div class="form-group">
+                                                <label asp-for="StudentPersonal.MobileNumber" class="control-label">Phone Number <span class="text-danger">*</span></label>
+                                                <input type="text" asp-for="StudentPersonal.MobileNumber" class="form-control" required readonly />
+                                                <div class="invalid-feedback">Mobile Number is Required.</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-lg-4">
+                                            <div class="form-group">
+                                                <label asp-for="StudentAddress.State" class="control-label">State <span class="text-danger">*</span></label>
+                                                <input asp-for="StudentAddress.State" class="form-control" required />
+                                                <div class="invalid-feedback">State is Required.</div>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-4">
+                                            <div class="form-group">
+                                                <label asp-for="StudentAddress.CountryID" class="control-label">Country of Residence <span class="text-danger">*</span></label>
+                                                <select asp-for="StudentAddress.CountryID" required class="form-control" asp-items="@(new SelectList(ViewBag.message, "CountryID", "Description"))"></select>
+                                                <div class="invalid-feedback">Country is Required.</div>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-4">
+                                            <div class="form-group">
+                                                <label asp-for="StudentPersonal.MobileNumber2" class="control-label"></label>
+                                                <input asp-for="StudentPersonal.MobileNumber2" class="form-control" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-lg-4" style="display:none;">
+                                            <div class="form-group">
+                                                <label asp-for="StudentAddress.PinCode" class="control-label"></label>
+                                                <input type="number" asp-for="StudentAddress.PinCode" class="form-control" />
+                                                <span asp-validation-for="StudentAddress.PinCode" class="text-danger"></span>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-4">
+                                            <div class="form-group">
+                                                <label asp-for="StudentPersonal.EmailID2" class="control-label"></label>
+                                                <input asp-for="StudentPersonal.EmailID2" class="form-control" />
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-4">
+                                            <div class="form-group">
+                                                <label asp-for="StudentAddress.City" class="control-label">City <span class="text-danger">*</span></label>
+                                                <input asp-for="StudentAddress.City" class="form-control" required />
+                                                <div class="invalid-feedback">City is Required.</div>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-4">
+                                            <div class="form-group">
+                                                <label asp-for="StudentPersonal.ProgramID" class="control-label">Programs <span class="text-danger">*</span></label>
+                                                <select asp-for="StudentPersonal.ProgramID" required class="form-control" asp-items="@(new SelectList(ViewBag.Programs, "ProgramID", "ProgramName"))"></select>
+                                                <div class="invalid-feedback">Country is Required.</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </fieldset>
+                            </div>
+                        </div>
+                        <div class="card-footer">
+                            <div class="row">
+                                <div class="col-lg-10"></div>
+                                <div class="col-lg-2">
+                                    <button class="btn btn-danger btn-block" id="Personalnext" type="button">Next</button>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+                <div class="tab-pane fade" id="pills-Education" role="tabpanel" aria-labelledby="pills-Education-tab">
+                    @*<div class="card mb-3">
+                            <div class="card-header" style="color: #d5202a;font-weight:bold;">
+                                Upload Your Educational Certaificate If Any
+                            </div>
+                            <div class="card-body">
+                                <div class="mb-3">
+                                    <label for="formFile" class="form-label">Upload Educational Certaificate</label>
+                                    <input type="file" class="form-control-file" name="file">
+                                </div>
+                            </div>
+                        </div>*@
+
+                    <div class="card mb-3">
+                        <div class="card-header" style="color: #d5202a;font-weight:bold;">
+                            Enter Your Skills
+                            <span class="d-inline-block" tabindex="0" data-toggle="tooltip"
+                                  title="Read the jobs that you are interested in and make a list of all of the skills listed in the descriptions.Identify the skills that you possess.
+                                                Add those skills to the Skills section of your resume and illustrate them in the Work experience section of your resume by attaching them to certain accomplishments or responsibilities.">
+                                <i class="fa fa-question-circle" aria-hidden="true"></i>
+                            </span>
+                        </div>
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label asp-for="StudentPersonal.HskillID" class="control-label"></label>
+                                        <span class="d-inline-block" tabindex="0" data-toggle="tooltip"
+                                              title="Your skills can be broken up into two categories: hard skills and soft skills. Hard skills are teachable capabilities that can be learned in a classroom (or similar environment).">
+                                            <i class="fa fa-question-circle" aria-hidden="true"></i>
+                                        </span>
+                                        <div class="multi_select_box">
+                                            <select asp-for="Hskills" class="multi_select w-100" asp-items="@(new SelectList(ViewBag.Hskills, "HskillID", "HardSkills"))" multiple></select>
+                                        </div>
+                                        @*<textarea asp-for="StudentPersonal.Skillset" class="form-control rssInstitution mytextarea" required></textarea>*@
+                                        <div class="invalid-feedback">Skillsets is Required.</div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label asp-for="StudentPersonal.SskillID" class="control-label"></label>
+                                        <span class="d-inline-block" tabindex="0" data-toggle="tooltip"
+                                              title="Soft skills are qualities that enable a person to interact effectively and amicably with other people.">
+                                            <i class="fa fa-question-circle" aria-hidden="true"></i>
+                                        </span>
+                                        <select asp-for="Sskills" class="multi_select w-100" asp-items="@(new SelectList(ViewBag.Sskills, "SskillID", "SoftSkills"))" multiple></select>
+                                        @*<textarea asp-for="StudentPersonal.Skillset" class="form-control rssInstitution mytextarea" required></textarea>*@
+                                        <div class="invalid-feedback">Skillsets is Required.</div>
+                                    </div>
+                                </div>
+
+                                <!--<div class="col-md-6">
+                                    <div class="form-group">
+                                        <label asp-for="StudentPersonal.CskillID" class="control-label"></label>
+                                        <span class="d-inline-block" tabindex="0" data-toggle="tooltip"
+                                              title="Soft skills are qualities that enable a person to interact effectively and amicably with other people.">
+                                            <i class="fa fa-question-circle" aria-hidden="true"></i>
+                                        </span>
+                                        <select asp-for="Cskills" class="multi_select w-100" asp-items="@(new SelectList(ViewBag.Cskills, "CskillID", "SoftSkills"))" multiple></select>-->
+                                @*<textarea asp-for="StudentPersonal.Skillset" class="form-control rssInstitution mytextarea" required></textarea>*@
+                                <!--<div class="invalid-feedback">Skillsets is Required.</div>
+                                    </div>
+                                </div>-->
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <label asp-for="StudentPersonal.CskillID" class="control-label"></label>
+                                        @*<select asp-for="Cskills" class="form-control" asp-items="@(new SelectList(ViewBag.Cskills, "CskillID", "SoftSkills"))"></select>*@
+                                        <textarea asp-for="Cskills" class="form-control rssInstitution mytextarea"></textarea>
+                                        <div class="invalid-feedback">Skillsets is Required.</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card mb-3">
+                        <div class="card-header" style="color: #d5202a;font-weight:bold;">
+                            <div class="row">
+                                <div class="col-md-3">
+                                    Education
+                                </div>
+                                <div class="col-md-9">
+                                    <p><button type="button" class="btn btn-info float-right" id="Btn_Eduadd">Add</button></p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <div class="Education_wrapper rssRow outer_div mb-3">
+                                <span class="removeEducation" style="display:none;"><i class="fa fa-times" style="color:red;cursor:pointer;">x Remove</i></span>
+                                <fieldset>
+                                    <div class="row">
+                                        <div class="col-lg-12 currentedudv">
+                                            <div class="form-group">
+                                                <div class="form-check form-switch ml-2">
+                                                    <input class="form-check-input currentlyedu" type="checkbox" asp-for="StudentEducation[0].current">
+                                                    <label class="form-check-label" asp-for="StudentEducation[0].current">Current Education</label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-4">
+                                            <div class="form-group">
+                                                <label asp-for="StudentEducation[0].Institution" class="control-label"></label>
+                                                <input asp-for="StudentEducation[0].Institution" data-val="true" class="form-control rssInstitution" />
+                                                <div class="invalid-feedback">Institution is Required.</div>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-4">
+                                            <div class="form-group">
+                                                <label asp-for="StudentEducation[0].Degree" class="control-label">Degree <span class="text-danger">*</span></label>
+                                                <input asp-for="StudentEducation[0].Degree" data-val="true" class="form-control rssDegree" required />
+                                                <div class="invalid-feedback">Degree is Required.</div>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-4">
+                                            <div class="form-group">
+                                                <label asp-for="StudentEducation[0].Major" class="control-label">Major <span class="text-danger">*</span></label>
+                                                <input asp-for="StudentEducation[0].Major" data-val="true" class="form-control rssMajor" required />
+                                                <div class="invalid-feedback">Major is Required.</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-lg-4" style="display:none;">
+                                            <div class="form-group">
+                                                <label asp-for="StudentEducation[0].CompletionPercent" class="control-label"></label>
+                                                <input asp-for="StudentEducation[0].CompletionPercent" class="form-control rssMajor" />
+                                                <span asp-validation-for="StudentEducation[0].CompletionPercent" class="text-danger"></span>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-4">
+                                            <div class="form-group">
+                                                <label asp-for="StudentEducation[0].StartDate" class="control-label"></label>
+                                                <input type="date" asp-for="StudentEducation[0].StartDate" class="form-control rssEduStartdate" />
+                                                <span asp-validation-for="StudentEducation[0].StartDate" class="text-danger"></span>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-4">
+                                            <div class="form-group">
+                                                <label asp-for="StudentEducation[0].CompletionDate" class="control-label"></label>
+                                                <input type="date" asp-for="StudentEducation[0].CompletionDate" class="form-control rssEduEnddate" />
+                                                <span asp-validation-for="StudentEducation[0].CompletionDate" class="text-danger"></span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+
+                                        @*<div class="col-lg-6">
+                                                <div class="form-group">
+                                                    <label asp-for="StudentDegree.CertificateDiploma" class="control-label"></label>
+                                                    <input type="date" asp-for="StudentDegree.CertificateDiploma" class="form-control" />
+                                                    <span asp-validation-for="StudentDegree.CertificateDiploma" class="text-danger"></span>
+                                                </div>
+                                            </div>*@
+                                    </div>
+                                </fieldset>
+                            </div>
+                            <div class="Education_WrapperDynamic"></div>
+                        </div>
+                    </div>
+                    <div class="card mb-3">
+                        <div class="card-header" style="color: #d5202a;font-weight:bold;">
+                            Summary <span class="d-inline-block" tabindex="0" data-toggle="tooltip" title="Write a brief Objective (if no experience) or a Profile statement (if you have experience) - in 1 or 4 lines - at the top of your resume to summarize and highlight relevant  Skills/Professional or Volunteering Experiences/Accomplishments/Knowledge/Education. Show the employer, at a glance, why you’re qualiﬁed for the job and what do you want from them.
+
+                                         Example of Objective: Motivated high school student experienced in serving others. Has proven customer service, organization, and communication skills. Familiar with best practices for serving and willing to learn.
+
+                                         Example of Profile: Honor roll high school student with an aptitude for customer service. Has experience working for retailers, such as Old Navy and Gap. Experienced using a variety of point of sale systems and price checkers. Eager to develop management skills.">
+                                <i class="fa fa-question-circle" aria-hidden="true"></i>
+                            </span>
+                        </div>
+                        <div class="card-body">
+                            <div class="mb-3">
+                                <div class="form-group">
+                                    <label asp-for="StudentPersonal.Objective" class="control-label">Write your summary <span class="text-danger">*</span></label>                                   
+                                    @*<textarea asp-for="StudentPersonal.Objective" class="form-control" required></textarea>*@
+                                    <textarea asp-for="StudentPersonal.Objective" class="form-control" maxlength="150" rows="4" required></textarea>
+                                    <div class="invalid-feedback">Please provide an Objective.</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card-footer">
+                            <div class="row">
+                                <div class="col-lg-10"></div>
+                                <div class="col-lg-2">
+                                    <button class="btn btn-danger btn-block" id="Edunext" type="button">Next</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="tab-pane fade" id="pills-Experience" role="tabpanel" aria-labelledby="pills-Experience-tab">
+                    <div class="card mb-3">
+                        <div class="card-header" style="color: #d5202a;font-weight:bold;">
+                            Upload Your Resume
+                        </div>
+                        <div class="card-body">
+                            <div class="mb-3">
+                                @*<label for="formFile" class="form-label">Upload Your Resume</label>*@
+                                <input type="file" class="form-control-file" name="file">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card mb-3">
+                        <div class="card-header" style="color: #d5202a;font-weight:bold;">
+                            <div class="row">
+                                <div class="col-lg-3">
+                                    <p>
+                                        Volunteering Experience
+                                        <span class="d-inline-block" tabindex="0" data-toggle="tooltip" title="Read the jobs that you are interested in and make a list of all of the skills listed in the descriptions.Identify the skills that you possess.
+                                                                                    Add those skills to the Skills section of your resume and illustrate them in the Work experience section of your resume by attaching them to certain accomplishments or responsibilities.">
+                                            <i class="fa fa-question-circle" aria-hidden="true"></i>
+                                        </span>
+                                    </p>
+                                </div>
+                                <div class="col-lg-9">
+                                    <p><button type="button" class="btn btn-info float-right" id="Btn_Vexpadd">Add</button></p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card-body" id="StdVExperience">
+                            <div class="VExp-wrapper rssRow outer_div mb-3">
+                                <span class="removeVExperience" style="display:none;"><i class="fa fa-times" style="color:red;cursor:pointer;">x Remove</i></span>
+
+                                <div class="row">
+                                    <div class="col-lg-12 Vcurrentbtndv">
+                                        <div class="form-group">
+                                            <div class="form-check form-switch ml-2">
+                                                <input asp-for="VolunteerExperience[0].current" class="form-check-input currentlyVexp" type="checkbox">
+                                                <label class="form-check-label" asp-for="VolunteerExperience[0].current">Currently Employed</label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-6">
+                                        <div class="form-group">
+                                            <label asp-for="VolunteerExperience[0].CompanyName" class="control-label rssVCompanyName"></label>
+                                            <input asp-for="VolunteerExperience[0].CompanyName" class="form-control rssVCompanyName" />
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-6">
+                                        <div class="form-group">
+                                            <label asp-for="VolunteerExperience[0].JobTitle" class="control-label"></label>
+                                            <input asp-for="VolunteerExperience[0].JobTitle" class="form-control rssVJobTitle" />
+                                            <span asp-validation-for="VolunteerExperience[0].JobTitle" class="text-danger"></span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-lg-4">
+                                        <div class="form-group">
+                                            <label asp-for="VolunteerExperience[0].StartDate" class="control-label"></label>
+                                            <input type="date" asp-for="VolunteerExperience[0].StartDate" class="form-control rssVExpstartDate" />
+                                            <span asp-validation-for="VolunteerExperience[0].StartDate" class="text-danger "></span>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-4">
+                                        <div class="form-group">
+                                            <label asp-for="VolunteerExperience[0].EndDate" class="control-label"></label>
+                                            <input type="date" asp-for="VolunteerExperience[0].EndDate" class="form-control rssVExpEndDate" />
+                                            <span asp-validation-for="VolunteerExperience[0].EndDate" class="text-danger"></span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-lg-12">
+                                        <div class="form-group">
+                                            <label asp-for="VolunteerExperience[0].JobDescription" class="control-label"></label>
+                                            <span class="d-inline-block" tabindex="0" data-html="true" data-toggle="tooltip"
+                                                  title="Use bullet points and start each point with an active verb in past tense if the experience is in the past and in the present if the experience is current.
+                                                  Here are examples of active verbs that you can use:
+                                                    Acquired
+                                                    Assessed
+                                                    Coordinated
+                                                    Formalized
+                                                    Launched
+                                                    Managed
+                                                    Modified
+                                                    Orchestrated
+                                                    Oversaw
+                                                    Participated
+                                                    Prepared
+                                                    Provided
+                                                    Spearheaded
+                                                    Sustained
+                                                    Transformed
+                                                    Yielded
+
+                                                    Examples of sentences in bullet points:
+                                                    - Provided administrative support to senior executives to ensure smooth operations across the entire company
+                                                    - Spearheaded training initiatives for new hires which included writing a 150-page employee handbook, creating
+                                                    - Launched a marketing campaign to get more students to attend the annual Acappella concert. Used social media, direct marketing and email marketing. This resulted in a 15% attendance increase from the previous year.
+
+                                                    When possible structure your sentences as follow: active verb, the purpose of action, and outcome (refer to the 3rd bullet point above)">
+                                                <i class="fa fa-question-circle" aria-hidden="true"></i>
+                                            </span>
+                                            <textarea asp-for="VolunteerExperience[0].JobDescription" class="form-control rssVJobDesc mytextarea"></textarea>
+                                            <span asp-validation-for="VolunteerExperience[0].JobDescription" class="text-danger"></span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="VExp-wrapperdynamic"></div>
+                        </div>
+                        <div class="card-footer">
+                        </div>
+                    </div>
+
+                    <div class="card mb-3">
+                        <div class="card-header" style="color: #d5202a;font-weight:bold;">
+                            <div class="row">
+                                <div class="col-lg-3">
+                                    <p>
+                                        Professional Experience
+                                        <span class="d-inline-block" tabindex="0" data-toggle="tooltip" title="Read the jobs that you are interested in and make a list of all of the skills listed in the descriptions.Identify the skills that you possess.
+                                                                                    Add those skills to the Skills section of your resume and illustrate them in the Work experience section of your resume by attaching them to certain accomplishments or responsibilities.">
+                                            <i class="fa fa-question-circle" aria-hidden="true"></i>
+                                        </span>
+                                    </p>
+                                </div>
+                                <div class="col-lg-9">
+                                    <p><button type="button" class="btn btn-info float-right" id="Btn_expadd">Add</button></p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card-body" id="StdExperience">
+                            <div class="Exp-wrapper rssRow outer_div mb-3">
+                                <span class="removeExperience" style="display:none;"><i class="fa fa-times" style="color:red;cursor:pointer;">x Remove</i></span>
+
+                                <div class="row">
+                                    <div class="col-lg-12 currentbtndv">
+                                        <div class="form-group">
+                                            <div class="form-check form-switch ml-2">
+                                                <input asp-for="StudentExperience[0].current" class="form-check-input currentlyemp" type="checkbox">
+                                                <label class="form-check-label" asp-for="StudentExperience[0].current">Currently Employed</label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-6">
+                                        <div class="form-group">
+                                            <label asp-for="StudentExperience[0].CompanyName" class="control-label rssCompanyName"></label>
+                                            <input asp-for="StudentExperience[0].CompanyName" class="form-control rssCompanyName" />
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-6">
+                                        <div class="form-group">
+                                            <label asp-for="StudentExperience[0].JobTitle" class="control-label"></label>
+                                            <input asp-for="StudentExperience[0].JobTitle" class="form-control rssJobTitle" />
+                                            <span asp-validation-for="StudentExperience[0].JobTitle" class="text-danger"></span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-lg-4">
+                                        <div class="form-group">
+                                            <label asp-for="StudentExperience[0].StartDate" class="control-label"></label>
+                                            <input type="date" asp-for="StudentExperience[0].StartDate" class="form-control rssExpstartDate" />
+                                            <span asp-validation-for="StudentExperience[0].StartDate" class="text-danger "></span>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-4">
+                                        <div class="form-group">
+                                            <label asp-for="StudentExperience[0].EndDate" class="control-label"></label>
+                                            <input type="date" asp-for="StudentExperience[0].EndDate" class="form-control rssExpEndDate" />
+                                            <span asp-validation-for="StudentExperience[0].EndDate" class="text-danger"></span>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-4">
+                                        <div class="form-group">
+                                            <label asp-for="StudentExperience[0].Companywebsite" class="control-label"></label>
+                                            <input asp-for="StudentExperience[0].Companywebsite" class="form-control rssCompanywebsite" />
+                                            <span asp-validation-for="StudentExperience[0].Companywebsite" class="text-danger"></span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-lg-6">
+                                        <div class="form-group">
+                                            <label asp-for="StudentExperience[0].Department" class="control-label rssDepartment"></label>
+                                            <input asp-for="StudentExperience[0].Department" class="form-control rssDepartment" />
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-6">
+                                        <div class="form-group">
+                                            <label asp-for="StudentExperience[0].CategoryID" class="control-label"></label>
+                                            <select asp-for="StudentExperience[0].CategoryID" class="form-control rssCategoryID" asp-items="@(new SelectList(ViewBag.Categories, "CategoryID", "Category"))">
+                                            </select>
+                                            <span asp-validation-for="StudentExperience[0].CategoryID" class="text-danger"></span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-lg-12">
+                                        <div class="form-group">
+                                            <label asp-for="StudentExperience[0].JobDescription" class="control-label"></label>
+                                            <span class="d-inline-block" tabindex="0" data-html="true" data-toggle="tooltip"
+                                                  title="Use bullet points and start each point with an active verb in past tense if the experience is in the past and in the present if the experience is current.
+                                                  Here are examples of active verbs that you can use:
+        Acquired
+        Assessed
+        Coordinated
+        Formalized
+        Launched
+        Managed
+        Modified
+        Orchestrated
+        Oversaw
+        Participated
+        Prepared
+        Provided
+        Spearheaded
+        Sustained
+        Transformed
+        Yielded
+
+        Examples of sentences in bullet points:
+        - Provided administrative support to senior executives to ensure smooth operations across the entire company
+        - Spearheaded training initiatives for new hires which included writing a 150-page employee handbook, creating
+        - Launched a marketing campaign to get more students to attend the annual Acappella concert. Used social media, direct marketing and email marketing. This resulted in a 15% attendance increase from the previous year.
+
+        When possible structure your sentences as follow: active verb, the purpose of action, and outcome (refer to the 3rd bullet point above)">
+                                                <i class="fa fa-question-circle" aria-hidden="true"></i>
+                                            </span>
+                                            <textarea asp-for="StudentExperience[0].JobDescription" class="form-control rssJobDesc mytextarea"></textarea>
+                                            <span asp-validation-for="StudentExperience[0].JobDescription" class="text-danger"></span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="Exp-wrapperdynamic"></div>
+                        </div>
+                        <div class="card-footer">
+                            <div class="row">
+                                <div class="col-lg-10"></div>
+                                <div class="col-lg-2">
+                                    <button class="btn btn-danger btn-block" id="Experiencenext" type="button">Next</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="tab-pane fade" id="pills-Projects" role="tabpanel" aria-labelledby="pills-Projects-tab">
+                    <div class="card mb-3">
+                        <div class="card-header" style="color: #d5202a;font-weight:bold;">
+                            <div class="row">
+                                <div class="col-lg-3">
+                                    <p>Projects</p>
+                                </div>
+                                <div class="col-lg-9">
+                                    <p><button type="button" class="btn btn-info float-right" id="Btn_AddProjects">Add</button></p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <div class="project_wrapper rssRow outer_div mb-3">
+                                <span class="removeproject" style="display:none;"><i class="fa fa-times" style="color:red;cursor:pointer;">x Remove</i></span>
+                                <div class="row">
+                                    <div class="col-lg-4">
+                                        <div class="form-group">
+                                            <label asp-for="projects[0].Tittle" class="control-label">Title</label>
+                                            <input asp-for="projects[0].Tittle" class="form-control rsstittle" />
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-4">
+                                        <div class="form-group">
+                                            <label asp-for="projects[0].Organisation" class="control-label"></label>
+                                            <input asp-for="projects[0].Organisation" class="form-control rssorg" />
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-4">
+                                        <div class="form-group">
+                                            <label asp-for="projects[0].Role" class="control-label"></label>
+                                            <input asp-for="projects[0].Role" class="form-control rssRole" />
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-lg-6">
+                                        <div class="form-group">
+                                            <label asp-for="projects[0].Startdate" class="control-label"></label>
+                                            <input type="date" asp-for="projects[0].Startdate" class="form-control rssstartdate" />
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-6">
+                                        <div class="form-group">
+                                            <label asp-for="projects[0].Enddate" class="control-label"></label>
+                                            <input type="date" asp-for="projects[0].Enddate" class="form-control rssenddate" />
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-lg-6">
+                                        <div class="form-group">
+                                            <label asp-for="projects[0].Outcome" class="control-label">Project Grade Out of 100%</label>
+                                            <span class="d-inline-block" tabindex="0" data-toggle="tooltip" title="Add the outcome of your project be it grade, results, feedback of jury or professor, etc">
+                                                <i class="fa fa-question-circle" aria-hidden="true"></i>
+                                            </span>
+                                            <input asp-for="projects[0].Outcome" class="form-control rssOutcome" />
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-6">
+                                        <div class="form-group">
+                                            <label asp-for="projects[0].Links" class="control-label"></label>
+                                            <input asp-for="projects[0].Links" class="form-control rssLinks" />
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-lg-12">
+                                        <div class="form-group">
+                                            <label asp-for="projects[0].Description" class="control-label">
+                                                Description & Achievements
+                                                <span class="d-inline-block" tabindex="0" data-toggle="tooltip" title="Add bullet points about your role and the tasks you did to complete the project. Use the same structure you used in the experience job description.">
+                                                    <i class="fa fa-question-circle" aria-hidden="true"></i>
+                                                </span>
+                                            </label>
+                                            <textarea asp-for="projects[0].Description" class="form-control rssDesc mytextarea"></textarea>
+                                        </div>
+                                    </div>
+                                </div>
+                                @*<div class="row">
+                                        <div class="col-lg-6">
+                                            <label asp-for="projects[0].Attachment" class="control-label"></label>
+                                            <input asp-for="projects[0].Attachment" class="form-control" />
+                                        </div>
+                                        <div class="col-lg-6"></div>
+                                    </div>*@
+                            </div>
+                            <div class="project_wrapper1"></div>
+                        </div>
+                        <div class="card-footer">
+                            <div class="row">
+                                <div class="col-lg-10"></div>
+                                <div class="col-lg-2">
+                                    <button class="btn btn-danger btn-block" id="Projectsnext" type="button">Next</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="tab-pane fade" id="pills-Awards" role="tabpanel" aria-labelledby="pills-Awards-tab">
+                    <div class="card mb-3">
+                        <div class="card-header" style="color: #d5202a;font-weight:bold;">
+                            <div class="row">
+                                <div class="col-lg-3">
+                                    <p>Memberships</p>
+                                </div>
+                                <div class="col-lg-9">
+                                    <p><button type="button" class="btn btn-info float-right" id="Btn_AddMembership">Add</button></p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <div class="Membership_wrapper rssRow outer_div mb-3">
+                                <span class="removeMembership" style="display:none;"><i class="fa fa-times" style="color:red;cursor:pointer;">x Remove</i></span>
+                                <div class="row">
+                                    <div class="col-lg-6">
+                                        <label asp-for="Memberships[0].Organisation" class="control-label"></label>
+                                        <input asp-for="Memberships[0].Organisation" class="form-control rssOrganisation" />
+                                    </div>
+                                    <div class="col-lg-6">
+                                        <label asp-for="Memberships[0].Role" class="control-label"></label>
+                                        <span class="d-inline-block" tabindex="0" data-toggle="tooltip" title="Mention your role or title in the organisation example: Member or President, etc...">
+                                            <i class="fa fa-question-circle" aria-hidden="true"></i>
+                                        </span>
+                                        <input asp-for="Memberships[0].Role" class="form-control rssMembRole" />
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-lg-6">
+                                        <label asp-for="Memberships[0].StartDate" class="control-label"></label>
+                                        <input type="date" asp-for="Memberships[0].StartDate" class="form-control rssMembStartDate" />
+                                    </div>
+                                    <div class="col-lg-6">
+                                        <label asp-for="Memberships[0].EndDate" class="control-label"></label>
+                                        <input type="date" asp-for="Memberships[0].EndDate" class="form-control rssMembEndDate" />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="Membership_wrapperDynamic"></div>
+                        </div>
+                    </div>
+                    <div class="card mb-3">
+                        <div class="card-header" style="color: #d5202a;font-weight:bold;">
+                            <div class="row">
+                                <div class="col-lg-3">
+                                    <p>Awards</p>
+                                </div>
+                                <div class="col-lg-9">
+                                    <p><button type="button" class="btn btn-info float-right" id="Btn_AddAwards">Add</button></p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <div class="Award_Wrapper rssRow outer_div mb-3">
+                                <span class="removeAwards" style="display:none;"><i class="fa fa-times" style="color:red;cursor:pointer;">x Remove</i></span>
+                                <div class="row">
+                                    <div class="col-lg-6">
+                                        <label asp-for="Awards[0].AwardName" class="control-label"></label>
+                                        <input asp-for="Awards[0].AwardName" class="form-control rssAwardName" />
+                                    </div>
+                                    <div class="col-lg-6">
+                                        <label asp-for="Awards[0].AwardDate" class="control-label"></label>
+                                        <input type="date" asp-for="Awards[0].AwardDate" class="form-control rssAwardDate" />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="Award_WrapperDynamic"></div>
+                        </div>
+                        <div class="card-footer">
+                            <div class="row">
+                                <div class="col-lg-10"></div>
+                                <div class="col-lg-2">
+                                    <button class="btn btn-danger btn-block" id="Awardsnext" type="button">Next</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="tab-pane fade" id="pills-Languages" role="tabpanel" aria-labelledby="pills-Languages-tab">
+                    <div class="card mb-3">
+                        <div class="card-header" style="color: #d5202a;font-weight:bold;">
+                            <div class="row">
+                                <div class="col-lg-3">
+                                    <p>Languages</p>
+                                </div>
+                                <div class="col-lg-9">
+                                    <p><button type="button" class="btn btn-info float-right" id="Btn_AddLanguages">Add</button></p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <div class="Language_Wrapper rssRow outer_div mb-3">
+                                <span class="removelanguages float-right" style="display:none;"><i class="fa fa-times" style="color:red;cursor:pointer;"> Remove</i></span>
+                                <div class="row">
+                                    <div class="col-lg-6">
+                                        <label asp-for="languages[0].LanguageID" class="control-label"></label>
+                                        <select asp-for="languages[0].LanguageID" required class="form-control rsslanguageName" asp-items="@(new SelectList(ViewBag.langNames, "LanguageID", "Language"))"></select>
+
+                                    </div>
+                                    <div class="col-lg-6">
+                                        <label asp-for="languages[0].LevelID" class="control-label"></label>
+                                        <select asp-for="languages[0].LevelID" required class="form-control rsslanguageLevel" asp-items="@(new SelectList(ViewBag.langlevels, "LevelID", "Levels"))"></select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="Language_WrapperDynamic"></div>
+                        </div>
+
+                    </div>
+
+                    <div class="card mb-3">
+                        <div class="card-header" style="color: #d5202a;font-weight:bold;">
+                            <div class="row">
+                                <div class="col-lg-3">
+                                    <p>Work Availability</p>
+                                </div>
+                                <div class="col-lg-9">
+                                    @*<p><button type="button" class="btn btn-info float-right" id="Btn_AddWorkAvail">Add</button></p>*@
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <div class="WorkAvail_Wrapper rssRow outer_div mb-3">
+                                <span class="removeWorkAvail float-right" style="display:none;"><i class="fa fa-times" style="color:red;cursor:pointer;"> Remove</i></span>
+                                <div class="row">
+                                    <div class="col-lg-6">
+                                        <label asp-for="StudentWorkAvailability[0].DaysPerWeekID" class="control-label">Days Per Week <span class="text-danger">*</span></label>
+                                        <select asp-for="StudentWorkAvailability[0].DaysPerWeekID" required class="form-control rssDaysPerWeek" asp-items="@(new SelectList(ViewBag.DaysOption, "DaysPerWeekID", "Options"))"></select>
+                                    </div>
+                                    <div class="col-lg-6">
+                                        <label asp-for="StudentWorkAvailability[0].HoursPerWeekID" class="control-label">Hours Per Day<span class="text-danger">*</span></label>
+                                        <select asp-for="StudentWorkAvailability[0].HoursPerWeekID" required class="form-control rssHoursPerWeek" asp-items="@(new SelectList(ViewBag.HoursOption, "HoursPerWeekID", "Options"))"></select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="WorkAvail_WrapperDynamic"></div>
+                        </div>
+
+                    </div>
+
+                    <div class="card mb-3">
+                        <div class="card-header" style="color: #d5202a;font-weight:bold;">
+                            <div class="row">
+                                <div class="col-lg-3">
+                                    <p>Portfolio</p>
+                                </div>
+                                <div class="col-lg-9">
+                                    <p><button type="button" class="btn btn-info float-right" id="Btn_AddPortfolio">Add</button></p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <div class="Portfolio_Wrapper rssRow outer_div mb-3">
+                                <span class="removePortfolio float-right" style="display:none;"><i class="fa fa-times" style="color:red;cursor:pointer;"> Remove</i></span>
+                                <div class="row">
+                                    <div class="col-lg-12">
+                                        <label asp-for="Portfolio[0].portfolio" class="form-label"></label>
+                                        <div class="input-group mb-3">
+                                            <span class="input-group-text" id="basic-addon3">https://example.com/users/</span>
+                                            <input asp-for="Portfolio[0].portfolio" type="text" class="form-control rssportfolio" id="basic-url" aria-describedby="basic-addon3">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="Portfolio_WrapperDynamic"></div>
+                        </div>
+                        <div class="card-footer">
+                            <div class="row">
+                                <div class="col-lg-10"></div>
+                                <div class="col-lg-2">
+                                    <input asp-for="StudentPersonal.CudStudentID" class="form-control rsslanguageName" hidden />
+                                    @*<button type="submit" id="CreateProfile" class="btn btn-danger btn-block"> Create Profile </button>*@
+                                    <button id="CreateProfile" class="btn btn-danger btn-block button"><i class="loading-icon fa fa-spinner fa-spin hide"></i> <span class="btn-txt1">Create Profile</span> </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            @*<button type="button" id="CreateProfile" class="btn btn-danger"> Create Profile </button>*@
+        </form>
+    </div>
+</div>
+
+@section Scripts{
+    @*<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.18/js/bootstrap-select.min.js" integrity="sha512-yDlE7vpGDP7o2eftkCiPZ+yuUyEcaBwoJoIhdXv71KZWugFqEphIS3PU60lEkFaz8RxaVsMpSvQxMBaKVwA5xg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>*@
+
+    <script src="~/js/virtual-select.min.js"></script>
+
+    <script type="text/javascript">
+        (function () {
+            'use strict';
+            window.addEventListener('load', function () {
+                // Fetch all the forms we want to apply custom Bootstrap validation styles to
+                var forms = document.getElementsByClassName('needs-validation');
+                // Loop over them and prevent submission
+                var validation = Array.prototype.filter.call(forms, function (form) {
+                    form.addEventListener('submit', function (event) {
+                        if (form.checkValidity() === false) {
+                            event.preventDefault();
+                            event.stopPropagation();
+                        }
+                        form.classList.add('was-validated');
+                    }, false);
+                });
+            }, false);
+
+        })();
+
+        //tinymce.init({
+        //    selector: '.mytextarea'
+        //});
+
+        tinymce.init({
+            selector: '.mytextarea',
+            height: 380,
+            menubar: false,
+            plugins: [
+                'advlist autolink lists link image charmap print preview anchor',
+                'searchreplace visualblocks code fullscreen',
+                'insertdatetime media table paste code help wordcount'
+            ],
+            toolbar: 'undo redo | formatselect | ' +
+                'bold italic backcolor | alignleft aligncenter ' +
+                'alignright alignjustify | bullist numlist outdent indent | ' +
+                'removeformat | help',
+            content_style: 'body { font-family:Helvetica,Arial,sans-serif; font-size:14px }'
+        });
+
+        VirtualSelect.init({
+            ele: '.multi_select'
+        });
+
+        $(document).ready(function () {
+            //$("#CreateProfile").validate().settings.ignore = "";
+
+            //$('.listbox').multiselect({
+            //    includeSelectAllOption: true
+            //});
+
+            //VirtualSelect.init({
+            //    ele: '.listbox',
+            //    multiple: true
+            //});
+
+            //$('.multi_select').selectpicker();
+
+            $('#CreateProfile').validate({ // <- initialize the plugin on this form
+                ignore: [],  // <- proper format to set ignore to "nothing"
+                invalidHandler: function (event, validator) {
+                    $(".tab-content").find("div.tab-pane:hidden:has(div.has-error)").each(function (index, tab) {
+                        var id = $(tab).attr("id");
+                        $('a[href="#' + id + '"]').tab('show');
+                    });
+                },
+                // ... the rest of your validate() options
+            });
+
+            $('[data-toggle="tooltip"]').tooltip();
+
+            var ProjectIcnt = 1;
+            var MembershipIcnt = 1;
+            var AwardsIcnt = 1;
+            var ExpIcnt = 1;
+            var VExpIcnt = 1;
+            var EduIcnt = 1;
+            var LangIcnt = 1;
+            var FolioIcnt = 1;
+            //alert("ready!");
+            $("#CreateProfile").click(function () {
+
+                           
+
+
+                var $myForm = $('#StudentDetails');
+                if ($myForm[0].checkValidity()) {
+                    $(".loading-icon").removeClass("hide");
+                    $(".button").attr("disabled", true);
+                    $(".btn-txt1").text("Creating your profile......");
+                    $('form').submit();
+                    //alert("hi");
+                }
+                $('form').submit();
+
+                //$myForm.find(':submit').click();
+               
+                @*var data = $('#StudentDetails').serialize();
+                $.ajax({
+                    type: 'POST',
+                    cache: false,
+                    url: '@Url.Action("Create","Student")',
+                    data: data,
+                    success: function (data, textStatus, jqXHR) {
+                    },
+                    error: function (jqXHR, textStatus, errorThrown) {
+                    }
+                });*@
+               // $("#StudentDetails").ajaxSubmit({ url: '@Url.Action("Create","Student")', type: 'post' })
+                //var form = $("#StudentDetails");
+                //form.validate();
+               // $.validator.unobtrusive.parse(form);
+                //$("button").click(function () {
+                   //alert("Valid: " + form.valid());
+                //});
+                //$("#StudentDetails").submit();
+           });
+
+            //$(document).on('submit', '.StudentDetails', function (e) {
+            //    e.preventDefault();
+            //    $(this).removeData("validator").removeData("unobtrusiveValidation");//remove the form validation
+            //    $.validator.unobtrusive.parse($(this));//add the form validation
+
+            //    if ($(this).valid()) {
+            //        $.ajax({
+            //            processData: false,
+            //            contentType: false,
+            //            data: new FormData(this),
+            //            type: $(this).attr('method'),
+            //            url: $(this).attr('action'),
+            //            success: function (data) {
+            //                //other logic
+            //            }
+            //        });
+            //    }
+            //});
+
+            $('body').on('click', '.removeMembership', function () {
+                $(this).closest('.rssRow').remove();
+            });
+
+
+            $('body').on('click', '.removeAwards', function () {
+                $(this).closest('.rssRow').remove();
+            });
+
+            $('body').on('click', '.removeExperience', function () {
+                $(this).closest('.rssRow').remove();
+            });
+
+            $('body').on('click', '.removeVExperience', function () {
+                $(this).closest('.rssRow').remove();
+            });
+
+            $('body').on('click', '.removeproject', function () {
+                $(this).closest('.rssRow').remove();
+            });
+
+            $('body').on('click', '.removeEducation', function () {
+                $(this).closest('.rssRow').remove();
+            });
+
+            $('body').on('click', '.removelanguages', function () {
+                $(this).closest('.rssRow').remove();
+            });
+            $('body').on('click', '.removePortfolio', function () {
+                $(this).closest('.rssRow').remove();
+            });
+
+            $('#Personalnext').click(function () {
+                var validationMessage = '';
+                $.each($(this).closest('.tab-pane').find(':input'), function () {
+                    if ($(this).prop('required')) {
+                        if ($(this).val() == '')
+                            validationMessage += "Please fill " + $(this).closest('.form-group').find('label').html().replace('<span class="text-danger">*</span>', '') + "\n";
+                    }
+                });
+
+                // Validation is false
+                if (validationMessage != '')
+                    alert(validationMessage);
+                else
+                    $('#pills-tab a[href="#pills-Education"]').tab('show');
+            });
+            $('#Edunext').click(function () {
+                //var counter = 0;
+                //$(".required").each(function () {
+                //    if ($(this).val() === "") {
+                //        alert("required");
+                //        counter++;
+                //    }
+                //});
+                //if (counter > 0) {
+                //    $('.invalid-feedback').show();
+                //    return false;
+                //}
+                var validationMessage = '';
+                $.each($(this).closest('.tab-pane').find(':input'), function () {
+                    if ($(this).prop('required')) {
+                        if ($(this).val() == '')
+                            validationMessage += "Please fill " + $(this).closest('.form-group').find('label').html().replace('<span class="text-danger">*</span>', '') + "\n";
+                    }
+                });
+
+                // Validation is false
+                if (validationMessage != '')
+                    alert(validationMessage);
+                else
+                    $('#pills-tab a[href="#pills-Experience"]').tab('show');
+            });
+            $('#Experiencenext').click(function () {
+                $('#pills-tab a[href="#pills-Projects"]').tab('show');
+            });
+            $('#Projectsnext').click(function () {
+                $('#pills-tab a[href="#pills-Awards"]').tab('show');
+            });
+            $('#Awardsnext').click(function () {
+                $('#pills-tab a[href="#pills-Languages"]').tab('show');
+            });
+
+            $(".currentlyemp").click(function () {
+                if ($(this).prop("checked") == true)
+                    $(".rssExpEndDate").prop("disabled", true);
+                else
+                    $(".rssExpEndDate").prop("disabled", false);
+            });
+            $(".currentlyedu").click(function () {
+                if ($(this).prop("checked") == true)
+                    $(".rssEduEnddate").prop("disabled", true);
+                else
+                    $(".rssEduEnddate").prop("disabled", false);
+            });
+            $(".currentlyVexp").click(function () {
+                if ($(this).prop("checked") == true)
+                    $(".rssVExpEndDate").prop("disabled", true);
+                else
+                    $(".rssVExpEndDate").prop("disabled", false);
+            });
+
+            $("#Btn_Eduadd").click(function () {
+                var row = jQuery('.Education_wrapper:last').clone();
+                jQuery('.removeEducation', row).css('display', 'block');
+                jQuery('.currentedudv', row).css('display', 'None');
+                jQuery('.rssInstitution', row).attr('id', 'StudentEducation_' + EduIcnt + '__Institution').attr('name', 'StudentEducation[' + EduIcnt + '].Institution');
+                jQuery('.rssDegree', row).attr('id', 'StudentEducation_' + EduIcnt + '__Degree').attr('name', 'StudentEducation[' + EduIcnt + '].Degree');
+                jQuery('.rssMajor', row).attr('id', 'StudentEducation_' + EduIcnt + '__Major').attr('name', 'StudentEducation[' + EduIcnt + '].JobDescription');
+                jQuery('.rssEduStartdate', row).attr('id', 'StudentEducation_' + EduIcnt + '__StartDate').attr('name', 'StudentEducation[' + EduIcnt + '].StartDate');
+                jQuery('.rssEduEnddate', row).attr('id', 'StudentEducation_' + EduIcnt + '__CompletionDate').attr('name', 'StudentEducation[' + EduIcnt + '].CompletionDate');
+                $(".Education_WrapperDynamic").append(row).find("input,textarea").val("");
+                EduIcnt++;
+            });
+
+            $("#Btn_AddProjects").click(function () {
+                var row = jQuery('.project_wrapper:last').clone();
+                jQuery('.removeproject', row).css('display', 'block');
+                jQuery('.rsstittle', row).attr('id', 'projects_'+ ProjectIcnt +'__Tittle').attr('name', 'projects['+ ProjectIcnt +'].Tittle');
+                jQuery('.rssorg', row).attr('id', 'projects_' + ProjectIcnt + '__Organisation').attr('name', 'projects[' + ProjectIcnt +'].Organisation');
+                jQuery('.rssDesc', row).attr('id', 'projects_' + ProjectIcnt + '__Description').attr('name', 'projects[' + ProjectIcnt + '].Description');
+                jQuery('.rssstartdate', row).attr('id', 'projects_' + ProjectIcnt + '__Startdate').attr('name', 'projects[' + ProjectIcnt + '].Startdate');
+                jQuery('.rssenddate', row).attr('id', 'projects_' + ProjectIcnt + '__Enddate').attr('name', 'projects[' + ProjectIcnt + '].Enddate');
+                jQuery('.rssRole', row).attr('id', 'projects_' + ProjectIcnt + '__Role').attr('name', 'projects[' + ProjectIcnt + '].Role');
+                jQuery('.rssOutcome', row).attr('id', 'projects_' + ProjectIcnt + '__Outcome').attr('name', 'projects[' + ProjectIcnt + '].Outcome');
+                jQuery('.rssLinks', row).attr('id', 'projects_' + ProjectIcnt + '__Links').attr('name', 'projects[' + ProjectIcnt + '].Links');
+                $(".project_wrapper1").append(row).find("input,textarea").val("");
+                ProjectIcnt++;
+            });
+            $("#Btn_expadd").click(function () {
+                var row = jQuery('.Exp-wrapper:last').clone();
+                jQuery('.removeExperience', row).css('display', 'block');
+                jQuery('.currentbtndv', row).css('display', 'None');
+                jQuery('.rssExpEndDate', row).css('disabled', 'false');
+                jQuery('.rssCompanyName', row).attr('id', 'StudentExperience_' + ExpIcnt + '__CompanyName').attr('name', 'StudentExperience[' + ExpIcnt + '].Tittle');
+                jQuery('.rssJobTitle', row).attr('id', 'StudentExperience_' + ExpIcnt + '__JobTitle').attr('name', 'StudentExperience[' + ExpIcnt + '].Organisation');
+                jQuery('.rssJobDesc', row).attr('id', 'StudentExperience_' + ExpIcnt + '__JobDescription').attr('name', 'StudentExperience[' + ExpIcnt + '].JobDescription');
+                jQuery('.rssExpstartDate', row).attr('id', 'StudentExperience_' + ExpIcnt + '__StartDate').attr('name', 'StudentExperience[' + ExpIcnt + '].StartDate');
+                jQuery('.rssExpEndDate', row).attr('id', 'StudentExperience_' + ExpIcnt + '__EndDate').attr('name', 'StudentExperience[' + ExpIcnt + '].EndDate');
+                jQuery('.rssCompanywebsite', row).attr('id', 'StudentExperience_' + ExpIcnt + 'Companywebsite').attr('name', 'StudentExperience[' + ExpIcnt + '].Companywebsite');
+                jQuery('.rssDepartment', row).attr('id', 'StudentExperience_' + ExpIcnt + 'Department').attr('name', 'StudentExperience[' + ExpIcnt + '].Department');
+                jQuery('.rssCategoryID', row).attr('id', 'StudentExperience_' + ExpIcnt + '__CategoryID').attr('name', 'StudentExperience[' + ExpIcnt + '].CategoryID');
+                $(".Exp-wrapperdynamic").append(row).find("input,textarea").val("");
+                ExpIcnt++;
+            });
+
+            $("#Btn_Vexpadd").click(function () {
+                var row = jQuery('.VExp-wrapper:last').clone();
+                jQuery('.removeVExperience', row).css('display', 'block');
+                jQuery('.Vcurrentbtndv', row).css('display', 'None');
+                //jQuery('.rssExpEndDate', row).css('disabled', 'false');
+                jQuery('.rssVCompanyName', row).attr('id', 'VolunteerExperience_' + ExpIcnt + '__CompanyName').attr('name', 'VolunteerExperience[' + ExpIcnt + '].Tittle');
+                jQuery('.rssVJobTitle', row).attr('id', 'VolunteerExperience_' + ExpIcnt + '__JobTitle').attr('name', 'VolunteerExperience[' + ExpIcnt + '].Organisation');
+                jQuery('.rssVJobDesc', row).attr('id', 'VolunteerExperience_' + ExpIcnt + '__JobDescription').attr('name', 'VolunteerExperience[' + ExpIcnt + '].JobDescription');
+                jQuery('.rssVExpstartDate', row).attr('id', 'VolunteerExperience_' + ExpIcnt + '__StartDate').attr('name', 'VolunteerExperience[' + ExpIcnt + '].StartDate');
+                jQuery('.rssVExpEndDate', row).attr('id', 'VolunteerExperience_' + ExpIcnt + '__EndDate').attr('name', 'VolunteerExperience[' + ExpIcnt + '].EndDate');
+                $(".VExp-wrapperdynamic").append(row).find("input,textarea").val("");
+                ExpIcnt++;
+            });
+
+            $("#Btn_AddAwards").click(function () {
+                var row = jQuery('.Award_Wrapper:last').clone();
+                jQuery('.removeAwards', row).css('display', 'block');
+                jQuery('.rssAwardName', row).attr('id', 'Awards_' + AwardsIcnt + '__AwardName').attr('name', 'Awards[' + AwardsIcnt + '].AwardName');
+                jQuery('.rssAwardDate', row).attr('id', 'Awards_' + AwardsIcnt + '__AwardDate').attr('name', 'Awards[' + AwardsIcnt + '].AwardDate');
+                $(".Award_WrapperDynamic").append(row).find("input,textarea").val("");
+                AwardsIcnt++;
+            });
+            $("#Btn_AddMembership").click(function () {
+                var row = jQuery('.Membership_wrapper:last').clone();
+                jQuery('.removeMembership', row).css('display', 'block');
+                jQuery('.rssOrganisation', row).attr('id', 'Memberships_' + MembershipIcnt + '__Organisation').attr('name', 'Memberships[' + MembershipIcnt + '].Tittle');
+                jQuery('.rssMembRole', row).attr('id', 'Memberships_' + MembershipIcnt + '__Role').attr('name', 'Memberships[' + MembershipIcnt + '].Organisation');
+                jQuery('.rssMembstartDate', row).attr('id', 'Memberships_' + MembershipIcnt + '__StartDate').attr('name', 'Memberships[' + MembershipIcnt + '].StartDate');
+                jQuery('.rssMembEndDate', row).attr('id', 'Memberships_' + MembershipIcnt + '__EndDate').attr('name', 'Memberships[' + MembershipIcnt + '].EndDate');
+                $(".Membership_wrapperDynamic").append(row).find("input,textarea").val("");
+                MembershipIcnt++;
+            });
+
+            $("#Btn_AddLanguages").click(function () {
+                var row = jQuery('.Language_Wrapper:last').clone();
+                jQuery('.removelanguages', row).css('display', 'block');
+                jQuery('.rsslanguageName', row).attr('id', 'languages_' + LangIcnt + '__LanguageID').attr('name', 'languages[' + LangIcnt + '].LanguageID');
+                jQuery('.rsslanguageLevel', row).attr('id', 'languages_' + LangIcnt + '__LevelID').attr('name', 'languages[' + LangIcnt + '].LevelID');
+                $(".Language_WrapperDynamic").append(row).find("input,textarea").val("");
+                LangIcnt++;
+            });
+            $("#Btn_AddPortfolio").click(function () {
+                var row = jQuery('.Portfolio_Wrapper:last').clone();
+                jQuery('.removePortfolio', row).css('display', 'block');
+                jQuery('.rssportfolio', row).attr('id', 'Portfolio_' + LangIcnt + '__portfolio').attr('name', 'Portfolio[' + FolioIcnt + '].portfolio');
+                $(".Portfolio_WrapperDynamic").append(row).find("input,textarea").val("");
+                FolioIcnt++;
+            });
+
+        });
+
+
+        function FileUploadserver() {
+
+        }
+    </script>
+}
+

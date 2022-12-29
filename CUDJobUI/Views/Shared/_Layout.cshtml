@@ -1,0 +1,395 @@
+﻿@using Microsoft.AspNetCore.Http
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"]</title>
+
+    <link href="~/lib/bootstrap/dist/bootstrap5/bootstrap.min.css" rel="stylesheet" />
+    @*<link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />*@
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.2/css/bootstrap.css" />
+    @*<link rel="stylesheet" href="https://cdn.datatables.net/1.10.25/css/dataTables.bootstrap4.min.css" />
+        <link rel="stylesheet" href="https://cdn.datatables.net/buttons/1.7.0/css/buttons.dataTables.min.css" />*@
+    <link rel="stylesheet" href="https://gyrocode.github.io/jquery-datatables-checkboxes/1.2.12/css/dataTables.checkboxes.css" />
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/dt/jszip-2.5.0/dt-1.11.4/b-2.2.2/b-colvis-2.2.2/b-html5-2.2.2/b-print-2.2.2/datatables.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" />
+    <link rel="stylesheet" href="~/css/Main.css" />
+    <link rel="stylesheet" href="~/css/external.css" />
+    <link href="~/lib/font-awesome/css/all.css" rel="stylesheet" />
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;1,100;1,300;1,400&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.2/jquery-confirm.min.css">
+</head>
+<body>
+    <header>
+        <nav class="navbar navbar-expand-sm navbar-toggleable-sm box-shadow fixed-top" style="background:#414c55;clear:both;">
+            <div class="container-fluid">
+                <!--OffCanvas Trigger-->
+                <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasExample" aria-controls="offcanvasExample">
+                    <i class="fas fa-sliders-h text-white"></i>
+                </button>
+                <!--OffCanvas Trigger-->
+                <a class="navbar-brand" asp-area="" asp-controller="Account" asp-action="Login">
+                    <img src="~/Images/logo-sticky.png" alt="logo" style="width:190px;" />
+                </a>
+                @*<button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
+                            aria-expanded="false" aria-label="Toggle navigation">
+                        <span class="navbar-toggler-icon" data-target=".navbar-collapse"></span>
+                    </button>*@
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                    <i class="fas fa-sliders-h text-white"></i>
+                </button>
+                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between" id="navbarSupportedContent">
+                    <ul class="navbar-nav flex-grow-1 ml-auto">
+                        @if (Context.Session.GetString("EmailID") != null && Context.Session.GetString("EmailID") != "")
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link text-white" asp-area="" asp-controller="Job" asp-action="Index">SearchJobs</a>
+                            </li>
+                        }
+                        <li class="nav-item">
+                            <a class="nav-link text-white" target="_blank" href="https://www.cud.ac.ae/about">About CUD</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-white" href="https://www.cud.ac.ae/contact" target="_blank">Contact us</a>
+                        </li>
+                    </ul>
+                    <ul class="navbar-nav ml-auto">
+                        @if (Context.Session.GetString("EmailID") != null && Context.Session.GetString("EmailID") != "")
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link text-white">Welcome @Context.Session.GetString("EmailID")</a>
+                            </li>
+                        }
+                        @*@if (Context.Session.GetString("LoginType") == "Student")
+                            {
+                                @if (Context.Session.GetInt32("ProfileID") != null && Context.Session.GetInt32("ProfileID") != 0)
+                                {
+                                    <li class="nav-item">
+                                        <a class="nav-link text-white" href="@Url.Action("Profile", "Student", new { id = @Context.Session.GetInt32("ProfileID") })">Profile</a>
+                                    </li>
+                                }
+                            }*@
+                        else if (Context.Session.GetString("LoginType") == "Company")
+                        {
+                            @if (Context.Session.GetInt32("ProfileID") != null && Context.Session.GetInt32("ProfileID") != 0)
+                            {
+                                <li class="nav-item">
+                                    <a class="nav-link text-white" href="@Url.Action("Details", "Company", new { id = @Context.Session.GetInt32("ProfileID") })">Profile</a>
+                                </li>
+                            }
+                        }
+                        else if (Context.Session.GetString("LoginType") == "Admin")
+                        {
+                            @if (Context.Session.GetInt32("ProfileID") != null && Context.Session.GetInt32("ProfileID") != 0)
+                            {
+                                <li class="nav-item">
+                                    <a class="nav-link text-white" href="@Url.Action("Index", "Admin")">Home</a>
+                                </li>
+                            }
+                        }
+                        @if (Context.Session.GetString("LoginType") == "Student")
+                        {
+                            @if (Context.Session.GetInt32("ProfileID") != null && Context.Session.GetInt32("ProfileID") != 0)
+                            {
+                                <li class="nav-item dropdown">
+                                    <a class="nav-link dropdown-toggle text-white" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="true">
+                                        <i class="fas fa-user"></i>
+                                    </a>
+                                    <ul class="dropdown-menu dropdown-menu-end p-2 bg-dark" aria-labelledby="navbarDropdown">
+                                        <li><a class="nav-link text-white" href="@Url.Action("Profile", "Student", new { id = @Context.Session.GetInt32("ProfileID") })"><i class="fas fa-id-badge"></i> Profile</a></li>
+                                        <li><a class="nav-link text-white" href="@Url.Action("JobsByStudent", "Job", new { id = @Context.Session.GetInt32("ProfileID") })"><i class="fas fa-cart-plus"></i> Applied Jobs</a></li>
+                                    </ul>
+                                </li>
+
+                            }
+                        }
+                        @if (Context.Session.GetInt32("ProfileID") != null && Context.Session.GetInt32("ProfileID") != 0)
+                        {
+                            <li class="nav-item">
+                                <a class="btn small btn-outline-light" href="@Url.Action("Logout", "Account")"><span class="fa fa-sign-out-alt" aria-hidden="true"></span>Logout</a>
+                            </li>
+                        }
+                        @if (Context.Session.GetInt32("ProfileID") == null || Context.Session.GetInt32("ProfileID") == 0)
+                        {
+                            <li class="nav-item">
+                                <a class="btn small btn-outline-light" href="@Url.Action("Login", "Account")"><i class="fas fa-sign-in-alt" aria-hidden="true"></i> Login</a>
+                            </li>
+                        }
+                        @if (Context.Session.GetInt32("ProfileID") == null || Context.Session.GetInt32("ProfileID") == 0)
+                        {
+                            <li class="nav-item">
+                                <a class="btn small btn-outline-light ml-2" href="@Url.Action("Register", "Account")"><i class="far fa-registered" aria-hidden="true"></i> Register as Employee</a>
+                            </li>
+                        }
+                    </ul>
+                </div>
+            </div>
+        </nav>
+
+        @*OffCanvas*@
+
+
+
+        <div class="offcanvas offcanvas-start sidebar-nav" tabindex="-1" id="offcanvasExample" aria-labelledby="offcanvasExampleLabel">
+            <div class="offcanvas-body p-0">
+                <nav class="navbar nav">
+                    <div class="row">
+                        <div class="col col-12 my-2">
+                            <div class="text-muted fw-bold small text-uppercase px-3">
+                                CORE
+                            </div>
+                        </div>
+                        <div class="col col-12 my-2">
+                            <div class="px-3">
+                                <a href="@Url.Action("Index", "Admin")" class="list-group-item menu-list">
+                                    <span class="text-white"><i class="fas fa-tachometer-alt me-2"></i></span> <span>Dashboard</span>
+                                </a>
+                            </div>
+                        </div>
+                        <div class="col col-12 px-3 my-2">
+                            <hr class="dropdown-divider" />
+                        </div>
+                        <div class="list-group p-0 m-0">
+                            <a href="@Url.Action("CompanyforApproval", "Company")" class="list-group-item menu-list">
+                                <span><i class="fas fa-building me-2"></i></span><span class="me-2">New Company List</span>
+                                <span class="d-inline-block" tabindex="0" data-toggle="tooltip"
+                                      title="You can see all the newly created company here who are waiting for approvals.">
+                                    <i class="fa fa-question-circle" aria-hidden="true"></i>
+                                </span>
+                            </a>
+                            <a href="@Url.Action("JobsforApproval", "Job")" class="list-group-item menu-list">
+                                <span><i class="fas fa-user-md me-2"></i></span> <span class="me-2">New Jobs List</span>
+                                <span class="d-inline-block" tabindex="0" data-toggle="tooltip"
+                                      title="Check and approve the oppoprtunities postings.">
+                                    <i class="fa fa-question-circle" aria-hidden="true"></i>
+                                </span>
+                            </a>
+                            <a href="@Url.Action("Index", "Student")" class="list-group-item menu-list">
+                                <span><i class="fas fa-user-graduate me-2"></i></span> <span class="me-2">Students List</span>
+                                <span class="d-inline-block" tabindex="0" data-toggle="tooltip"
+                                      title="You can see the list of registered Student details and there profile and Applied jobs.">
+                                    <i class="fa fa-question-circle" aria-hidden="true"></i>
+                                </span>
+                            </a>
+                            <a href="@Url.Action("Index", "Company")" class="list-group-item menu-list">
+                                <span><i class="fas fa-building me-2"></i></span><span class="me-2">Companies List</span>
+                                <span class="d-inline-block" tabindex="0" data-toggle="tooltip"
+                                      title="View the list of registered companies and their activities.">
+                                    <i class="fa fa-question-circle" aria-hidden="true"></i>
+                                </span>
+                            </a>
+                            <a href="@Url.Action("JobList", "Job")" class="list-group-item menu-list">
+                                <span><i class="fas fa-user-md me-2"></i></span> <span class="me-2">Opportunities List</span>
+                                <span class="d-inline-block" tabindex="0" data-toggle="tooltip"
+                                      title="View the list of posted opportunities and the applications received.">
+                                    <i class="fa fa-question-circle" aria-hidden="true"></i>
+                                </span>
+                            </a>
+                            <a href="@Url.Action("JobCreateByAdmin", "Job")" class="list-group-item menu-list">
+                                <span><i class="fas fa-user-md me-2"></i></span> <span class="me-2">Post Opportunities</span>
+                                <span class="d-inline-block" tabindex="0" data-bs-toggle="tooltip"
+                                      title="Post jobs and internship opportunities.">
+                                    <i class="fa fa-question-circle" aria-hidden="true"></i>
+                                </span>
+                            </a>
+                        </div>
+                    </div>
+                </nav>
+            </div>
+        </div>
+
+
+        @*OffCanvas*@
+    </header>
+    @*<div class="container container-fluid">*@
+    <div>
+        <main role="main" class="mt-5 pt-3">
+
+            @*<div>
+                    <breadcrumb></breadcrumb>
+                </div>*@
+
+            @RenderBody()
+
+            @*Footer*@
+
+            <footer class="spr2020_21 container-fluid py-3 py-md-5" style="background:#414c55;clear:both;">
+                <div class="container">
+                    <div class="row flex-column-fix  mb-1 mb-md-3">
+                        <div class="mb-4 mb-md-3 col col-12 col-md-4">
+
+                            <div class="row flex-column-fix ">
+                                <div class="col col-12 col-md-10">
+
+                                    <div class="row">
+                                        <div class="col col-6 col-md-12">
+                                            <a href="https://www.cud.ac.ae"><img alt="Canadian University Dubai" src="~/Images/logo-sticky.png" /></a>
+                                        </div>
+                                        <div class="col col-6 col-md-12 mb-5">
+                                            @*<a class="apply d-inline-block mb-4 my-md-4 px-3 py-2 text-light" style="border:3px solid #d5202a;border-radius:50px;" target="_blank" href="https://cudportal.cud.ac.ae/apply">Apply online</a>*@
+                                        </div>
+                                    </div>
+                                    <ul class="row u-none flex-row m-auto social">
+                                        <li class="col px-2 pl-0">
+                                            <a href="http://www.youtube.com/user/webcud" target="_blank" class="text-white cud force hover">
+                                                <i class="fab fa-youtube" aria-hidden="true"></i>
+                                            </a>
+                                        </li>
+                                        <li class="col px-1">
+                                            <a href="https://twitter.com/" target="_blank" class="text-white cud force hover">
+                                                <i class="fab fa-twitter" aria-hidden="true"></i>
+                                            </a>
+                                        </li>
+                                        <li class="col px-1">
+                                            <a href="http://instagram.com/canadianuniversitydubai" target="_blank" class="text-white cud force hover">
+                                                <i class="fab fa-instagram" aria-hidden="true"></i>
+                                            </a>
+                                        </li>
+                                        <li class="col px-1">
+                                            <a href="http://www.facebook.com/CanadianUniversityDubai" target="_blank" class="text-white cud force hover">
+                                                <i class="fab fa-facebook-f" aria-hidden="true"></i>
+                                            </a>
+                                        </li>
+                                        <li class="col px-1">
+                                            <a href="https://www.linkedin.com/school/canadian-university-dubai" target="_blank" class="text-white cud force hover">
+                                                <i class="fab fa-linkedin-in" aria-hidden="true"></i>
+                                            </a>
+                                        </li>
+                                        <li class="col px-1 pr-0">
+                                            <a href="https://api.whatsapp.com/send?phone=+971525069283&amp;text=Chat+from+Website" target="_blank" class="text-white cud force hover">
+                                                <i class="fab fa-whatsapp" aria-hidden="true"></i>
+                                            </a>
+                                        </li>
+                                        <li class="col px-1 pr-0">
+                                            <a href="https://www.tiktok.com/" target="_blank" class="text-white cud force hover">
+                                                <i class="fab fa-tiktok" aria-hidden="true"></i>
+                                            </a>
+                                        </li>
+                                        <li class="col px-1">
+                                            <a href="https://www.cud.ac.ae/contact/connect-with-cud/snapchat" target="_blank" class="text-white cud force hover">
+                                                <i class="fab fa-snapchat" aria-hidden="true"><!-- empty --></i>
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </div>
+
+                            </div>
+                        </div>
+                        <div class="mb-3 col col-12 col-md-8">
+                            <div class="footer">
+                                <div class="row flex-column-fix">
+                                    <div class="mb-3 col col-6 col-md-3">
+                                        <span data-href="/" class="d-block mb-2 text-white text-uppercase small">Quick Links</span>
+                                        <ul class="u-none">
+                                            <li class="d-block mb-1 small cud fw-100">
+                                                <a class="text-white cud force hover" href="https://www.cud.ac.ae/about" target="_blank">About CUD</a>
+                                            </li>
+                                            <li class="d-block mb-1 small cud fw-100">
+                                                <a class="text-white cud force hover" href="/job/index">Careers</a>
+                                            </li>
+                                            <li class="d-block mb-1 small cud fw-100">
+                                                <a class="text-white cud force hover" href="https://www.cud.ac.ae/city-walk" target="_blank">City walk</a>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                    <div class="mb-3 col col-6 col-md-3">
+                                        <span class="d-block mb-2 text-white text-uppercase small force hover">Get in touch</span>
+                                        <ul class="u-none">
+                                            <li class="d-block mb-1 small cud fw-100">
+                                                <a class="text-white cud force hover" href="https://www.cud.ac.ae/contact" target="_blank">Contact us</a>
+                                            </li>
+                                            <li class="d-block mb-1 small cud fw-100">
+                                                <a class="text-white cud force hover" href="https://www.cud.ac.ae/downloads/location-map" target="_blank">Location map</a>
+                                            </li>
+                                            <li class="d-block mb-1 small cud fw-100">
+                                                <a class="text-white cud force hover" href="https://www.cud.ac.ae/contact/university-timings" target="_blank">Timings</a>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                    <div class="col col-12 col-md-6 mb-3">
+                                        <p class="text-white">For any support or bug please contcat us at <span><a class="text-white" href="mailto:icthelpdesk@cud.ac.ae">icthelpdesk@cud.ac.ae</a></span> </p>
+                                    </div>
+                                </div>
+                                <div class="row flex-column-fix">
+                                    <div class="col col-12 	text-right">
+                                        <img alt="Inspiring minds transforming lives" class="slogan" src="https://www.cud.ac.ae/themes/indicud/media/img/slogan-inspiring-minds-transforming-lives.png">
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                    <div class="row flex-column-fix  pt-1 pt-md-3 mb-1 mb-md-3 text-light" style="border-top:1px solid #555">
+                        <div class="mt-3 col col-6 small">
+                            <span class="small cud fw-100">
+                                ©2021
+                                Canadian University Dubai.
+                                <br class="d-block d-md-none">All rights reserved.
+                            </span>
+                        </div>
+                        <div class="mt-3 col col-6 small text-right">
+                            @*<a class="text-white cud force hover" href="/sitemap">
+                                    <span class="small cud fw-100">Sitemap</span>
+                                </a>*@
+                            <a class="text-white cud force hover" href="https://www.cud.ac.ae/legal-information" target="_blank">
+                                <span class="small cud fw-100">Terms &amp; conditions</span>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </footer>
+
+
+            @*Footer*@
+
+        </main>
+    </div>
+
+    <div class="modal" tabindex="-1" role="dialog" id="form-modal">
+        <div class="modal-dialog" style="max-width:1000px;" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Modal title</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+    @*<footer class="border-top footer text-white" style="background: #414c55;">
+
+            <div class="container">
+            &copy; 2021 - CudJobUI - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+            </div>
+        </footer>*@    
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    <script src="~/js/notify.min.js" asp-append-version="true"></script>
+    <script src="https://cdn.datatables.net/1.11.4/js/jquery.dataTables.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.36/pdfmake.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.36/vfs_fonts.js"></script>
+    <script type="text/javascript" src="https://cdn.datatables.net/v/dt/jszip-2.5.0/dt-1.11.4/b-2.2.2/b-colvis-2.2.2/b-html5-2.2.2/b-print-2.2.2/datatables.min.js"></script>
+    <script src="https://gyrocode.github.io/jquery-datatables-checkboxes/1.2.12/js/dataTables.checkboxes.min.js"></script>
+    <script src="https://cdn.tiny.cloud/1/nq0msrg0kr2wv727doutyy75r2hmsr8xobcuayphk47xr9yo/tinymce/5/tinymce.min.js" referrerpolicy="origin"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.2/jquery-confirm.min.js"></script>
+    @*<script src="https://cdn.tiny.cloud/1/bf7rbsb02uxzvuxxdkxcy7u75h97054iplk7bbl6jitvoi9e/tinymce/5/tinymce.min.js" referrerpolicy="origin"></script>*@
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    @*@await RenderSectionAsync(" Scripts", required: false)*@
+    @if (IsSectionDefined("Scripts")) { RenderSection("Scripts"); }
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('[data-toggle="tooltip"]').tooltip();
+        });
+    </script>
+
+</body>
+</html>

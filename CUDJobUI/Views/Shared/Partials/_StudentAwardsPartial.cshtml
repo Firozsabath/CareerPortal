@@ -1,0 +1,38 @@
+﻿@model CudJobUI.ViewModels.StudentProfile
+
+<div class="card mb-3">
+    <div class="profileheader">
+        <div class="row py-3">
+            <div class="col-lg-5">
+                <h4 class="shortheading">Awards</h4>
+            </div>
+            <div class="col-lg-7">
+                <a onclick="Showpopup('@Url.Action("EditAwards","Student",new { id = Model.StudentPersonal.StudentID,Typeof = "Add"},Context.Request.Scheme)', 'Add Awards')" class="Section-links float-right"><span class="fa fa-plus" aria-hidden="true"></span> Add New</a>
+                <a onclick="Showpopup('@Url.Action("EditAwards","Student",new { id = Model.StudentPersonal.StudentID,Typeof = "Edit"},Context.Request.Scheme)', 'Edit Awards')" class="Section-links float-right mr-3"><span class="fa fa-pen" aria-hidden="true"></span> Edit</a>
+            </div>
+        </div>
+    </div>
+    <div class="card-body pt-0">
+        @foreach (var item in Model.Awards)
+        {
+            <div class="outer_div mb-2">
+                <i class="fas fa-trash-alt float-right" onclick="DeleteStudentModules('Awards','@item.AwardID');"></i>
+                <dl class="row">
+                    <dt class="col-sm-3">
+                        @Html.DisplayNameFor(model => model.Awards[0].AwardName)
+                    </dt>
+                    <dd class="col-sm-9">
+                        @Html.DisplayFor(model => item.AwardName)
+                    </dd>
+                    <dt class="col-sm-3">
+                        @Html.DisplayNameFor(model => model.Awards[0].AwardDate)
+                    </dt>
+                    <dd class="col-sm-9">
+                        @Html.DisplayFor(model => item.AwardDate)
+                    </dd>
+                </dl>
+            </div>
+        }
+        @*@Html.ActionLink("Edit", "Edit", new { id = Model.StudentPersonal.StudentID, @class = "btn btn-primary" })*@
+    </div>
+</div>

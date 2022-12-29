@@ -1,0 +1,223 @@
+﻿body {
+    margin-bottom:0px;
+    background-color: #f4f4f4;
+    font-family: 'Roboto', sans-serif;
+}
+.stcontainer{
+    background-color:#fff;
+    padding:10px;
+}
+.joblist {
+    padding: 10px;
+    border-bottom: 1px solid #aaa;
+}
+
+.form-signin {
+    width: 100%;
+    max-width: 330px;
+    padding: 15px;
+    margin: auto;
+}
+
+.form-signin .checkbox {
+        font-weight: 400;
+}
+
+.form-signin .form-control {
+    position: relative;
+    box-sizing: border-box;
+    height: auto;
+    padding: 10px;
+    font-size: 16px;
+}
+
+.form-signin .form-control:focus {
+    z-index: 2;
+}
+
+label {
+    font-weight: 600;
+    color: #33506f;
+    font-size:13px;
+}
+
+/*Carousel*/
+.featurette-divider {
+    margin: 5rem 0; /* Space out the Bootstrap <hr> more */
+}
+
+/* Thin out the marketing headings */
+.featurette-heading {
+    font-weight: 300;
+    line-height: 1;
+    letter-spacing: -.05rem;
+}
+
+@media (min-width: 62em) {
+    .featurette-heading {
+        margin-top: 5rem;
+    }
+}
+
+@media (min-width: 40em) {
+    .featurette-heading {
+        font-size: 50px;
+    }
+}
+
+/*Register page style*/
+.Registerdiv {
+    padding: 65px 40px 65px 40px;    
+    background-color: #dddbdb;
+}
+
+.outer_div {
+    border: 1px;
+    border-color: #cac0c0;
+    padding: 16px;
+    border-style: solid;
+    border-radius: 6px;
+}
+
+.profileheader {
+    color: #d5202a;
+    font-weight: bold;
+    padding: 10px 15px 0px 15px;
+}
+
+.clickable-row:hover {
+    background: #fafafa;
+    cursor: pointer;
+    color: #0366d6;
+}
+
+.progressbar:hover #Onlyhovershow {
+    display: block;
+}
+
+.progressbar #Onlyhovershow {
+    display: none;
+    position: absolute;
+    background-color: #fff;
+    width: 250px;   
+    top: -20px;
+}
+
+.shortjob:hover {
+    background-color: #f4f4f4;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+}
+
+.tableheaderst {
+    background-color: #d8212c;
+    vertical-align: bottom;
+    color: #fff;
+}
+
+.tablelist{
+    width:100%;
+    font-size:14px;
+}
+
+.Sectiontittle {
+    color: #d5202a;
+    font-weight: bold;
+    font-size:1.25rem;
+}
+.shortheading::after {
+    content: "";
+    display: block;
+    width: 55px;
+    padding-top: 3px;
+    padding-bottom: 3px;
+    border-bottom: 4px solid #d5202a;
+}
+
+
+:root{
+    --offcanvas-width:270px;
+    --topNavBarHeight:75px;
+}
+
+.sidebar-nav {
+    width: var(--offcanvas-width);
+    background: #414c55;   
+}
+
+.sidebar-nav a {    
+    color: #ffffff;
+}
+
+.sidebar-nav a:hover{
+    text-decoration:none;
+    /*color:black;*/
+}
+
+.list-group-item {
+    background-color: transparent !important;
+}
+
+.menu-list{
+    padding:20px;
+}
+
+.menu-list:hover {
+    background-color: #848484 !important;
+    /*color: black;*/
+}
+
+.multi_select{
+   max-width:100% !important;
+   width : 100% !important;
+}
+
+.vscomp-toggle-button{
+    padding:13px 30px 13px 13px !important;
+    border-radius:5px;
+}
+
+
+
+@media (min-width:992px){
+    .body{
+        overflow:auto !important;
+    }
+    .offcanvas-backdrop::before{
+        display:none;
+    }
+    main {
+        margin-left: var(--offcanvas-width);
+        margin-top: var(--topNavBarHeight);
+    }
+    .sidebar-nav {
+        transform: none;
+        visibility: visible !important;
+        top: var(--topNavBarHeight);
+        height: calc(100% - var(--topNavBarHeight));       
+    }
+}
+
+.bg-hero-overlay {
+    background: linear-gradient(rgba(100,100,100,.7), rgba(0,0,0,.7)), url("../../Images/sampletest.jpg");
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center center;
+    color: #fff;
+    height: 450px;
+    padding-top: 65px;
+    margin-top:105px;
+}
+
+
+@media (min-width:500px) { 
+    .sidebar-nav {       
+        background: #414c55;
+        color: #ffffff;
+    }
+}
+
+.support-img{
+    position:fixed;
+    bottom:100px;
+    right:-500px;
+}

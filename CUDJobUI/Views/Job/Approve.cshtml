@@ -1,0 +1,15 @@
+﻿
+@{
+    ViewData["Title"] = "Approve";
+}
+
+<div class="container container-fluid">
+    <div class="alert alert-success mt-4 p-4" role="alert">
+        <h4>Thank You!</h4>
+        <p>Job is been Approved, an detailed Email notification has been send to the company.</p>
+        <p><a href="@Url.Action("JobsforApproval","Job")" class="btn btn-danger p-3">Go Back to Approve List</a>
+           <a href="@Url.Action("Index","Admin")" class="btn btn-danger p-3">Go Back to Home</a>
+        </p>
+    </div>
+</div>
+

@@ -1,0 +1,51 @@
+﻿@model IList<CudJobUI.ViewModels.StudentWorkAvailabilityVM>
+@{
+    ViewData["Title"] = "EditWorkAvailability";
+    Layout = "";
+}
+<div class="container">
+    <div class="container-fluid bg-transparent blue">
+        <h1>EditWorkAvailability</h1>
+    </div>
+    <form asp-action="EditWorkAvailability" asp-route-id ="@Model[0].StudentID" onsubmit="return jQueryAjaxPost(this,'MyprofileExperience');">
+        <div class="card mb-3">
+            <div class="card-header" style="color: #d5202a;font-weight:bold;">
+                Work Availabilty Details
+            </div>
+            <div class="card-body">
+                @for (int i = 0; i < Model.Count; i++)
+                {
+                    <div class="outer_div">
+                        <div class="row">
+                            <div class="col-lg-6">
+                                <label asp-for="@Model[0].DaysPerWeekID" class="control-label"></label>
+                                @*<input asp-for="@Model[0].DaysPerWeekID" class="form-control rssOrganisation" />*@
+                                <select asp-for="@Model[0].DaysPerWeekID" required class="form-control rssDaysPerWeek" asp-items="@(new SelectList(ViewBag.DaysOption, "DaysPerWeekID", "Options"))"></select>
+                            </div>
+                            <div class="col-lg-6">
+                                <label asp-for="@Model[0].HoursPerWeekID" class="control-label"></label>
+                                @*<input asp-for="@Model[0].HoursPerWeekID" class="form-control rssMembRole" />*@
+                                <select asp-for="@Model[0].HoursPerWeekID" required class="form-control rssHoursPerWeek" asp-items="@(new SelectList(ViewBag.HoursOption, "HoursPerWeekID", "Options"))"></select>
+                            </div>
+                        </div>
+                        <div style="display:none;">
+                            <div class="form-group">
+                                <label asp-for="@Model[0].StudentID" class="control-label"></label>
+                                <input asp-for="@Model[0].StudentID" class="form-control" />
+                                <span asp-validation-for="@Model[0].StudentID" class="text-danger"></span>
+                            </div>
+                            <div class="form-group">
+                                <label asp-for="@Model[0].AvailabilityID" class="control-label"></label>
+                                <input asp-for="@Model[0].AvailabilityID" class="form-control" />
+                                <span asp-validation-for="@Model[0].AvailabilityID" class="text-danger"></span>
+                            </div>
+                        </div>
+                    </div>
+                }                
+                <button type="submit" class="btn btn-danger float-right mt-3"> Save Awailability </button>
+            </div>
+        </div>
+    </form>
+</div>
+
+

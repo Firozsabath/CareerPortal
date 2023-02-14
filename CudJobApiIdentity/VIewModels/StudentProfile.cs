@@ -88,4 +88,10 @@ namespace CUDJobAPiIdentity.VIewModels
         public string SkillID { get; set; }
         public string SkillType { get; set; }
     }
+
+    public class studentProfilephase1
+    {
+        public StudentProfileDTO studentprofile { get; set; }
+        public IList<StudentEducationDTO> studentEdu { get; set; }
+    }
 }

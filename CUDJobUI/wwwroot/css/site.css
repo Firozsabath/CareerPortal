@@ -63,4 +63,13 @@ html {
     padding: 0;
     margin: 0;
 }
+
+.stdCompanydt ul{
+    list-style:none;
+}
+
+.stdCompanydt ul li {
+    list-style: none;
+    margin-bottom:10px;
+    font-size:13px;
 }

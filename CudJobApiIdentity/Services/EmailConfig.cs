@@ -51,8 +51,8 @@ namespace CUDJobApiIdentity.Services
             smtp.EnableSsl = true;
             smtp.DeliveryMethod = SmtpDeliveryMethod.Network;
             NetworkCredential NetworkCred = new NetworkCredential();
-            NetworkCred.UserName = "cudmailsender@cud.ac.ae";
-            NetworkCred.Password = "Mxc%44#Mt4%%%fGGTRgy676";
+            NetworkCred.UserName = _configuration["Email:EmailUserName"].ToString();
+            NetworkCred.Password = _configuration["Email:EmailPassword"].ToString();
             smtp.UseDefaultCredentials = false;
             smtp.Credentials = NetworkCred;            
             try
@@ -147,6 +147,14 @@ namespace CUDJobApiIdentity.Services
                 body = body.Replace("{Name}", email.Name);
                 body = body.Replace("{Position}", email.PostionName);
                 body = body.Replace("{company}", email.CompanyName);
+            }
+            else if (email.Type == "LicenseExpiry")
+            {
+                using (StreamReader reader = new StreamReader(_hostingEnvironment.ContentRootPath + "/Email_Templates/LicenseExpiry.html"))
+                {
+                    body = reader.ReadToEnd();
+                }
+                body = body.Replace("{Name}", email.Name);         
             }
             return body;            
         }

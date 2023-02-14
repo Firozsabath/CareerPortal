@@ -298,6 +298,13 @@ namespace CUDJobAPiIdentity.Services
             }            
             return studentProfile;
         }
+
+        public async Task<bool> studentprofilecreatetest(studentProfilephase1 data)
+        {
+            var isexists = await _db.Students.AnyAsync(o => o.EmailID == data.studentprofile.EmailID);
+            StudentSeekers Studentdtls = new StudentSeekers();
+            return true;
+        }
         //private ObjectResult InternalError(string message)
         //{
         //    _Logger.LogError(message);

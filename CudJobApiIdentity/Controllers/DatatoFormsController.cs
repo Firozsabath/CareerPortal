@@ -324,10 +324,14 @@ namespace CUDJobApiIdentity.Controllers
             {
                 var Companyratio = await _externalFunctions.Getcompanyratio();
                 var dboardDetails = await _externalFunctions.GetDashboardDetails();
+                var Studentratio = await _externalFunctions.GetStudentratio();
+                var Jobratio = await _externalFunctions.GetJobratio();
 
                 var dashboardviewModel = new DashboardViewModel { 
                     CompanyRatio = Companyratio,
-                    DboardKeyDetails = dboardDetails
+                    DboardKeyDetails = dboardDetails,
+                    StudentRatio = Studentratio,
+                    JobRatio = Jobratio
                 };
 
                 return Ok(dashboardviewModel);

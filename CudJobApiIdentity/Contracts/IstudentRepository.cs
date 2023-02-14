@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 namespace CUDJobAPiIdentity.Contracts
 {
     public interface IStudentRepository : IRepositoryBase<StudentProfile>
-    {        
+    {
+       // public bool studentprofilecreatetest(studentProfilephase1 data);
     }
 }

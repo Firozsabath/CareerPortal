@@ -48,6 +48,7 @@ namespace CUDJobAPiIdentity.Data
         public DbSet<Computerskills> Computerskills { get; set; }
         public DbSet<LanguageNames> LanguageNames { get; set; }
         public DbSet<LanguageLevels> LanguageLevels { get; set; }
+        public DbSet<Tbl_Userloginlogs> Tbl_Userloginlogs { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {

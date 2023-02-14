@@ -1,9 +1,12 @@
-﻿using CUDJobApiIdentity.Contracts;
+﻿using AutoMapper;
+using CUDJobApiIdentity.Contracts;
 using CUDJobApiIdentity.DTOs;
+using CUDJobApiIdentity.Models;
 using CUDJobApiIdentity.VIewModels;
 using CUDJobAPiIdentity.Data;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -12,9 +15,12 @@ namespace CUDJobApiIdentity.Services
     public class ExternalFunctions : IExternalFunctions
     {
         private readonly ApplicationDbContext _db;
-        public ExternalFunctions(ApplicationDbContext db)
+        private readonly IMapper _mapper;
+
+        public ExternalFunctions(ApplicationDbContext db, IMapper Mapper)
         {
             _db = db;
+            _mapper = Mapper;
         }
         public string ApplicationCount(int Jobid)
         {
@@ -29,8 +35,8 @@ namespace CUDJobApiIdentity.Services
             List<ChartViewModel> vm = new List<ChartViewModel>();
             var company =  _db.Companies.ToList();
             //IEnumerable<int> monthGrp1 = company.GroupBy(e => DateTime.Parse(e).Month).Select(e => e.Count());
-            var monthGrp = company.GroupBy(s => s.CreatedDate.ToString("MMMM"))
-                .OrderBy(monthGroup => monthGroup.Key)    
+            var monthGrp = company.GroupBy(s => s.CreatedDate.ToString("MMMM-yy"))
+                .OrderBy(monthGroup => DateTime.ParseExact(monthGroup.Key,"MMMM-yy",new CultureInfo("en-US")))  //**Sorts based on the month**
                 .Select(monthGroup => new
                 {
                     Month = monthGroup.Key,
@@ -45,6 +51,7 @@ namespace CUDJobApiIdentity.Services
                     Quantity = item.MonthCount
                 });
             }
+            var orderedlist = vm.OrderBy(x => x.DimensionOne).ToList();
             return vm;
         }
 
@@ -60,6 +67,58 @@ namespace CUDJobApiIdentity.Services
             return DBDetails;
         }
 
+        public async Task<List<ChartViewModel>> GetJobratio()
+        {
+            List<ChartViewModel> vm = new List<ChartViewModel>();
+            var students = _db.Companies.ToList();
+            //IEnumerable<int> monthGrp1 = company.GroupBy(e => DateTime.Parse(e).Month).Select(e => e.Count());
+
+            var monthGrp = students.GroupBy(s => s.CreatedDate.ToString("MMMM-yy"))
+                .OrderBy(monthGroup => DateTime.ParseExact(monthGroup.Key, "MMMM-yy", new CultureInfo("en-US")))
+                .Select(monthGroup => new
+                {
+                    Month = monthGroup.Key,
+                    MonthCount = monthGroup.Count()
+                }
+                );
+
+            foreach (var item in monthGrp)
+            {
+                vm.Add(new ChartViewModel
+                {
+                    DimensionOne = item.Month,
+                    Quantity = item.MonthCount
+                });
+            }
+            return vm;
+        }
+
+        public async Task<List<ChartViewModel>> GetStudentratio()
+        {
+            List<ChartViewModel> vm = new List<ChartViewModel>();
+            var students = _db.Students.ToList();
+            //IEnumerable<int> monthGrp1 = company.GroupBy(e => DateTime.Parse(e).Month).Select(e => e.Count());
+            
+            var monthGrp = students.GroupBy(s => s.CreatedDate.HasValue ? s.CreatedDate.Value.ToString("MMMM-yy") : DateTime.Now.ToString("MMMM-yy"))
+                .OrderBy(monthGroup => DateTime.ParseExact(monthGroup.Key, "MMMM-yy", new CultureInfo("en-US")))
+                .Select(monthGroup => new
+                {
+                    Month = monthGroup.Key,
+                    MonthCount = monthGroup.Count()
+                }
+                );
+
+            foreach (var item in monthGrp)
+            {
+                vm.Add(new ChartViewModel
+                {
+                    DimensionOne = item.Month,
+                    Quantity = item.MonthCount
+                });
+            }
+            return vm;
+        }
+
         public string HiredApplicationCount()
         {
             var recordset = _db.AppliedJobs.Where(e => e.StatusID == 5).Count();
@@ -68,5 +127,12 @@ namespace CUDJobApiIdentity.Services
 
         }
 
+        public async Task<bool> userLogsIn(Tbl_UserloginlogsDTO data)
+        {
+            var logs = _mapper.Map<Tbl_Userloginlogs>(data);
+            await _db.Tbl_Userloginlogs.AddAsync(logs);
+            var chaanges = await _db.SaveChangesAsync();
+            return chaanges > 0;
+        }
     }
 }

@@ -88,4 +88,11 @@ namespace CudJobUI.ViewModels
 
         public IList<Projects> projects { get; set; }
     }
+
+
+    public class studentProfilephase1
+    {
+        public StudentModel studentprofile { get; set; }
+        public IList<StudentEducation> studentEdu { get; set; }
+    }
 }

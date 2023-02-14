@@ -30,7 +30,7 @@
                                 <label asp-for="Companies.Website" class="form-label">URL</label>
                                 <div class="input-group mb-3">
                                     <span class="input-group-text" id="basic-addon3">https://example.com/users/</span>
-                                    <input asp-for="Companies.Website" type="text" class="form-control" id="basic-url" aria-describedby="basic-addon3" required>
+                                    <input asp-for="Companies.Website" type="text" class="form-control" id="basic-url" aria-describedby="basic-addon3" maxlength="95" required>
                                     <div class="invalid-feedback">Company Website is Required.</div>
                                 </div>
                             </div>
@@ -39,7 +39,7 @@
                             <div class="col-lg-6">
                                 <div class="form-group">
                                     <label asp-for="CompanyAddress.Address1" class="control-label">Building / Office No. </label>
-                                    <input asp-for="CompanyAddress.Address1" class="form-control" />
+                                    <input asp-for="CompanyAddress.Address1" class="form-control" maxlength="90" />
                                     <div class="invalid-feedback">Building / Office No. is Required.</div>
                                 </div>
                             </div>
@@ -156,6 +156,13 @@
                                     <input asp-for="CompanyContacts.Contact_No" class="form-control" />
                                 </div>
                             </div>
+                            <div class="col-lg-6">
+                                <div class="form-group">
+                                    <label asp-for="CompanyContacts.ContactPosition" class="control-label"></label>
+                                    <input asp-for="CompanyContacts.ContactPosition" class="form-control" required maxlength="50" />
+                                    <div class="invalid-feedback">Contact Position is Required.</div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </fieldset>
@@ -175,7 +182,7 @@
                                     <i class="fa fa-question-circle" aria-hidden="true"></i>
                                 </span>
                             </label>
-                            <textarea class="form-control" asp-for="Companies.HealthMeasures"></textarea>
+                            <textarea class="form-control" asp-for="Companies.HealthMeasures" maxlength="195"></textarea>
                         </div>
                     </div>
                 </div>

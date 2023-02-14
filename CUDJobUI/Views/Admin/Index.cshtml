@@ -6,6 +6,12 @@
     ViewData["Title"] = "Admin";
     var XLabels = Newtonsoft.Json.JsonConvert.SerializeObject(Model.CompanyRatio.Select(x => x.DimensionOne).ToList());
     var YValues = Newtonsoft.Json.JsonConvert.SerializeObject(Model.CompanyRatio.Select(x => x.Quantity).ToList());
+
+    var XStudentLabels = Newtonsoft.Json.JsonConvert.SerializeObject(Model.StudentRatio.Select(x => x.DimensionOne).ToList());
+    var YStudentValues = Newtonsoft.Json.JsonConvert.SerializeObject(Model.StudentRatio.Select(x => x.Quantity).ToList());
+
+    var XJobLabels = Newtonsoft.Json.JsonConvert.SerializeObject(Model.JobRatio.Select(x => x.DimensionOne).ToList());
+    var YJobValues = Newtonsoft.Json.JsonConvert.SerializeObject(Model.JobRatio.Select(x => x.Quantity).ToList());
 }
 
 <br />
@@ -17,7 +23,7 @@
             <div class="col col-12 text-center mb-3">
                 <h3 class="card-title mb-4">Welcome to the admin portal of Career Portal</h3>
                 <p class="card-text">You can see all the Student, company and jobs related details here.</p>
-                <p>More Functionality Like Charts and overall dynamics of data will be build in next versions...</p>
+                @*<p>More Functionality Like Charts and overall dynamics of data will be build in next versions...</p>*@
             </div>
             <div class="row">
                 <div class="col col-12 col-md-4 mb-3 ">
@@ -88,23 +94,33 @@
                     </div>*@
             </div>
             <div class="row">
-                <div class="col-md-6">
+                <div class="col-md-6 mb-4">
                     <div class="card">
                         <div class="card-header">
-                            Representation of student enrollment over the year
+                            Representation of Company enrollment over the year
                         </div>
                         <div class="card-body">
                             <canvas class="my-4" style="height:300px;" id="bar"></canvas>
                         </div>
                     </div>
                 </div>
-                <div class="col-md-6">
+                <div class="col-md-6 mb-4">
                     <div class="card">
                         <div class="card-header">
                             Representation of student enrollment over the year
                         </div>
                         <div class="card-body">
-                            <canvas class="my-4" style="height:300px;" id="pie"></canvas>
+                            <canvas class="my-4" style="height:300px;" id="StudentbarChart"></canvas>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6 mb-4">
+                    <div class="card">
+                        <div class="card-header">
+                            Representation of Job Posting over the year
+                        </div>
+                        <div class="card-body">
+                            <canvas class="my-4" style="height:300px;" id="JobbarChart"></canvas>
                         </div>
                     </div>
                 </div>
@@ -121,7 +137,7 @@
 
             loadChart();
             loadpieChart();
-
+            loadJobBarChart();
         });
 
         function loadChart() {
@@ -132,10 +148,10 @@
                 datasets: [{
                     label: "Bar Chart",
                     backgroundColor: [
-                        'rgba(255, 99, 132, 0.2)',
+                        'rgba(0, 0, 183, 0.59)',
                     ],
                     borderColor: [
-                        'rgba(255,99,132,1)',
+                        'rgba(0, 0, 183, 0.59)',
                     ],
                     borderWidth: 1,
                     data: @Html.Raw(YValues)
@@ -176,23 +192,20 @@
         }
 
         function loadpieChart() {
-            var piechart = document.getElementById('pie').getContext('2d');
+            var piechart = document.getElementById('StudentbarChart').getContext('2d');
 
             var data = {
-                labels: ['Jan', 'Feb', 'March', 'April'],
+                labels: @Html.Raw(XStudentLabels),
                 datasets: [{
                     label: "Bar Chart",
                     backgroundColor: [
-                        'rgba(255, 99, 132, 0.2)',
-                        'rgba(0, 255, 0)',
-                        'rgba(255, 159, 64, 0.2)',
-                        'rgba(153, 102, 255, 0.2)'
+                        'rgba(0, 0, 0, 0.59)'
                     ],
                     borderColor: [
-                        'rgba(255,99,132,1)',
+                        'rgba(0, 0, 0, 0.59)',
                     ],
                     borderWidth: 1,
-                    data: [100, 200, 300, 100]
+                    data: @Html.Raw(YStudentValues)
                 }]
             };
 
@@ -224,7 +237,58 @@
             var myChart = new Chart(piechart, {
                 options: options,
                 data: data,
-                type: 'pie'
+                type: 'bar'
+
+            });
+        }
+
+        function loadJobBarChart() {
+            var barjbchart = document.getElementById('JobbarChart').getContext('2d');
+
+            var data = {
+                labels: @Html.Raw(XJobLabels),
+                datasets: [{
+                    label: "Bar Chart",
+                    backgroundColor: [
+                        'rgba(0, 0, 0, 0.59)'
+                    ],
+                    borderColor: [
+                        'rgba(0, 0, 0, 0.59)',
+                    ],
+                    borderWidth: 1,
+                    data: @Html.Raw(YJobValues)
+                }]
+            };
+
+            var options = {
+                maintainAspectRatio: false,
+                scales: {
+                    yAxes: [{
+                        ticks: {
+                            min: 0,
+                            beginAtZero: true
+                        },
+                        gridLines: {
+                            display: true,
+                            color: "rgba(255,99,164,0.2)"
+                        }
+                    }],
+                    xAxes: [{
+                        ticks: {
+                            min: 0,
+                            beginAtZero: true
+                        },
+                        gridLines: {
+                            display: false
+                        }
+                    }]
+                }
+            };
+
+            var myChart = new Chart(barjbchart, {
+                options: options,
+                data: data,
+                type: 'bar'
 
             });
         }

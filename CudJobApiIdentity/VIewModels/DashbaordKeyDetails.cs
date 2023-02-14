@@ -18,7 +18,7 @@ namespace CUDJobApiIdentity.VIewModels
 
     public class ChartViewModel
     {
-        public string DimensionOne { get; set; }
+        public string? DimensionOne { get; set; }
         public int Quantity { get; set; }
     }
 
@@ -26,5 +26,7 @@ namespace CUDJobApiIdentity.VIewModels
     {
         public DashbaordKeyDetails DboardKeyDetails { get; set; }
         public List<ChartViewModel> CompanyRatio { get; set; }
+        public List<ChartViewModel> StudentRatio { get; set; }
+        public List<ChartViewModel> JobRatio { get; set; }
     }
 }

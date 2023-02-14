@@ -64,6 +64,9 @@ namespace CudJobUI.ViewModels
         [Display(Name = "Contact Number")]
         public string Contact_No { get; set; }
 
+        [Display(Name = "Contact Position")]
+        public string ContactPosition { get; set; }
+
         public DateTime CreateddDate { get; set; } = DateTime.Now;
 
         public int CompanyID { get; set; }

@@ -41,6 +41,7 @@ namespace CUDJobAPiIdentity.Mappings
             CreateMap<StudentHardSkills, StudentHardskillsDTO>().ReverseMap();
             CreateMap<JobOptions, JobOptionsDTO>().ReverseMap();
             CreateMap<VolunteerExperience, StudentVolunteerExperienceDTO>().ReverseMap();
+            CreateMap<Tbl_Userloginlogs, Tbl_UserloginlogsDTO>().ReverseMap();
         }
       
     }

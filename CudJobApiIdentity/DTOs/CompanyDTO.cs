@@ -52,6 +52,8 @@ namespace CUDJobApiIdentity.DTOs
 
         public string Contact_No { get; set; }
 
+        public string ContactPosition { get; set; }
+
         public DateTime CreateddDate { get; set; }
 
         public int CompanyID { get; set; }

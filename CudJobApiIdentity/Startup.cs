@@ -1,4 +1,5 @@
 using AutoMapper;
+using CUDJobApiIdentity.BackGroundServices;
 using CUDJobApiIdentity.Contracts;
 using CUDJobApiIdentity.Data;
 using CUDJobApiIdentity.Services;
@@ -73,7 +74,7 @@ namespace CudJobApiIdentity
             });
 
             services.AddSingleton<ILoggerService, LoggerService>();
-
+            //services.AddHostedService<CareerBackgroundService>();
             //services.AddControllers()
             //         .AddNewtonsoftJson(options =>
             //         {
@@ -102,6 +103,7 @@ namespace CudJobApiIdentity
             services.AddScoped<IStudentPersnlRepository, StudentPersnlRepository>();
             services.AddScoped<INotesRepository, NotesRepository>();
             services.AddScoped<IExternalFunctions, ExternalFunctions>();
+            services.AddScoped<IBackgroundContracts, BackgroundContracts>();
 
             var cookiesConfig = this.Configuration.GetSection("cookies")
             .Get<CookiesConfig>();

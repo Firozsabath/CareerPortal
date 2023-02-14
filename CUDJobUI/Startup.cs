@@ -36,10 +36,10 @@ namespace CudJobUI
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllersWithViews(
-                //optios =>
-                //{
-                //    optios.Filters.Add<SessionTimeoutAttribute>();
-                //}
+                optios =>
+                {
+                    optios.Filters.Add<SessionTimeoutAttribute>();
+                }
                 );
             services.TryAddSingleton<IHttpContextAccessor, HttpContextAccessor>();
             services.AddScoped<IStaticEndPoints, StaticEndPoints>();

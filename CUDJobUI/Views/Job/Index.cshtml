@@ -2,16 +2,20 @@
 @{
     ViewData["Title"] = "Index";
     var pagedList = (IPagedList)ViewBag.PageList;
+    var jobid = 0;
     Layout = "~/Views/Shared/_LayoutStudent.cshtml";
+    var shortheading = string.Empty;    
+
 }
 @using X.PagedList.Mvc.Core; @*import this so we get our HTML Helper*@
 @using X.PagedList; @*import this so we can cast our list to IPagedList (only necessary because ViewBag is dynamic)*@
 @using X.PagedList.Mvc.Core.Fluent
 <br />
 <style type="text/css">
-    .hide{
-        display:none;
+    .hide {
+        display: none;
     }
+
     .Successcircle {
         padding: 23px 10px 10px 15px;
         font-size: 75px;
@@ -65,8 +69,11 @@
     <br />
     <h4 class="m-3">Job Lists</h4>
     <hr />
-    <div class="row">
-        @Html.PagedListPager((IPagedList)ViewBag.PageList, page => Url.Action("Index", new { page }))
+    <div class="row joblistingMaster">
+        <div class="col col-12">
+            @Html.PagedListPager((IPagedList)ViewBag.PageList, page => Url.Action("Index", new { page }))
+        </div>
+        
         <div class="col-md-4 FixedHeightcontainer">
             @*@foreach (var item in Model)*@
             @foreach (var item in ViewBag.PageList)
@@ -89,8 +96,15 @@
                         {
                             <p style="font-size:12px;color:#5d5656"><span class="fa fa-suitcase" aria-hidden="true"></span> @item.JobExperience.ExperienceType</p>
                         }
-                        <p style="font-size:14px;">Job Description</p>
-                        <p class="card-text" style="font-size:13px;">@Html.Raw(@item.JobDetail.Shortheading)</p>
+                        <p style="font-size:14px;">job description</p>
+                        @{ 
+                            shortheading = item.JobDetail.Shortheading;
+                            if (shortheading.Length > 100)
+                            {
+                                shortheading = shortheading.Substring(0, 100);
+                            }                           
+                        }                       
+                        <p class="card-text" style="font-size:13px;">@Html.Raw(shortheading) <span class="text-muted"><small><em>read more..</em></small></span></p>
                         @*<p class="card-text">@item.JobDetail.Qualification</p>*@
                         @*<a href="@Url.Action("Details", "Job",new { id=item.JobDetail.Id })" class="btn btn-danger">Job Details</a>*@
                     </div>
@@ -113,8 +127,15 @@
                             {
                                 <p style="font-size:12px;color:#5d5656"><span class="fa fa-suitcase" aria-hidden="true"></span> @item.JobExperience.ExperienceType</p>
                             }
+                            @{
+                                shortheading = item.JobDetail.Shortheading;
+                                if (shortheading.Length > 100)
+                                {
+                                    shortheading = shortheading.Substring(0, 100);
+                                }
+                            }
                             <p style="font-size:14px;">Job Description</p>
-                            <p class="card-text" style="font-size:13px;">@Html.Raw(@item.JobDetail.Shortheading)</p>
+                            <p class="card-text" style="font-size:13px;">@Html.Raw(shortheading) <span class="text-muted"><small><em>read more..</em></small></span></p>
                             @*<p class="card-text">@item.JobDetail.Qualification</p>*@
                             @*<a href="@Url.Action("Details", "Job",new { id=item.JobDetail.Id })" class="btn btn-danger">Job Details</a>*@
                         </div>
@@ -125,12 +146,10 @@
         <div class="col-md-8 FixedHeightcontainer d-none d-md-block">
             <div id="jobDetailspartial"></div>
         </div>
-        
-        @Html.PagedListPager((IPagedList)ViewBag.PageList, page => Url.Action("Index", new { page }))
-    </div>
-    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#successjobModal">
-        Launch demo modal
-    </button>
+        <div class="col col-12">
+            @Html.PagedListPager((IPagedList)ViewBag.PageList, page => Url.Action("Index", new { page }))
+        </div>       
+    </div>    
     <div class="modal fade" id="successjobModal" tabindex="-1" aria-labelledby="successjobModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
@@ -149,9 +168,9 @@
                             <p>Successfully Applied!</p>
                         </div>
                     </div>
-                    <div class="row text-center m-4 p-3" role="alert">                        
+                    <div class="row text-center m-4 p-3" role="alert">
                         <div class="col-md-12 alert alert-success">
-                            <p class="font-weight-bold"><i class="fa fa-check" aria-hidden="true"></i> Thank you! Job has been Applied successfully.</p>                            
+                            <p class="font-weight-bold"><i class="fa fa-check" aria-hidden="true"></i> Thank you! Job has been Applied successfully.</p>
                         </div>
                     </div>
                 </div>
@@ -187,8 +206,13 @@
 
         $(document).ready(function () {
 
-            if (@Model.FirstOrDefault().JobDetail.Id != null) {
-                loadJobDetails(@Model.FirstOrDefault().JobDetail.Id);
+            @if (Model.Any())
+            {
+                jobid = Model.FirstOrDefault().JobDetail.Id;
+            }
+
+            if (@jobid != 0) {
+                loadJobDetails(@jobid)
             }
             $('#btnjobsearch').click(function () {
                 var exp = $('#Experience').val();

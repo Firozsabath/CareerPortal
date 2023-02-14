@@ -116,6 +116,11 @@
                                     <a href="" data-bs-toggle="modal" data-bs-target="#exampleModal2"><span class="badge bg-dark">Edit</span></a>
                                 </p>
                                 <p class="card-text"><small class="text-muted">Last updated @ViewBag.Lastupdated ago</small></p>
+
+                                @if (String.IsNullOrEmpty(Model.CompanyContacts.ContactPosition))
+                                {
+                                    <p class="card-text fw-bold">**You should update company contact position immediately. Please click on the button to update <span> @Html.ActionLink("Edit", "Edit", new { id = Model.Companies.CompanyID }, new { @class = "Section-links btn btn-danger btn-sm" })</span> </p>
+                                }
                             </div>
                         </div>
                     </div>
@@ -286,6 +291,12 @@
                                     </dt>
                                     <dd class="col-sm-7">
                                         @Html.DisplayFor(model => model.CompanyContacts.Contact_No)
+                                    </dd>
+                                    <dt class="col-sm-5 pb-3">
+                                        @Html.DisplayNameFor(model => model.CompanyContacts.ContactPosition)
+                                    </dt>
+                                    <dd class="col-sm-7">
+                                        @Html.DisplayFor(model => model.CompanyContacts.ContactPosition)
                                     </dd>
                                 </dl>
                             </div>

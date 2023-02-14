@@ -24,5 +24,7 @@ namespace CudJobUI.ViewModels
     {
         public DashbaordKeyDetails DboardKeyDetails { get; set; }
         public List<ChartViewModel> CompanyRatio { get; set; }
+        public List<ChartViewModel> StudentRatio { get; set; }
+        public List<ChartViewModel> JobRatio { get; set; }
     }
 }

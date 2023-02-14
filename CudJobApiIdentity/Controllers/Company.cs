@@ -32,13 +32,15 @@ namespace CUDJobAPiIdentity.Controllers
         private readonly IEmailConfig _emailConfig;
         private readonly INotesRepository _statusnotes;
         private readonly ApplicationDbContext _db;
+        private readonly IBackgroundContracts _backgroundContracts;
+
         public Company(ILoggerService logger, 
             ICompanyRepository Companyrep, 
             IMapper Mapper, 
             ISupportFunction SupportFunction,
             IEmailConfig emailConfig,
             INotesRepository statusnotes,
-            ApplicationDbContext db
+            ApplicationDbContext db,IBackgroundContracts backgroundContracts
             )
         {
             _Logger = logger;
@@ -48,6 +50,7 @@ namespace CUDJobAPiIdentity.Controllers
             _emailConfig = emailConfig;
             _statusnotes = statusnotes;
             _db = db;
+            _backgroundContracts = backgroundContracts;
         }
         // GET: api/<Company>
         //[Authorize(Roles = "Administrator")]
@@ -56,6 +59,7 @@ namespace CUDJobAPiIdentity.Controllers
         {
             try
             {
+                var t = _backgroundContracts.expiringcompanies(5);
                 var response = await _Companyrep.FindAll();               
                 return Ok(response);
             }

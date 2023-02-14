@@ -36,7 +36,7 @@ namespace CUDJobApiIdentity.Controllers
         private readonly IStudentRepository _studentRepository;
 
         private readonly ICompanyRepository _company;
-
+        private readonly IExternalFunctions _externalFunctions;
         private readonly IEmailConfig _emailConfig;
 
         public UsersController(SignInManager<IdentityUser> signInManager, 
@@ -46,7 +46,8 @@ namespace CUDJobApiIdentity.Controllers
             IAuthenticationService authenticationService,
             IStudentRepository studentRepository,
             IEmailConfig emailConfig,
-            ICompanyRepository company)
+            ICompanyRepository company,
+            IExternalFunctions externalFunctions)
 
         {
             _signInManager = signInManager;
@@ -56,6 +57,7 @@ namespace CUDJobApiIdentity.Controllers
             _authenticationService = authenticationService;
             _studentRepository = studentRepository;
             _company = company;
+            _externalFunctions = externalFunctions;
             _emailConfig = emailConfig;
         }
         [AllowAnonymous]
@@ -67,11 +69,13 @@ namespace CUDJobApiIdentity.Controllers
             {                
                 //var result = "";
                 if (userDTO.LoginType == "Student") {
-                    var result = _authenticationService.Login(userDTO.EmailID, userDTO.Password);
+                    var result = _authenticationService.Login(userDTO.EmailID, userDTO.Password);                    
                     if (result != null)
                     {
                         var Student = await _studentRepository.FindBystring(userDTO.EmailID);
                         var tokenstring = await GenerateJsonTokenforstudents(result);
+                        var userLog = new Tbl_UserloginlogsDTO { Username = userDTO.EmailID, UserType = userDTO.LoginType, LoginDate = DateTime.Now };
+                        var logUpdate = await _externalFunctions.userLogsIn(userLog);
                         if(Student.StudentPersonal != null) { 
                         return Ok(new { token = tokenstring, Id = Student.StudentPersonal.StudentID });
                         }
@@ -87,6 +91,8 @@ namespace CUDJobApiIdentity.Controllers
                     var result = await _signInManager.PasswordSignInAsync(userDTO.EmailID, userDTO.Password, false, false);
                     if (result.Succeeded)
                     {
+                        var userLog = new Tbl_UserloginlogsDTO { Username = userDTO.EmailID, UserType = userDTO.LoginType, LoginDate = DateTime.Now };
+                        var logUpdate = await _externalFunctions.userLogsIn(userLog);
                         var Company = await _company.FindBystring(userDTO.EmailID);
                         var user = await _userManager.FindByNameAsync(userDTO.EmailID);
                         var tokenstring = await GenerateJsonToken(user);
@@ -98,13 +104,15 @@ namespace CUDJobApiIdentity.Controllers
                     var result = await _signInManager.PasswordSignInAsync(userDTO.EmailID, userDTO.Password, false, false);
                     if (result.Succeeded)
                     {
-                        //var Company = await _company.FindBystring(userDTO.EmailID);
+                        //var Company = await _company.FindBystring(userDTO.EmailID);                        
                         var user = await _userManager.FindByNameAsync(userDTO.EmailID);
                         var Roles = await _userManager.GetRolesAsync(user);
                         if(Roles.FirstOrDefault() != "Administrator")
                         {
                             return Unauthorized(userDTO);
                         }
+                        var userLog = new Tbl_UserloginlogsDTO { Username = userDTO.EmailID, UserType = userDTO.LoginType, LoginDate = DateTime.Now };
+                        var logUpdate = await _externalFunctions.userLogsIn(userLog);
                         var tokenstring = await GenerateJsonToken(user);
                         return Ok(new { token = tokenstring, Id = 1 });
                     }

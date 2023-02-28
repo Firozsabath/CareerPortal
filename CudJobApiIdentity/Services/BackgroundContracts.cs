@@ -1,4 +1,5 @@
 ﻿using CUDJobApiIdentity.Contracts;
+using CUDJobApiIdentity.Models;
 using CUDJobAPiIdentity.Data;
 using CUDJobAPiIdentity.Models;
 using System;
@@ -28,6 +29,31 @@ namespace CUDJobApiIdentity.Services
             DateTime ExpiydateBound = DateTime.UtcNow.Date.AddDays(days);
             var jobs = _db.JobModel.Where(x => x.LastApplyDate == ExpiydateBound).ToList();
             return jobs;
+        }
+
+        public Task<List<ReminderConfig>> ReminderConfigList()
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<List<Reminders>> ReminderList()
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<bool> Save()
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<bool> UpdateReminderConfig(ReminderConfig data)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<bool> UpdateReminders(Reminders data)
+        {
+            throw new NotImplementedException();
         }
     }
 }

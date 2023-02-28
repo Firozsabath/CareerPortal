@@ -49,6 +49,9 @@ namespace CUDJobAPiIdentity.Data
         public DbSet<LanguageNames> LanguageNames { get; set; }
         public DbSet<LanguageLevels> LanguageLevels { get; set; }
         public DbSet<Tbl_Userloginlogs> Tbl_Userloginlogs { get; set; }
+        public DbSet<Reminders> Reminders { get; set; }
+        public DbSet<ReminderConfig> ReminderConfig { get; set; }
+        public DbSet<ReminderLog> ReminderLog { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {

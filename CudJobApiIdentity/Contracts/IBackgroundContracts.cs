@@ -6,8 +6,8 @@ using System.Threading.Tasks;
 
 namespace CUDJobApiIdentity.Contracts
 {
-    public interface IBackgroundContracts
-    {
+    public interface IBackgroundContracts: IRemindersRespository
+    {        
         Task<List<Companies>> expiringcompanies(int days);
         Task<List<Jobs>> expiringjobs(int days);
     }

@@ -6,8 +6,12 @@ using System.Threading.Tasks;
 
 namespace CUDJobApiIdentity.Contracts
 {
-    interface IRemindersRespository
+    public interface IRemindersRespository
     {
-        public Task<bool> updateReminderConfig(ReminderConfig data);
+        Task<bool> UpdateReminderConfig(ReminderConfig data);
+        Task<List<ReminderConfig>> ReminderConfigList();
+        Task<List<Reminders>> ReminderList();
+        Task<bool> UpdateReminders(Reminders data);
+        Task<bool> Save();
     }
 }

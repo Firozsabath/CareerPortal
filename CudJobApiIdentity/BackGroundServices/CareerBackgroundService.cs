@@ -28,6 +28,8 @@ namespace CUDJobApiIdentity.BackGroundServices
                 {
                     var scoped= scope.ServiceProvider.GetRequiredService<IBackgroundContracts>();
                     var companiesList = scoped.expiringcompanies(5);
+
+
                     await Task.Delay(TimeSpan.FromDays(1), stoppingToken);
                 }
                    

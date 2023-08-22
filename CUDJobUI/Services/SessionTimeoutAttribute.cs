@@ -48,7 +48,7 @@ namespace CudJobUI.Services
             }
             if(Requested_action != "Login" && Requested_action != "Register" && Requested_action != "PasswordReset" && Requested_action != "PasswordConfirmation")
             {
-                if(Requested_action == "Details")
+                if(Requested_action == "Details" || Requested_action == "GetLatestJobs")
                 {
                     if(requested_Controller != "Job")
                     {

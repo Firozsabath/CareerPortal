@@ -40,7 +40,8 @@ namespace CUDJobAPiIdentity.Controllers
             ISupportFunction SupportFunction,
             IEmailConfig emailConfig,
             INotesRepository statusnotes,
-            ApplicationDbContext db,IBackgroundContracts backgroundContracts
+            ApplicationDbContext db,
+            IBackgroundContracts backgroundContracts
             )
         {
             _Logger = logger;
@@ -279,7 +280,7 @@ namespace CUDJobAPiIdentity.Controllers
                .Include(a => a.CompanyContacts)
                .Include(a=>a.companycategory)
                .Include(a => a.addresses)
-               .ThenInclude(a => a.Address).Where(a=>a.StatusIDs != 2).ToListAsync();
+               .ThenInclude(a => a.Address).Where(a=>a.StatusIDs == 1 || a.StatusIDs == null).ToListAsync();
                 var response = _SupportFunction.ConvertToCompanyViewModelList(Companies);                
                 return Ok(response);
             }

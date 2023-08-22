@@ -1,12 +1,11 @@
 ﻿@model CudJobUI.ViewModels.StudentProfile
 
-<div class="card mb-3" style="background-color: #414c55;color:white;">
+@*<div class="card mb-3" style="background-color: #414c55;color:white;">
     <div class="row g-0">
         <div class="col col-2 col-md-3">
             <a href="" data-bs-toggle="modal" data-bs-target="#exampleModal">
                 @if (Model.StudentPersonal.profileImgpath == null && Model.StudentPersonal.profileImgpath != string.Empty)
-                {
-                @*<img src="~/Images/download.png" class="img-thumbnail" alt="...">*@
+                {               
                 <img src="https://www.cud.ac.ae/sites/default/files/personnel/2021/ms-fanan-al-madi.jpg" style="width:75%;" class="img-thumbnail" alt="...">
                 }
                 else
@@ -44,7 +43,7 @@
             </div>
         </div>
     </div>
-</div>
+</div>*@
 <div class="card mb-3">
     <div class="profileheader">
         <div class="row py-3">
@@ -53,6 +52,14 @@
             </div>
             <div class="col-lg-7">
                 <a onclick="Showpopup('@Url.Action("StudentPersonal","Student",new { id = Model.StudentPersonal.StudentID,Typeof = "Edit"},Context.Request.Scheme)', 'Edit Personal Details')" class="Section-links float-right"><span class="fa fa-pen" aria-hidden="true"></span> Edit</a>
+            </div>
+        </div>
+    </div>
+    <div class="card-body">
+        <div class="outer_div mb-2">
+            <div class="row">
+                <h5>Profile Summary</h5>
+                <p>@Html.Raw(@Model.StudentPersonal.Objective)</p>
             </div>
         </div>
     </div>

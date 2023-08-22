@@ -12,6 +12,9 @@
 
     var XJobLabels = Newtonsoft.Json.JsonConvert.SerializeObject(Model.JobRatio.Select(x => x.DimensionOne).ToList());
     var YJobValues = Newtonsoft.Json.JsonConvert.SerializeObject(Model.JobRatio.Select(x => x.Quantity).ToList());
+
+    var XUserEngLabels = Newtonsoft.Json.JsonConvert.SerializeObject(Model.UserEngagementRatio.Select(x => x.DimensionOne).ToList());
+    var YUserEngValues = Newtonsoft.Json.JsonConvert.SerializeObject(Model.UserEngagementRatio.Select(x => x.Quantity).ToList());
 }
 
 <br />
@@ -124,6 +127,16 @@
                         </div>
                     </div>
                 </div>
+                <div class="col-md-6 mb-4">
+                    <div class="card">
+                        <div class="card-header">
+                            Representation of User Engagement by User type
+                        </div>
+                        <div class="card-body">
+                            <canvas class="my-4" style="height:300px;" id="UserEngpiechart"></canvas>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
@@ -138,6 +151,7 @@
             loadChart();
             loadpieChart();
             loadJobBarChart();
+            loadUserEngagementPieChart();
         });
 
         function loadChart() {
@@ -289,6 +303,63 @@
                 options: options,
                 data: data,
                 type: 'bar'
+
+            });
+        }
+
+        //UserEngpiechart
+
+        function loadUserEngagementPieChart() {
+            var pieUseregchart = document.getElementById('UserEngpiechart').getContext('2d');
+
+            var data = {
+                labels: @Html.Raw(XUserEngLabels),
+                datasets: [{
+                    label: "User Engagement Chart",
+                    backgroundColor: [
+                        'rgba(232, 13, 35, 1)',
+                        'rgba(93, 110, 186, 1)',
+                        'rgba(55, 56, 63, 1)'
+                    ],
+                    borderColor: [
+                        'rgba(255,99,132,1)',
+                        'rgba(54, 162, 235, 1)',
+                        'rgba(255, 206, 86, 1)'
+                    ],
+                    borderWidth: 1,
+                    data: @Html.Raw(YUserEngValues)
+                }]
+            };
+
+            var options = {
+                maintainAspectRatio: false,
+                scales: {
+                    yAxes: [{
+                        ticks: {
+                            min: 0,
+                            beginAtZero: true
+                        },
+                        gridLines: {
+                            display: true,
+                            color: "rgba(255,99,164,0.2)"
+                        }
+                    }],
+                    xAxes: [{
+                        ticks: {
+                            min: 0,
+                            beginAtZero: true
+                        },
+                        gridLines: {
+                            display: false
+                        }
+                    }]
+                }
+            };
+
+            var myChart = new Chart(pieUseregchart, {
+                options: options,
+                data: data,
+                type: 'pie'
 
             });
         }

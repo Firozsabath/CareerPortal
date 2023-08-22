@@ -7,7 +7,7 @@
 <div class="container-fluid p-3">
     <h4 class="m-3 shortheading">Create an Opportunity</h4>
     <hr />
-    <form asp-action="Create" class="needs-validation" novalidate>
+    <form asp-action="Create" enctype="multipart/form-data" id="jobDetails" class="needs-validation" novalidate>
         <div class="card mb-3">
             <div class="card-header" style="color: #d5202a;font-weight:bold;">
                 <h5 class="shortheading">Opportunity Details</h5>
@@ -66,7 +66,7 @@
                             <div class="col-lg-12">
                                 <div class="form-group">
                                     <label asp-for="Description" class="control-label">Main Tasks and Responsibilities</label>
-                                    <textarea asp-for="Description" class="form-control" required></textarea>
+                                    <textarea asp-for="Description" class="form-control textarea" required></textarea>
                                     <div class="invalid-feedback">
                                         Job Description is Required
                                     </div>
@@ -74,7 +74,7 @@
                             </div>
                         </div>
                         <div class="row">
-                            <div class="col-lg-6">
+                            <div class="col-lg-4">
                                 <div class="form-group">
                                     <label asp-for="JobCategoryId" class="control-label"></label>
                                     @*<input asp-for="JobCategoryId" class="form-control" required />*@
@@ -84,13 +84,19 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-lg-6">
+                            <div class="col-lg-4">
                                 <div class="form-group">
                                     <label asp-for="ExperienceID" class="control-label"></label>
                                     <select asp-for="ExperienceID" required class="form-control" asp-items="@(new SelectList(ViewBag.Experiences, "ExperienceID", "ExperienceType"))"></select>
                                     <div class="invalid-feedback">
                                         Experience is Required
                                     </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-4">
+                                <div class="mb-3">
+                                    <label for="formFile" class="form-label">You can upload any supporting documents here</label>
+                                    <input type="file" class="form-control-file" name="file">                                   
                                 </div>
                             </div>
 
@@ -125,11 +131,11 @@
                                 <div class="form-group">
                                     <label asp-for="JobOption.Workfromoffice" class="control-label"></label>
                                     @*<select asp-for="JobOption.Workfromoffice" required class="form-control" asp-items="@Html.GetEnumSelectList<CudJobUI.ViewModels.Options2>()"></select>*@
-                                <select asp-for="JobOption.Workfromoffice" required class="form-control">
-                                    <option value="Physical">Physical</option>
-                                    <option value="Virtual">Virtual</option>
-                                    <option value="Blended">Blended</option>
-                                </select>
+                                    <select asp-for="JobOption.Workfromoffice" required class="form-control">
+                                        <option value="Physical">Physical</option>
+                                        <option value="Virtual">Virtual</option>
+                                        <option value="Blended">Blended</option>
+                                    </select>
                                 </div>
                             </div>
 
@@ -197,7 +203,7 @@
                     </div>*@
                             <div class="form-group">
                                 <label asp-for="ReguiredSkills" class="control-label">Skills</label>
-                                <textarea asp-for="ReguiredSkills" class="form-control" required></textarea>
+                                <textarea asp-for="ReguiredSkills" class="form-control textarea" required></textarea>
                                 <div class="invalid-feedback">
                                     Skills is Required
                                 </div>
@@ -206,7 +212,7 @@
                         <div class="col-lg-6">
                             <div class="form-group">
                                 <label asp-for="Qualification" class="control-label">Qualifications</label>
-                                <textarea asp-for="Qualification" class="form-control"></textarea>
+                                <textarea asp-for="Qualification" class="form-control textarea"></textarea>
                                 <span asp-validation-for="Qualification" class="text-danger"></span>
                             </div>
                         </div>
@@ -271,7 +277,7 @@
         })();
 
         tinymce.init({
-            selector: 'textarea',
+            selector: '.textarea',
             height: 380,
             menubar: false,
             plugins: [

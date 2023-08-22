@@ -68,6 +68,7 @@ namespace CUDJobAPiIdentity.Models
 
         [MaxLength(100)]
         public string Jobduration { get; set; }
+        public string JobdocsPath { get; set; }
 
         [ForeignKey("CompanyID")]
         public virtual Companies Companies { get; set; }

@@ -42,6 +42,10 @@ namespace CudJobUI.Services
             {
                 target = _env.WebRootPath + "\\Images\\Company\\certificate";
             }
+            else if (FileType == "JobDocs")
+            {
+                target = _env.WebRootPath + "\\Images\\Jobs\\docs";
+            }
 
             if (!Directory.Exists(target))
             { 

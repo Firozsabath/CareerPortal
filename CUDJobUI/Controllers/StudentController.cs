@@ -77,25 +77,43 @@ namespace CudJobUI.Controllers
                     studentprofile = JsonConvert.DeserializeObject<StudentProfile>(apiResponse);
                 }
             }            
-            if (studentprofile.StudentPersonal.UpdatedDate != null)
-            {
-                ViewBag.Lastupdated = _CustFunction.Lastupdated(DateTime.Now, Convert.ToDateTime(studentprofile.StudentPersonal.UpdatedDate));
-                //ViewBag.updatedtime = _CustFunction.Converttolastupdated(Convert.ToDateTime(studentprofile.StudentPersonal.UpdatedDate));
-            }
-            if (studentprofile.StudentPersonal.Resumepath != null)
-            {
-                ViewBag.ResumeName = Path.GetFileName(studentprofile.StudentPersonal.Resumepath);
-            }
-            if (studentprofile.StudentPersonal.profileImgpath != null && studentprofile.StudentPersonal.profileImgpath != string.Empty)
-            {
-                ViewBag.ProfileImg = Path.GetFileName(studentprofile.StudentPersonal.profileImgpath);
-            }          
+            //if (studentprofile.StudentPersonal.UpdatedDate != null)
+            //{
+            //    HttpContext.Session.SetString("Lastupdated", _CustFunction.Lastupdated(DateTime.Now, Convert.ToDateTime(studentprofile.StudentPersonal.UpdatedDate)));
+            //    ViewBag.Lastupdated = _CustFunction.Lastupdated(DateTime.Now, Convert.ToDateTime(studentprofile.StudentPersonal.UpdatedDate));
+            //    //ViewBag.updatedtime = _CustFunction.Converttolastupdated(Convert.ToDateTime(studentprofile.StudentPersonal.UpdatedDate));
+            //}
+            //if (studentprofile.StudentPersonal.Resumepath != null)
+            //{
+            //    HttpContext.Session.SetString("ResumeName", Path.GetFileName(studentprofile.StudentPersonal.Resumepath));
+            //    ViewBag.ResumeName = Path.GetFileName(studentprofile.StudentPersonal.Resumepath);
+            //}
+            //if (studentprofile.StudentPersonal.profileImgpath != null && studentprofile.StudentPersonal.profileImgpath != string.Empty)
+            //{
+            //    HttpContext.Session.SetString("ProfileImg", Path.GetFileName(studentprofile.StudentPersonal.profileImgpath));
+            //    ViewBag.ProfileImg = Path.GetFileName(studentprofile.StudentPersonal.profileImgpath);
+            //}
+            //HttpContext.Session.SetString("usrFirstName", studentprofile.StudentPersonal.FirstName);
+            //HttpContext.Session.SetString("usrLastName", studentprofile.StudentPersonal.LastName);
 
             return View(studentprofile);
         }
 
-        public async Task<IActionResult> Profileforemployee(int id)
+        [HttpGet("Profileforemployee/{id}/{jobid?}/{applyid?}")]
+        public async Task<IActionResult> Profileforemployee(int id, string jobid = null, string applyid = null)
         {
+            if(!String.IsNullOrEmpty(jobid) && !String.IsNullOrEmpty(applyid)){
+                AppliedJobs AppliedJobs = new AppliedJobs { ID = Convert.ToInt32(applyid), jobID = Convert.ToInt32(jobid), Description = "", StatusID = Convert.ToInt32(9) };
+                using (var httpClient = new HttpClient())
+                {
+                    using (var response = await httpClient.PutAsJsonAsync(_endPoints.jobApplicationEndpoints + "/UpdateJobStatus/" + applyid, AppliedJobs))
+                    {
+                        string apiResponse = await response.Content.ReadAsStringAsync();
+                    }
+                }
+            }
+            
+
             StudentProfile studentprofile = new StudentProfile();
             using (var httpClient = new HttpClient())
             {
@@ -105,6 +123,7 @@ namespace CudJobUI.Controllers
                     studentprofile = JsonConvert.DeserializeObject<StudentProfile>(apiResponse);
                 }
             }
+
             if (studentprofile.StudentPersonal.Resumepath != null)
             {
                 ViewBag.ResumeName = Path.GetFileName(studentprofile.StudentPersonal.Resumepath);
@@ -1860,6 +1879,10 @@ namespace CudJobUI.Controllers
             {
                 _partialv = "~/Views/Shared/Partials/_StudentLanguagesPartial.cshtml";
             }
+            else if (viewName == "Myprofileinfo")
+            {
+                _partialv = "~/Views/Shared/Partials/_StudentProfilePartial.cshtml";
+            }
 
             StudentProfile studentprofile = new StudentProfile();
             using (var httpClient = new HttpClient())
@@ -1875,16 +1898,21 @@ namespace CudJobUI.Controllers
             }
             if (studentprofile.StudentPersonal.UpdatedDate != null)
             {
-                ViewBag.updatedtime = _CustFunction.Converttolastupdated(Convert.ToDateTime(studentprofile.StudentPersonal.UpdatedDate));
+                HttpContext.Session.SetString("Lastupdated", _CustFunction.Lastupdated(DateTime.Now, Convert.ToDateTime(studentprofile.StudentPersonal.UpdatedDate)));
+                ViewBag.Lastupdated = _CustFunction.Lastupdated(DateTime.Now, Convert.ToDateTime(studentprofile.StudentPersonal.UpdatedDate));                
             }
             if (studentprofile.StudentPersonal.Resumepath != null)
             {
+                HttpContext.Session.SetString("ResumeName", Path.GetFileName(studentprofile.StudentPersonal.Resumepath));
                 ViewBag.ResumeName = Path.GetFileName(studentprofile.StudentPersonal.Resumepath);
             }
             if (studentprofile.StudentPersonal.profileImgpath != null && studentprofile.StudentPersonal.profileImgpath != string.Empty)
             {
+                HttpContext.Session.SetString("ProfileImg", Path.GetFileName(studentprofile.StudentPersonal.profileImgpath));
                 ViewBag.ProfileImg = Path.GetFileName(studentprofile.StudentPersonal.profileImgpath);
             }
+            HttpContext.Session.SetString("usrFirstName", studentprofile.StudentPersonal.FirstName);
+            HttpContext.Session.SetString("usrLastName", studentprofile.StudentPersonal.LastName);
 
             return PartialView(_partialv, studentprofile);
         }

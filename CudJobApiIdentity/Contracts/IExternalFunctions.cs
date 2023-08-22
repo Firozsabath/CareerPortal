@@ -15,6 +15,7 @@ namespace CUDJobApiIdentity.Contracts
         Task<List<ChartViewModel>> Getcompanyratio();
         Task<List<ChartViewModel>> GetStudentratio();
         Task<List<ChartViewModel>> GetJobratio();
+        Task<List<ChartViewModel>> UserEngagementratio();
         Task<bool> userLogsIn(Tbl_UserloginlogsDTO data);
     }
 }

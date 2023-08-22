@@ -30,7 +30,7 @@
                 {
                     <tr>
                         <td>
-                            @Html.ActionLink(item.StudentPersonal.FirstName + " " + item.StudentPersonal.LastName, "Profileforemployee", "Student", new { id = item.StudentPersonal.StudentID })
+                            @Html.ActionLink(item.StudentPersonal.FirstName + " " + item.StudentPersonal.LastName, "Profileforemployee", "Student", new { id = item.StudentPersonal.StudentID, jobid=item.AppliedJob.jobID, applyid = item.AppliedJob.ID})
                         </td>
                         <td>
                             @Html.DisplayFor(modelItem => item.StudentPersonal.Gender)

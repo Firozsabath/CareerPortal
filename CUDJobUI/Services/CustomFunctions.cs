@@ -1,7 +1,10 @@
 ﻿using CudJobUI.Contracts;
+using CudJobUI.ViewModels;
+using Microsoft.AspNetCore.Http;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
@@ -10,9 +13,11 @@ namespace CudJobUI.Services
 {
     public class CustomFunctions : ICustomFunctions
     {
-        public CustomFunctions(IStaticEndPoints endPoints)
+        IHttpContextAccessor _contextAccessor;
+        public CustomFunctions(IStaticEndPoints endPoints, IHttpContextAccessor contextAccessor)
         {
             _endPoints = endPoints;
+            _contextAccessor = contextAccessor;
         }
 
         public IStaticEndPoints _endPoints { get; }
@@ -98,10 +103,42 @@ namespace CudJobUI.Services
             
         }
 
+        public async Task<bool> setStudentState(int id)
+        {
+            StudentProfile studentprofile = new StudentProfile();
+            using (var httpClient = new HttpClient())
+            {
+                using (var response = await httpClient.GetAsync(_endPoints.StudentEndpoints + "/" + id))
+                {
+                    string apiResponse = await response.Content.ReadAsStringAsync();
+                    studentprofile = JsonConvert.DeserializeObject<StudentProfile>(apiResponse);
+                }
+            }
+
+            var context = _contextAccessor.HttpContext;
+
+            if (studentprofile.StudentPersonal.UpdatedDate != null)
+            {
+                context.Session.SetString("Lastupdated", Lastupdated(DateTime.Now, Convert.ToDateTime(studentprofile.StudentPersonal.UpdatedDate)));
+            }
+            if (studentprofile.StudentPersonal.Resumepath != null)
+            {
+                context.Session.SetString("ResumeName", Path.GetFileName(studentprofile.StudentPersonal.Resumepath));
+            }
+            if (studentprofile.StudentPersonal.profileImgpath != null && studentprofile.StudentPersonal.profileImgpath != string.Empty)
+            {
+                context.Session.SetString("ProfileImg", Path.GetFileName(studentprofile.StudentPersonal.profileImgpath));
+            }
+            context.Session.SetString("usrFirstName", studentprofile.StudentPersonal.FirstName);
+            context.Session.SetString("usrLastName", studentprofile.StudentPersonal.LastName);
+
+            return true;
+        }
+
         public double TotalPercent(int Outof, int Total)
         {
             double x = Convert.ToDouble((float)Outof/(float)Total);
             return Math.Round(x * 100);
-        }
+        }       
     }
 }

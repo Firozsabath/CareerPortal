@@ -28,5 +28,6 @@ namespace CUDJobApiIdentity.VIewModels
         public List<ChartViewModel> CompanyRatio { get; set; }
         public List<ChartViewModel> StudentRatio { get; set; }
         public List<ChartViewModel> JobRatio { get; set; }
+        public List<ChartViewModel> UserEngagementRatio { get; set; }
     }
 }

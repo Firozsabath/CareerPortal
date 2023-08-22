@@ -10,6 +10,18 @@
                 <div class="card-body">
                     <h5 id="jbtitle" tabindex="1" class="card-title Sectiontittle shortheading">@Model.JobDetail.Title</h5>
                     <p class="card-text">Company : @Model.Company.CompanyName</p>
+                    @if (ViewBag.jobDocs != null && ViewBag.jobDocs != String.Empty)
+                    {
+                        <p>
+                            <a href="~/Images/Jobs/docs/@ViewBag.jobDocs" type="application/pdf" target="_blank" class="btn btn-dark position-relative me-4">
+                                <i class="fas fa-file-alt me-2"></i>  <span class="small">View Support Doc</span>
+                                <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+                                    New
+                                </span>
+                            </a>
+                        </p>
+                    }
+
                     <p class="card-text"><b>Last Apply Date</b> : @Model.JobDetail.LastApplyDate.ToString("MM/dd/yyyy")</p>
                     @*<p class="card-text"><b>Recruiter Posted</b> : @Model.CompanyContact.EmailID</p>*@
                     <p class="card-text"><small class="text-muted">Job Posted Date : @Model.JobDetail.CreatedDate</small></p>
@@ -123,7 +135,7 @@
                     </span>
                 </p>
                 <p>
-                    <span class="fw-bold">Opportuinity Duration : </span>
+                    <span class="fw-bold">Opportunity Duration : </span>
                     <span>
                         @Model.JobDetail.Jobduration
                     </span>
@@ -157,15 +169,15 @@
     </div>
 </div>
 @*@section scripts{
-   <script type="text/javascript">
+       <script type="text/javascript">
 
-       $(function () {
-           $(document).ready(function () {
-               alert("xxx");
+           $(function () {
+               $(document).ready(function () {
+                   alert("xxx");
+               });
+               //$("#jbtitle").first().focus();
            });
-           //$("#jbtitle").first().focus();
-       });
 
-   </script>
+       </script>
 
-}*@
+    }*@

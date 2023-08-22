@@ -96,8 +96,26 @@ namespace CUDJobApiIdentity.Controllers
                     .Include(e => e.jobcategories)
                     .Include(e => e.Companies.CompanyContacts)
                     .Include(a => a.Companies.addresses).ThenInclude(a => a.Address)
-                    .Include(a => a.StatusesNotes).Where(a=>a.StatusIDs != 2).ToListAsync();               
+                    .Include(a => a.StatusesNotes).Where(a=>a.StatusIDs == 1 || a.StatusIDs == null).ToListAsync();             
                 var response = _supportFunction.ConvertJobDetailsList(Jobs);
+                return Ok(response);
+            }
+            catch (Exception Ex)
+            {
+                return InternalError($"{Ex.Message} - {Ex.InnerException}");
+            }
+        }
+
+        [HttpGet("GetLatestJobs")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        public async Task<IActionResult> GetLatestJobs()
+        {
+            try
+            {
+                var Jobs = await _Jobrep.LatestJoblist();
+                var response = _supportFunction.ConvertJobDetailsList(Jobs);
+                
                 return Ok(response);
             }
             catch (Exception Ex)

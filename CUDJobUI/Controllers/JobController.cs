@@ -15,6 +15,8 @@ using System.IO;
 using System.Linq;
 using System.Net.Http;
 using System.Net.Http.Json;
+using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using X.PagedList;
 
@@ -25,12 +27,14 @@ namespace CudJobUI.Controllers
     {
         private readonly IConfiguration _configuration;
         private readonly IStaticEndPoints _endPoints;
+        private readonly IFileoperations _fileoperations;
         private readonly ILogger _logger;
 
-        public JobController(IConfiguration configuration, IStaticEndPoints endPoints)
+        public JobController(IConfiguration configuration, IStaticEndPoints endPoints, IFileoperations fileoperations)
         {
             _configuration = configuration;
-            _endPoints = endPoints;                     
+            _endPoints = endPoints;
+            _fileoperations = fileoperations;
         }
         //[DefaultBreadcrumb("Home")]
         // GET: JobController
@@ -50,7 +54,6 @@ namespace CudJobUI.Controllers
                 }
                 Exp.Insert(0, new JobExperiences { ExperienceID = "", ExperienceType = "All" });
                 ViewBag.Experiences = Exp;
-
                 
                 using (var httpClient = new HttpClient())
                 {
@@ -65,7 +68,7 @@ namespace CudJobUI.Controllers
                     return null;
 
                 // page the list
-                const int pageSize = 5;
+                const int pageSize = 8;
                 var listPaged = joblist.ToPagedList(page ?? 1, pageSize);
 
                 ViewBag.PageList = listPaged;
@@ -112,7 +115,7 @@ namespace CudJobUI.Controllers
                 return null;
 
             // page the list
-            const int pageSize = 5;
+            const int pageSize = 8;
             var listPaged = joblist.ToPagedList(page ?? 1, pageSize);
 
             ViewBag.PageList = listPaged;
@@ -122,6 +125,37 @@ namespace CudJobUI.Controllers
                 return null;
 
             return View("index", joblist);
+        }      
+
+        public async Task<IActionResult> GetLatestJobs()
+        {
+            List<JobViewModel> joblist = new List<JobViewModel>();
+            using (var httpClient = new HttpClient())
+            {
+                using (var response = await httpClient.GetAsync(_endPoints.JobEndpoints+ "/GetLatestJobs"))
+                {
+                    string apiResponse = await response.Content.ReadAsStringAsync();
+                    joblist = JsonConvert.DeserializeObject<List<JobViewModel>>(apiResponse);
+                }
+            }
+
+            StringBuilder HtmlBody = new StringBuilder();
+            foreach (var job in joblist)
+            {
+                var shordHeadings = job.JobDetail.Shortheading;
+                shordHeadings = Regex.Replace(shordHeadings, "<.*?>", String.Empty);
+                if (shordHeadings.Length > 150)
+                    shordHeadings = shordHeadings.Substring(0, 150);
+
+                HtmlBody.Append($"<tr style='line-height: 35px;'><td style='padding-bottom:20px;'><a href='https://studentcareers.cud.ac.ae/' style='text-decoration:none;'><table width='100%' cellpadding='0' cellspacing='0'><tbody>" +
+               $"<tr> <td style='padding: 0 0 4px'><a href='https://studentcareers.cud.ac.ae/' style='display:block;text-decoration:underline;font-size:16px;line-height:20px; font-weight:bold;color:#2d2d2d' target='_blank'> {job.JobDetail.Title} </a></td></tr>" +
+               $"<tr><td style='font: 14px/20px; font-weight:400; color:#2d2d2d;padding:0 0 4px'><span style='font-size:14px;line-height:20px;font-weight:700;color:#2d2d2d'>{job.Company.CompanyName}</span><span style='color:#767676;font-size:14px'>- {job.CompanyAddress.City}</span></td></tr>" +
+               $"<tr><td style='font-size:14px;line-height:20px;color:#595959;padding:0 0 4px;'><p style='margin:0 2px 3px 0;'>{shordHeadings}</p><p><span class='text-muted'><small><em>read more...</em></small></span></p></td></tr>" +
+               $"<tr><td style='color:#767676;font-size:14px;line-height:20px;padding:0 4px 0 0'>1 day ago</td></tr>" +
+               $"</tbody></table></a><hr></td></tr>");
+            }
+            ViewBag.Joblists = HtmlBody;
+            return View(joblist);
         }
 
         public async Task<IActionResult> JobList()
@@ -335,6 +369,10 @@ namespace CudJobUI.Controllers
             {
                 ViewBag.ProfileImg = Path.GetFileName(JobDetail.Company.profileImgpath);
             }
+            if (JobDetail.JobDetail.JobdocsPath != null && JobDetail.JobDetail.JobdocsPath != string.Empty)
+            {
+                ViewBag.jobDocs = Path.GetFileName(JobDetail.JobDetail.JobdocsPath);
+            }
             var Studentid = HttpContext.Session.GetInt32("ProfileID");
 
             if (Studentid != null || Studentid != 0)
@@ -367,6 +405,10 @@ namespace CudJobUI.Controllers
             {
                 ViewBag.ProfileImg = Path.GetFileName(JobDetail.Company.profileImgpath);
             }
+            if (JobDetail.JobDetail.JobdocsPath != null && JobDetail.JobDetail.JobdocsPath != string.Empty)
+            {
+                ViewBag.jobDocs = Path.GetFileName(JobDetail.JobDetail.JobdocsPath);
+            }
             var Studentid = HttpContext.Session.GetInt32("ProfileID");
 
             if (Studentid != null || Studentid != 0)
@@ -398,6 +440,10 @@ namespace CudJobUI.Controllers
             if (JobDetail.Company.profileImgpath != null && JobDetail.Company.profileImgpath != string.Empty)
             {
                 ViewBag.ProfileImg = Path.GetFileName(JobDetail.Company.profileImgpath);
+            }
+            if (JobDetail.JobDetail.JobdocsPath != null && JobDetail.JobDetail.JobdocsPath != string.Empty)
+            {
+                ViewBag.jobDocs = Path.GetFileName(JobDetail.JobDetail.JobdocsPath);
             }
             var Studentid = HttpContext.Session.GetInt32("ProfileID");
 
@@ -625,7 +671,7 @@ namespace CudJobUI.Controllers
         // POST: JobController/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(JobDetails collection)
+        public async Task<IActionResult> Create(JobDetails collection, List<IFormFile> file)
         {
             if (ModelState.IsValid)
             {
@@ -642,6 +688,11 @@ namespace CudJobUI.Controllers
                 try
                 {
                     JobDetails NewJob = new JobDetails();
+                    if (file.Count > 0)
+                    {
+                        var Certificatepath = _fileoperations.SaveFile(file[0], "JobDocs");
+                        collection.JobdocsPath = Certificatepath;
+                    }                                  
                     collection.durationID = 5;
                     ViewBag.PostypeBy = collection.Type;
                     using (var httpClient = new HttpClient())
@@ -951,8 +1002,7 @@ namespace CudJobUI.Controllers
                     {
                         using (var response = await httpClient.PutAsJsonAsync(_endPoints.jobApplicationEndpoints + "/UpdateJobStatus/" + AppliedID, AppliedJobs))
                         {
-                            string apiResponse = await response.Content.ReadAsStringAsync();
-                            //StudentDetails = JsonConvert.DeserializeObject<StudentProfile>(apiResponse);
+                            string apiResponse = await response.Content.ReadAsStringAsync();                            
                             if (response.StatusCode == System.Net.HttpStatusCode.NoContent)
                             {
                                 ViewBag.Result = "Success";

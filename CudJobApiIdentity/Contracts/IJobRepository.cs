@@ -9,5 +9,6 @@ namespace CUDJobAPiIdentity.Contracts
     public interface IJobRepository : IRepositoryBase<Jobs>
     {
         Task<List<Jobs>> Jobliststudent();
+        Task<List<Jobs>> LatestJoblist();
     }
 }

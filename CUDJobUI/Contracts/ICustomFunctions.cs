@@ -11,5 +11,6 @@ namespace CudJobUI.Contracts
         public string Lastupdated(DateTime startdate, DateTime enddate);
         public double TotalPercent(int Outof, int Total);
         Task<bool> isStudentCreated(string EmailID);
+        Task<bool> setStudentState(int id);
     }
 }

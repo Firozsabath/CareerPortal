@@ -33,7 +33,8 @@ namespace CUDJobApiIdentity.Services
         public async Task<List<ChartViewModel>> Getcompanyratio()
         {
             List<ChartViewModel> vm = new List<ChartViewModel>();
-            var company =  _db.Companies.ToList();
+            var months_ago = DateTime.Now.AddMonths(-10);
+            var company =  _db.Companies.Where(x=>x.CreatedDate>=months_ago).ToList();
             //IEnumerable<int> monthGrp1 = company.GroupBy(e => DateTime.Parse(e).Month).Select(e => e.Count());
             var monthGrp = company.GroupBy(s => s.CreatedDate.ToString("MMMM-yy"))
                 .OrderBy(monthGroup => DateTime.ParseExact(monthGroup.Key,"MMMM-yy",new CultureInfo("en-US")))  //**Sorts based on the month**
@@ -70,8 +71,11 @@ namespace CUDJobApiIdentity.Services
         public async Task<List<ChartViewModel>> GetJobratio()
         {
             List<ChartViewModel> vm = new List<ChartViewModel>();
-            var students = _db.Companies.ToList();
+
+            var months_ago = DateTime.Now.AddMonths(-10);
+            var students = _db.Companies.Where(x=>x.CreatedDate >= months_ago).ToList();
             //IEnumerable<int> monthGrp1 = company.GroupBy(e => DateTime.Parse(e).Month).Select(e => e.Count());
+
 
             var monthGrp = students.GroupBy(s => s.CreatedDate.ToString("MMMM-yy"))
                 .OrderBy(monthGroup => DateTime.ParseExact(monthGroup.Key, "MMMM-yy", new CultureInfo("en-US")))
@@ -96,7 +100,8 @@ namespace CUDJobApiIdentity.Services
         public async Task<List<ChartViewModel>> GetStudentratio()
         {
             List<ChartViewModel> vm = new List<ChartViewModel>();
-            var students = _db.Students.ToList();
+            var months_ago = DateTime.Now.AddMonths(-10);
+            var students = _db.Students.Where(x=>x.CreatedDate>=months_ago).ToList();
             //IEnumerable<int> monthGrp1 = company.GroupBy(e => DateTime.Parse(e).Month).Select(e => e.Count());
             
             var monthGrp = students.GroupBy(s => s.CreatedDate.HasValue ? s.CreatedDate.Value.ToString("MMMM-yy") : DateTime.Now.ToString("MMMM-yy"))
@@ -125,6 +130,31 @@ namespace CUDJobApiIdentity.Services
 
             return recordset.ToString();
 
+        }
+
+        public async Task<List<ChartViewModel>> UserEngagementratio()
+        {
+            List<ChartViewModel> vm = new List<ChartViewModel>();
+            var company = _db.Tbl_Userloginlogs.ToList();            
+            var monthGrp = company.GroupBy(s => s.UserType)
+                .OrderBy(monthGroup => monthGroup.Key)  //**Sorts based on the month**
+                .Select(monthGroup => new
+                {
+                    User = monthGroup.Key,
+                    EngagementCount = monthGroup.Count()
+                }
+                );
+
+            foreach (var item in monthGrp)
+            {
+                vm.Add(new ChartViewModel
+                {
+                    DimensionOne = item.User,
+                    Quantity = item.EngagementCount
+                });
+            }
+            var orderedlist = vm.OrderBy(x => x.DimensionOne).ToList();
+            return vm;
         }
 
         public async Task<bool> userLogsIn(Tbl_UserloginlogsDTO data)

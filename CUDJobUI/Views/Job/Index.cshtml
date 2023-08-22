@@ -85,18 +85,18 @@
                         @if (item.Company.profileImgpath != null)
                         {
                             string ImgName = System.IO.Path.GetFileName(item.Company.profileImgpath);
-                            <img src="~/Images/Company/Profile/@ImgName" alt="Pineapple" style="width:100px;margin-left:15px;float:right;">
+                            <img src="~/Images/Company/Profile/@ImgName" alt="Pineapple" style="width:75px;margin-left:15px;float:right;">
                         }
                         else
                         {
-                            <img src="https://www.cud.ac.ae/sites/default/files/personnel/2021/ms-fanan-al-madi.jpg" alt="Pineapple" style="width:100px;margin-left:15px;float:right">
+                            <img src="https://www.cud.ac.ae/sites/default/files/personnel/2021/ms-fanan-al-madi.jpg" alt="Pineapple" style="width:75px;margin-left:15px;float:right">
                         }
                         <h5 class="card-title" style="font-size:15px;"><b>@item.Company.CompanyName</b> - @item.CompanyAddress.State</h5>
                         @if (item.JobExperience.ExperienceType != null)
                         {
                             <p style="font-size:12px;color:#5d5656"><span class="fa fa-suitcase" aria-hidden="true"></span> @item.JobExperience.ExperienceType</p>
                         }
-                        <p style="font-size:14px;">job description</p>
+                        @*<p style="font-size:14px;">job description</p>
                         @{ 
                             shortheading = item.JobDetail.Shortheading;
                             if (shortheading.Length > 100)
@@ -104,7 +104,7 @@
                                 shortheading = shortheading.Substring(0, 100);
                             }                           
                         }                       
-                        <p class="card-text" style="font-size:13px;">@Html.Raw(shortheading) <span class="text-muted"><small><em>read more..</em></small></span></p>
+                        <p class="card-text" style="font-size:13px;">@Html.Raw(shortheading) <span class="text-muted"><small><em>read more..</em></small></span></p>*@
                         @*<p class="card-text">@item.JobDetail.Qualification</p>*@
                         @*<a href="@Url.Action("Details", "Job",new { id=item.JobDetail.Id })" class="btn btn-danger">Job Details</a>*@
                     </div>
@@ -127,7 +127,7 @@
                             {
                                 <p style="font-size:12px;color:#5d5656"><span class="fa fa-suitcase" aria-hidden="true"></span> @item.JobExperience.ExperienceType</p>
                             }
-                            @{
+                            @*@{
                                 shortheading = item.JobDetail.Shortheading;
                                 if (shortheading.Length > 100)
                                 {
@@ -135,7 +135,7 @@
                                 }
                             }
                             <p style="font-size:14px;">Job Description</p>
-                            <p class="card-text" style="font-size:13px;">@Html.Raw(shortheading) <span class="text-muted"><small><em>read more..</em></small></span></p>
+                            <p class="card-text" style="font-size:13px;">@Html.Raw(shortheading) <span class="text-muted"><small><em>read more..</em></small></span></p>*@
                             @*<p class="card-text">@item.JobDetail.Qualification</p>*@
                             @*<a href="@Url.Action("Details", "Job",new { id=item.JobDetail.Id })" class="btn btn-danger">Job Details</a>*@
                         </div>

@@ -1,0 +1,43 @@
+﻿@*@model CudJobUI.ViewModels.StudentProfile*@
+@using Microsoft.AspNetCore.Http
+
+<div class="col col-12">
+    <div class="py-3 text-center">
+        <a href="" data-bs-toggle="modal" data-bs-target="#exampleModal">
+            @if (String.IsNullOrEmpty(@Context.Session.GetString("ProfileImg")))
+            {
+                @*<img src="~/Images/download.png" class="img-thumbnail" alt="...">*@
+                @*<img src="https://www.cud.ac.ae/sites/default/files/personnel/2021/ms-fanan-al-madi.jpg" style="width:75%;" class="img-thumbnail" alt="...">*@
+                <img src="http://ssl.gstatic.com/accounts/ui/avatar_2x.png" class="rounded-circle img-personalprofile" />
+            }
+            else
+            {
+                <img src="~/Images/Student/profile/@Context.Session.GetString("ProfileImg")" class="rounded-circle w-100 img-personalprofile" alt="Profile Pic">
+            }
+        </a>
+        
+    </div>
+    <div class="text-center">
+        <h5 class="pb-2">@Context.Session.GetString("usrFirstName")  @Context.Session.GetString("usrLastName") </h5>
+        <p class="mb-0 pb-2">
+            <a href="~/Images/Student/Resume/@Context.Session.GetString("ResumeName")" type="application/pdf" target="_blank" class="btn btn-dark position-relative me-4">
+                <i class="fas fa-file-alt me-2"></i>  <span class="small">View Your CV</span>
+                <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+                    Latest
+                </span>
+            </a>
+            <a href="" data-bs-toggle="modal" data-bs-target="#exampleModal2"><span class="badge bg-dark">Edit</span></a>
+        </p>
+        @*<p class="pb-2">
+            <span><i class="fas fa-map-marker-alt"></i> </span> <span> @Model.StudentAddress.CountryCode.Description, @Model.StudentAddress.State</span>
+        </p>*@
+        @if (ViewBag.Lastupdated != null)
+        {
+            <p class="card-text "><small class="text-muted">Last updated @Context.Session.GetString("Lastupdated") ago</small></p>
+        }
+        else
+        {
+            <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
+        }
+    </div>
+</div>

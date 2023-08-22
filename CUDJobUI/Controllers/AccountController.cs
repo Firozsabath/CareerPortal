@@ -8,6 +8,7 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Net.Http;
 using System.Net.Http.Json;
@@ -63,6 +64,7 @@ namespace CudJobUI.Controllers
                                     HttpContext.Session.SetInt32("ProfileID", token.ID);
                                     HttpContext.Session.SetString("EmailID", user.EmailID);
                                     HttpContext.Session.SetString("LoginType", "Student");
+                                    await _CusFunctions.setStudentState(token.ID);
                                     return RedirectToAction("Index", "Job");
                                 }
                                 else

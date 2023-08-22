@@ -89,15 +89,13 @@
             <div class="offcanvas-body p-0">
                 <nav class="navbar nav">
                     <div class="row">
-                        <div class="col col-12 my-2">
-                            <div class="text-muted fw-bold small text-uppercase px-3">
-                                CORE
+                        <div class="col col-12 mt-2">
+                            <div class="text-muted fw-bold small text-uppercase text-center">
+                                Profile
                             </div>
                         </div>
-                        <div class="col col-12 my-2">
-                            <div class="px-3">
-                                <span class="text-white"><i class="fas fa-tachometer-alt me-2"></i></span> <span>Dashboard</span>
-                            </div>
+                        <div id="MyProfile">
+                            <partial name="~/Views/Shared/Partials/_StudentProfilePartial.cshtml" />
                         </div>
                         <div class="col col-12 px-3 my-2">
                             <hr class="dropdown-divider" />
@@ -278,10 +276,10 @@
                     </div>
                 </footer>
                 @*<div>
-                    <a href="" class="support-img" data-bs-toggle="modal" data-bs-target="#supportticketModal">
-                        <img src="~/Images/support-icon.jpg" class="rounded-circle" style="width:20%" />
-                    </a>
-                </div>*@
+                        <a href="" class="support-img" data-bs-toggle="modal" data-bs-target="#supportticketModal">
+                            <img src="~/Images/support-icon.jpg" class="rounded-circle" style="width:20%" />
+                        </a>
+                    </div>*@
             </section>
 
         </main>
@@ -299,6 +297,66 @@
                 </div>
                 <div class="modal-body">
 
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Profile Pic</h5>
+                    <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form id="form" name="form" asp-action="UploadFilesAjax" asp-controller="Student" enctype="multipart/form-data" method="post">
+                        <div class="buttons">
+                            <div class="upload-button">
+                                <p class="text-muted" style="font-size:11px;">Maximum upload file size: 3MB. File types allowed: jpg, jpeg, gif only.</p>
+                                <div class="label mb-3">Update Your Profile Pic</div>
+                                <input id="files" name="files" type="file" size="1" multiple accept="image/x-png,image/gif,image/jpeg" />
+                            </div>
+                        </div>
+                        <input type="hidden" id="Studentid" name="Studentid" value="@Context.Session.GetInt32("ProfileID")" />
+                        <input type="hidden" id="UploadType" name="UploadType" value="Profilepic" />
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="button" id="uploadProfilepic" class="btn btn-primary">Save changes</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" id="exampleModal2" tabindex="-1" role="dialog" aria-labelledby="exampleModal2Label" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModal2Label">Upload Resume</h5>
+                    <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form id="form" name="form" asp-action="UploadFilesAjax" asp-controller="Student" enctype="multipart/form-data" method="post">
+                        <div class="buttons">
+                            <div class="upload-button">
+                                <p class="text-muted" style="font-size:11px;">Maximum upload file size: 3MB. File types allowed: PDF only.</p>
+                                <div class="label mb-3">Update Your Resume</div>
+                                <input id="fileResume" name="fileResume" type="file" size="1" multiple />
+                            </div>
+                        </div>
+                        <input type="hidden" id="Studentid" name="Studentid" value="@Context.Session.GetInt32("ProfileID")" />
+                        <input type="hidden" id="UploadTypeR" name="UploadTypeR" value="Resume" />
+                        @*<button type="button" id="uploadProfilepic" class="btn btn-primary">Save changes</button>*@
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="button" id="uploadResume" class="btn btn-primary">Save changes</button>
                 </div>
             </div>
         </div>
@@ -324,8 +382,8 @@
                         </div>
                         <input type="hidden" id="txtEmail" name="txtEmail" value="@Context.Session.GetString("EmailID")" />
                         <input type="hidden" id="txtStdID" name="txtStdID" value="@Context.Session.GetInt32("ProfileID")" />-->
-                        @*<button type="button" id="uploadProfilepic" class="btn btn-primary">Save changes</button>*@
-                    <!--</form>
+    @*<button type="button" id="uploadProfilepic" class="btn btn-primary">Save changes</button>*@
+    <!--</form>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
@@ -350,7 +408,7 @@
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
     @*@await RenderSectionAsync(" Scripts", required: false)*@
     @if (IsSectionDefined("Scripts")) { RenderSection("Scripts"); }
-    <script type="text/javascript">
+<script type="text/javascript">
 
         $(document).ready(function () {
             $('[data-toggle="tooltip"]').tooltip();
@@ -366,7 +424,84 @@
             //    $('.breadcrumb').html($bc.prepend('<a href="#home">Home</a>'));
             //    return false;
             //})
+            @*var studentid = @Context.Session.GetInt32("ProfileID")
+                $("#MyProfilePersonal").load("/Student/GetView", { id: studentid, viewName: "Myprofileinfo" })*@
+
+            $("#uploadProfilepic").click(function (evt) {
+                evt.preventDefault();
+                var fileupload = $("#files").get(0);
+                var files = fileupload.files;
+                var data = new FormData();
+                for (var i = 0; i < files.length; i++) {
+                    data.append(files[i].name, files[i]);
+                }
+                data.append("Stdid", $("#Studentid").val())
+                data.append("UploadType", $("#UploadType").val())
+
+                // You can update the jquery selector to use a css class if you want
+                //$("input[type='text'").each(function (x, y) {
+                //    data.append($(y).attr("name"), $(y).val());
+                //});
+                $.ajax({
+                    type: "post",
+                    url: '@Url.Action("UploadFilesAjax", "Student")',
+                    contentType: false,
+                    processData: false,
+                    data: data,
+                    success: function (res) {
+                        if (res.isValid) {
+                            $("#MyProfile").load("/Student/GetView", { id: $("#Studentid").val(), viewName: "Myprofileinfo"})
+                            $("#exampleModal").modal("hide");
+                            $.notify("Uploaded Successfully", { globalPosition: 'top center', className: 'success' });
+                            //window.location.reload();
+                        }
+                        else {
+
+                        }
+                    },
+                    error: function () {
+                        alert("there was error uploading files!");
+                    }
+                });
+            });
+
+            $("#uploadResume").click(function (evt) {
+                evt.preventDefault();
+                var fileupload = $("#fileResume").get(0);
+                var files = fileupload.files;
+                var data = new FormData();
+                for (var i = 0; i < files.length; i++) {
+                    data.append(files[i].name, files[i]);
+                }
+                data.append("Stdid", $("#Studentid").val())
+                data.append("UploadType", $("#UploadTypeR").val())
+                // You can update the jquery selector to use a css class if you want
+                //$("input[type='text'").each(function (x, y) {
+                //    data.append($(y).attr("name"), $(y).val());
+                //});
+                $.ajax({
+                    type: "post",
+                    url: '@Url.Action("UploadFilesAjax", "Student")',
+                    contentType: false,
+                    processData: false,
+                    data: data,
+                    success: function (res) {
+                        if (res.isValid) {
+                            $("#MyProfile").load("/Student/GetView", { id: $("#Studentid").val(), viewName: "Myprofileinfo" })
+                            $("#exampleModal2").modal("hide");
+                            $.notify("Uploaded Successfully", { globalPosition: 'top center', className: 'success' });
+                            //window.location.reload();
+                        }
+                        else {
+
+                        }
+                    },
+                    error: function () {
+                        alert("there was error uploading files!");
+                    }
+                });
+            });
         });
-    </script>
+</script>
 </body>
 </html>

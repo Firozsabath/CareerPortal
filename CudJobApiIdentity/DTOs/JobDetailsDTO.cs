@@ -41,6 +41,7 @@ namespace CUDJobApiIdentity.DTOs
         public int? durationID { get; set; }
 
         public string Jobduration { get; set; }
+        public string JobdocsPath { get; set; }
 
         public DateTime LastApplyDate { get; set; }
 

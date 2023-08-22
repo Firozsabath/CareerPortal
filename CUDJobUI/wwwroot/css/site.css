@@ -73,3 +73,11 @@ html {
     margin-bottom:10px;
     font-size:13px;
 }
+
+.img-personalprofile {
+    padding: 0.25rem;
+    background-color: #fff;
+    border: 1px solid #dee2e6;    
+    max-width: 70%;
+    height: auto;
+}

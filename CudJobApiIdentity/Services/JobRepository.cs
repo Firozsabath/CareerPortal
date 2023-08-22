@@ -84,6 +84,18 @@ namespace CUDJobApiIdentity.Services
             return Jobs;
         }
 
+        public async Task<List<Jobs>> LatestJoblist()
+        {
+            var Jobs = await _db.JobModel
+               .Include(e => e.jobcategories)
+               .Include(e => e.Experiences)
+               .Include(e => e.Companies.CompanyContacts).Include(e => e.JobOptions).Include(e => e.Jobtypes).Include(e => e.Statuses)
+               .Include(e => e.Companies.addresses).ThenInclude(e => e.Address)
+               .Include(a => a.JobsWorkAvailability).ThenInclude(a => a.HoursPerWeek).Include(a => a.JobsWorkAvailability).ThenInclude(a => a.DaysPerWeek)
+               .Where(a => a.StatusIDs == 2 && a.LastApplyDate >= DateTime.Now && a.Companies.LicenseExpiryDate >= DateTime.Now).OrderByDescending(a => a.UpdatedDate).Take(5).ToListAsync();
+            return Jobs;
+        }
+
         public async Task<bool> Save()
         {
             var chaanges = await _db.SaveChangesAsync();

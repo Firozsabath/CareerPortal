@@ -77,30 +77,6 @@
                                 </dl>
                             </p>
                         </div>
-                        @*<div class="col-md-3">
-                                <p>
-                                    <dl>
-                                        <dt>
-                                           Soft Skill
-                                        </dt>
-                                        <dd>
-                                            @Model.Softskills.SoftSkills
-                                        </dd>
-                                    </dl>
-                                </p>
-                            </div>
-                            <div class="col-md-3">
-                                <p>
-                                    <dl>
-                                        <dt>
-                                            Hard Skill
-                                        </dt>
-                                        <dd>
-                                            @Model.Hardskills.HardSkills
-                                        </dd>
-                                    </dl>
-                                </p>
-                            </div>*@
                     </div>
                 </div>
 
@@ -117,11 +93,39 @@
             </div>
         </div>
     </div>
+    @if (Model.Portfolio.Any())
+    {
+        if (!String.IsNullOrEmpty(Model.Portfolio[0].portfolio))
+        {
+            <div class="card mb-3">
+                <div class="profileheader">
+                    <div class="row">
+                        <div class="col-lg-5">
+                            <h4 class="shortheading">Student Portfolios</h4>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-body">
+                    @foreach (var items in Model.Portfolio)
+                    {
+                        <div class="outer_div mb-3">
+                            <div class="row">
+                                <div class="col-12">
+                                    <a href="@items.portfolio" target="_blank">@items.portfolio</a>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                </div>
+            </div>
+        }
+    }
+
     <div class="card mb-3">
         <div class="profileheader">
             <div class="row">
                 <div class="col-lg-5">
-                    <h4>Educational Info</h4>
+                    <h4 class="shortheading">Educational Info</h4>
                 </div>
             </div>
         </div>
@@ -186,7 +190,7 @@
                 <div class="profileheader">
                     <div class="row">
                         <div class="col-lg-5">
-                            <h4>Experience Info</h4>
+                            <h4 class="shortheading">Experience Info</h4>
                         </div>
                     </div>
                 </div>
@@ -270,7 +274,7 @@
                 <div class="profileheader">
                     <div class="row">
                         <div class="col-lg-5">
-                            <h4>Memberships</h4>
+                            <h4 class="shortheading">Memberships</h4>
                         </div>
                     </div>
                 </div>
@@ -318,7 +322,7 @@
         <div class="profileheader">
             <div class="row">
                 <div class="col-lg-5">
-                    <h4>Work Availabality</h4>
+                    <h4 class="shortheading">Work Availabality</h4>
                 </div>
             </div>
         </div>
@@ -403,39 +407,39 @@
     {
         if (!String.IsNullOrEmpty(Model.Awards[0].AwardName))
         {
-        <div class="card mb-3" id="MyprofileAwards">
-            <div class="profileheader">
-                <div class="row">
-                    <div class="col-lg-5">
-                        <h4>Awards</h4>
+            <div class="card mb-3" id="MyprofileAwards">
+                <div class="profileheader">
+                    <div class="row">
+                        <div class="col-lg-5">
+                            <h4 class="shortheading">Awards</h4>
+                        </div>
                     </div>
                 </div>
-            </div>
-            <div class="card-body">
-                @foreach (var item in Model.Awards)
-                {
-                    if (!String.IsNullOrEmpty(item.AwardName))
+                <div class="card-body">
+                    @foreach (var item in Model.Awards)
                     {
-                    <div class="outer_div mb-2">
-                        <dl class="row">
-                            <dt class="col-sm-3">
-                                @Html.DisplayNameFor(model => model.Awards[0].AwardName)
-                            </dt>
-                            <dd class="col-sm-9">
-                                @Html.DisplayFor(model => item.AwardName)
-                            </dd>
-                            <dt class="col-sm-3">
-                                @Html.DisplayNameFor(model => model.Awards[0].AwardDate)
-                            </dt>
-                            <dd class="col-sm-9">
-                                @Html.DisplayFor(model => item.AwardDate)
-                            </dd>
-                        </dl>
-                    </div>
+                        if (!String.IsNullOrEmpty(item.AwardName))
+                        {
+                            <div class="outer_div mb-2">
+                                <dl class="row">
+                                    <dt class="col-sm-3">
+                                        @Html.DisplayNameFor(model => model.Awards[0].AwardName)
+                                    </dt>
+                                    <dd class="col-sm-9">
+                                        @Html.DisplayFor(model => item.AwardName)
+                                    </dd>
+                                    <dt class="col-sm-3">
+                                        @Html.DisplayNameFor(model => model.Awards[0].AwardDate)
+                                    </dt>
+                                    <dd class="col-sm-9">
+                                        @Html.DisplayFor(model => item.AwardDate)
+                                    </dd>
+                                </dl>
+                            </div>
+                        }
                     }
-                }
+                </div>
             </div>
-        </div>
         }
     }
     @if (Model.languages.FirstOrDefault() != null)
@@ -444,7 +448,7 @@
             <div class="profileheader">
                 <div class="row">
                     <div class="col-lg-5">
-                        <h4>Languages Known</h4>
+                        <h4 class="shortheading">Languages Known</h4>
                     </div>
                 </div>
             </div>

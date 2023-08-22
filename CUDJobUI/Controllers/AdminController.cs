@@ -36,7 +36,7 @@ namespace CudJobUI.Controllers
             }
             ViewBag.rejectedcompanypercent = _customFunctions.TotalPercent(Convert.ToInt32(details.DboardKeyDetails.RejectedCompanyCount), Convert.ToInt32(details.DboardKeyDetails.CompanyCount));
             ViewBag.ExperiredJobPercent = _customFunctions.TotalPercent(Convert.ToInt32(details.DboardKeyDetails.ExpiredjobCount), Convert.ToInt32(details.DboardKeyDetails.JobCount));
-            ViewBag.HiredStudentPercent = _customFunctions.TotalPercent(Convert.ToInt32(details.DboardKeyDetails.HiredStudentCount), Convert.ToInt32(details.DboardKeyDetails.StudentCount));
+            ViewBag.HiredStudentPercent = _customFunctions.TotalPercent(Convert.ToInt32(details.DboardKeyDetails.HiredStudentCount), Convert.ToInt32(details.DboardKeyDetails.StudentCount));           
             return View(details);
         }
     }

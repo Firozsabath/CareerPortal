@@ -47,8 +47,9 @@ namespace CudJobUI.ViewModels
         [Display(Name = "Job Duration")]
         public int? durationID { get; set; }
 
-        [Display(Name = "Job Duration")]
-        public string Jobduration { get; set; }
+        [Display(Name = "Duration")]
+        public string Jobduration { get; set; }       
+        public string JobdocsPath { get; set; }
 
         public string Type { get; set; }       
 
@@ -101,7 +102,7 @@ namespace CudJobUI.ViewModels
         [Display(Name = "Work From Office")]
         public string Workfromoffice { get; set; }
 
-        [Display(Name = "Stipend")]
+        [Display(Name = "Paid")]
         public string Paid { get; set; }
     }
 

@@ -26,66 +26,7 @@
 <br />
 <div class="container-fluid px-5"> 
     @*<form method="post" enctype="multipart/form-data">*@
-    @*Model Dialogue box for image upload*@
-    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Profile Pic</h5>
-                    <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <form id="form" name="form" asp-action="UploadFilesAjax" asp-controller="Student" enctype="multipart/form-data" method="post">
-                        <div class="buttons">
-                            <div class="upload-button">
-                                <p class="text-muted" style="font-size:11px;">Maximum upload file size: 3MB. File types allowed: jpg, jpeg, gif only.</p>
-                                <div class="label mb-3">Update Your Profile Pic</div>
-                                <input id="files" name="files" type="file" size="1" multiple accept="image/x-png,image/gif,image/jpeg" />
-                            </div>
-                        </div>
-                        <input type="hidden" id="Studentid" name="Studentid" value="@Model.StudentPersonal.StudentID" />
-                        <input type="hidden" id="UploadType" name="UploadType" value="Profilepic" />
-                    </form>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                    <button type="button" id="uploadProfilepic" class="btn btn-primary">Save changes</button>
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="modal fade" id="exampleModal2" tabindex="-1" role="dialog" aria-labelledby="exampleModal2Label" aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModal2Label">Upload Resume</h5>
-                    <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <form id="form" name="form" asp-action="UploadFilesAjax" asp-controller="Student" enctype="multipart/form-data" method="post">
-                        <div class="buttons">
-                            <div class="upload-button">
-                                <p class="text-muted" style="font-size:11px;">Maximum upload file size: 3MB. File types allowed: PDF only.</p>
-                                <div class="label mb-3">Update Your Resume</div>
-                                <input id="fileResume" name="fileResume" type="file" size="1" multiple />
-                            </div>
-                        </div>
-                        <input type="hidden" id="Studentid" name="Studentid" value="@Model.StudentPersonal.StudentID" />
-                        <input type="hidden" id="UploadTypeR" name="UploadTypeR" value="Resume" />
-                        @*<button type="button" id="uploadProfilepic" class="btn btn-primary">Save changes</button>*@
-                    </form>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                    <button type="button" id="uploadResume" class="btn btn-primary">Save changes</button>
-                </div>
-            </div>
-        </div>
-    </div>
+    @*Model Dialogue box for image upload*@    
     @*Dialogue box Ends here*@
     @*</form>*@
 
